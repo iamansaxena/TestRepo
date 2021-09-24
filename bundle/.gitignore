@@ -1,0 +1,10 @@
+/.classpath
+/target/
+/test-output/
+/FailedTestsScreenshots/
+/Deps/
+/Test Execution Logs/
+/Reports/
+.classpath
+bin
+.settings

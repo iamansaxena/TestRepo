@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="OCAC Automation Suite" verbose="2">
+	<listeners>
+	 <!-- <listener class-name="core.Reporter" /> -->
+<listener class-name="runner.TestListener" />
+	</listeners>
+	<test name="Automation Project" parallel="classes"
+		thread-count="60">
+		<classes>
+
+		 <!-- <class name="componentStepDef.MiddleImageMedex_StepDefinition" />   -->
+	 		 <class name="componentStepDef.AskForAReferral_StepDefinition" /> 
+			 <!-- <class name="componentStepDef.MaterialCard_StepDefinition" /> -->
+			<!-- <class name="componentStepDef.MedExpressCenters_StepDefinition" /> --> 			
+		</classes>
+	</test>
+</suite>
