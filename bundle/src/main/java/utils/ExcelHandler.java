@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import static com.optum.dpm.utils.DPMTestUtils.*;
 
-import core.Base;
-
-public class ExcelHandler extends Base{
+public class ExcelHandler {
 	public static int totalRows;
 	public static int totalColumns;
 	public static int totalSheets;
@@ -26,7 +26,7 @@ public class ExcelHandler extends Base{
 	// runtimeData = new ConcurrentHashMap<>();
 	public static HashMap<String, String> subStringDataSet;
 	public ArrayList<String> dataHeader;
-	static Logger logger = LoggerLog4j.startTestCase(ExcelHandler.class);
+	private static Logger logger = LogManager.getLogger(ExcelHandler.class);
 
 	/////////////////////////////// Logic to load file
 	public ExcelHandler(String path) {
