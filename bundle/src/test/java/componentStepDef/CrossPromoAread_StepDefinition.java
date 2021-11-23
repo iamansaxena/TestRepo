@@ -31,10 +31,6 @@ public class CrossPromoAread_StepDefinition extends CrossPromoAread_page {
 	public void setup() {
 		fetchSession(CrossPromoAread_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(CrossPromoAread_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new CrossPromoAread_page();
 		
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("cross-promo-area") == null) {

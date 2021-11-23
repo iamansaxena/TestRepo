@@ -93,11 +93,6 @@ public class TestListener extends Base implements ITestListener {
 		}
 	}
 
-<<<<<<< Updated upstream
-	public void onTestFailure(ITestResult result) {
-		synchronized (result) {
-			failResultPool.set(result);
-=======
 	public  void onTestFailure(ITestResult result) {
 		loggerInstance.get(result.getMethod().getTestClass().getName())
 				.error("*** Test execution " + result.getMethod().getMethodName() + " failed...");
@@ -111,7 +106,6 @@ public class TestListener extends Base implements ITestListener {
 		} catch (NullPointerException e) {
 			loggerInstance.get(result.getMethod().getTestClass().getName())
 					.fatal("Unable to fetch screenshot for failure at " + result.getMethod().getMethodName());
->>>>>>> Stashed changes
 		}
 		count++;
 		urlUnderTest.get().stream().forEach(a -> {
@@ -134,11 +128,6 @@ public class TestListener extends Base implements ITestListener {
 
 	}
 
-<<<<<<< Updated upstream
-	public void onTestSkipped(ITestResult result) {
-		synchronized (result) {
-			skipResultPool.set(result);
-=======
 	public  void onTestSkipped(ITestResult result) {
 		try {
 
@@ -151,7 +140,6 @@ public class TestListener extends Base implements ITestListener {
 		} catch (NullPointerException e) {
 			loggerInstance.get(result.getMethod().getTestClass().getName())
 					.fatal("Unable to fetch screenshot for failure at " + result.getMethod().getMethodName());
->>>>>>> Stashed changes
 		}
 		urlUnderTest.get().stream().forEach(a -> {
 			reportLogger.get().get(result.getMethod().getTestClass().getName() + result.getMethod().getMethodName())

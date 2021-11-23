@@ -27,10 +27,6 @@ public class FooterLegalBar_StepDefinition extends FooterLegalBar_page {
 
 		fetchSession(FooterLegalBar_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(FooterLegalBar_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new FooterLegalBar_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("footer-legal-bar") == null) {

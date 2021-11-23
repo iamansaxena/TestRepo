@@ -36,10 +36,6 @@ public class Hscc_StepDefinition extends Hscc_page {
 
 		fetchSession(Hscc_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Hscc_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new Hscc_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("hsa-calc") == null) {

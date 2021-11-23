@@ -31,8 +31,6 @@ public class MiddleImageMedex_StepDefinition extends MiddleImageMedex_page {
 		mydriver = LATEST_DRIVER_POOL.get(MiddleImageMedex_StepDefinition.class.getName());
 		new MiddleImageMedex_page();
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-<<<<<<< Updated upstream
-=======
 		if (fetchUrl("middle-image") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {
 				cardUrls.add("http://apsrs5642:8080/content/medexpressautomationdirectory/middle-image.html");
@@ -46,7 +44,6 @@ public class MiddleImageMedex_StepDefinition extends MiddleImageMedex_page {
 			}
 		}
 
->>>>>>> Stashed changes
 		ExtentTestManager.startTest(MiddleImageMedex_StepDefinition.class.getName());
 		for (String url : cardUrls) {
 			currentDomain = currentDomain + "[" + url + "]";

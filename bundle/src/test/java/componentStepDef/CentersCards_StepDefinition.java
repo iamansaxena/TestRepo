@@ -26,10 +26,6 @@ public class CentersCards_StepDefinition extends Centerscards_page {
 
 		fetchSession(CentersCards_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(CentersCards_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new Centerscards_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
@@ -71,67 +67,6 @@ public class CentersCards_StepDefinition extends Centerscards_page {
 		softAssert = new SoftAssert();
 		// mydriver.manage().deleteAllCookies();
 	}
-<<<<<<< Updated upstream
-
-	@Test(priority = 1, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
-			"centers-cards" })
-	public void elementVisibilityCheck(String url) {
-		skipNonExistingComponent(url);
-
-		
-		mydriver.get(url);
-		jsWaitForPageToLoad(50, mydriver, logger);
-		scrollToElement(mydriver, centersCardsSection, logger);
-		WebDriverWait wait = new WebDriverWait(mydriver, 30);
-		wait.until(ExpectedConditions.visibilityOf(centersCardsSection));
-		customTestLogs.get().add("Verify Enter City text box: " + enterCityTextBox.isDisplayed());
-		customTestLogs.get().add("Verify Find Center Submit Button: " + findCenterBtn.isDisplayed());
-		hardAssert.assertEquals(enterCityTextBox.isDisplayed(), true);
-		hardAssert.assertEquals(findCenterBtn.isDisplayed(), true);
-	}
-
-	@Test(priority = 2, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
-			"centers-cards" })
-	public void findCenterUsingCityName(String url) {
-		skipNonExistingComponent(url);
-
-		
-		mydriver.get(url);
-		jsWaitForPageToLoad(50, mydriver, logger);
-		scrollToElement(mydriver, centerList.get(0), logger);
-		WebDriverWait wait = new WebDriverWait(mydriver, 50);
-		wait.until(ExpectedConditions.visibilityOf(centerList.get(0)));
-
-		hardAssert.assertEquals(findCenter(mydriver, "Eden Prairie,MN", logger), true);
-	}
-
-	@Test(priority = 3, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
-			"centers-cards" })
-	public void findCenterUsingZip(String url) {
-		skipNonExistingComponent(url);
-
-		
-		mydriver.get(url);
-		jsWaitForPageToLoad(50, mydriver, logger);
-		scrollToElement(mydriver, centerList.get(0), logger);
-		WebDriverWait wait = new WebDriverWait(mydriver, 50);
-		wait.until(ExpectedConditions.visibilityOf(centerList.get(0)));
-		hardAssert.assertEquals(findCenter(mydriver, "55346", logger), true);
-	}
-
-	@Test(priority = 4, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
-			"centers-cards" })
-	public void findCenterUsingInvalidString(String url) {
-		skipNonExistingComponent(url);
-
-		
-		mydriver.get(url);
-		jsWaitForPageToLoad(50, mydriver, logger);
-		scrollToElement(mydriver, centerList.get(0), logger);
-		WebDriverWait wait = new WebDriverWait(mydriver, 50);
-		wait.until(ExpectedConditions.visibilityOf(centerList.get(0)));
-		hardAssert.assertNotEquals(findCenter(mydriver, "He$$o", logger), true);
-=======
 	
 	@Test(priority = 1, enabled = true)
 	public void elementVisibilityCheck(){
@@ -191,7 +126,6 @@ public class CentersCards_StepDefinition extends Centerscards_page {
 			wait.until(ExpectedConditions.visibilityOf(centerList.get(0)));
 			hardAssert.assertNotEquals(findCenter(mydriver,"He$$o",logger), true);
 		}
->>>>>>> Stashed changes
 	}
 }
 

@@ -27,10 +27,6 @@ public class ImageResponsiveRendition_StepDefinition extends ImageResponsiveRend
 
 		fetchSession(ImageResponsiveRendition_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ImageResponsiveRendition_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new ImageResponsiveRendition_page();
 		if (fetchUrl("image-responsive-rendition") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {

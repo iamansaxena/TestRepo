@@ -33,10 +33,6 @@ public class IntroTextHorizontal_StepDefinition extends IntroTextHorizontal_page
 	public void setup() {
 		fetchSession(IntroTextHorizontal_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(IntroTextHorizontal_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new IntroTextHorizontal_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("intro-texthorizontal") == null) {
@@ -79,40 +75,23 @@ public class IntroTextHorizontal_StepDefinition extends IntroTextHorizontal_page
 		// mydriver.manage().deleteAllCookies();
 	}
 
-<<<<<<< Updated upstream
-	/*@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"intro-texthorizontal"})
-	public void blankHeaderCheck(String cardUrl) {
-		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrl);
-
-		
-=======
 	/*@Test(priority = 2, enabled = true)
 	public void blankHeaderCheck() {
 		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrls);
 
 		for (String cardUrl : cardUrls) {
->>>>>>> Stashed changes
 			mydriver.get(cardUrl);
 			String expURL = mydriver.findElement(By.xpath(iconField)).getAttribute("href");
 		assertRedirection(mydriver, logger, getDomainName(cardUrl), expURL);
 		}
 	}*/
 	
-<<<<<<< Updated upstream
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"intro-texthorizontal"})
-	public void longDividerFieldCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
-
-		
-			
-=======
 	@Test(priority = 1, enabled = true)
 	public void longDividerFieldCheck() {
 		skipNonExistingComponent(cardUrls);
 
 		for (String cardUrl : cardUrls) {
 			urlUnderTest.get().add(cardUrl);
->>>>>>> Stashed changes
 			mydriver.get(cardUrl);
 			
 			try{scrollToElement(mydriver, longDivider, logger);
@@ -123,17 +102,6 @@ public class IntroTextHorizontal_StepDefinition extends IntroTextHorizontal_page
 			hardAssert.assertTrue(verifyElementExists(logger, longDivider,"Long Divider Field"));
 			customTestLogs.get().add("Value for Long Divider Field: " + longDivider.getAttribute("innerText"));
 			hardAssert.assertFalse(longDivider.getAttribute("innerText").isEmpty());
-<<<<<<< Updated upstream
-
-	}
-	
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"intro-texthorizontal"})
-	public void introDirectionalFieldCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
-
-		
-			
-=======
 		}}
 	
 	@Test(priority = 2, enabled = true)
@@ -142,7 +110,6 @@ public class IntroTextHorizontal_StepDefinition extends IntroTextHorizontal_page
 
 		for (String cardUrl : cardUrls) {
 			urlUnderTest.get().add(cardUrl);
->>>>>>> Stashed changes
 			mydriver.get(cardUrl);
 			
 			try{scrollToElement(mydriver, introDirectionalCopy, logger);
@@ -153,14 +120,6 @@ public class IntroTextHorizontal_StepDefinition extends IntroTextHorizontal_page
 			hardAssert.assertTrue(verifyElementExists(logger, introDirectionalCopy,"Intro Directional Field"));
 			customTestLogs.get().add("Value for Intro Directional Field: " + introDirectionalCopy.getAttribute("innerText"));
 			hardAssert.assertFalse(introDirectionalCopy.getAttribute("innerText").isEmpty());
-<<<<<<< Updated upstream
-	}
-	
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"intro-texthorizontal"})
-	public void shortDividerFieldCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);	
-			
-=======
 		}}
 	
 	@Test(priority = 3, enabled = true)
@@ -169,7 +128,6 @@ public class IntroTextHorizontal_StepDefinition extends IntroTextHorizontal_page
 
 		for (String cardUrl : cardUrls) {
 			urlUnderTest.get().add(cardUrl);
->>>>>>> Stashed changes
 			mydriver.get(cardUrl);
 			
 			try{scrollToElement(mydriver, shortDivider, logger);
@@ -180,10 +138,5 @@ public class IntroTextHorizontal_StepDefinition extends IntroTextHorizontal_page
 			hardAssert.assertTrue(verifyElementExists(logger, shortDivider,"Short Divider Field"));
 			customTestLogs.get().add("Value for Short Divider Field: " + shortDivider.getAttribute("innerText"));
 			hardAssert.assertFalse(shortDivider.getAttribute("innerText").isEmpty());
-<<<<<<< Updated upstream
-	}
-}
-=======
 
 }}}
->>>>>>> Stashed changes

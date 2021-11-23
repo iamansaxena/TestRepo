@@ -27,10 +27,6 @@ public class AdaptiveImage_StepDefinition extends AdaptiveImage_page {
 
 		fetchSession(AdaptiveImage_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(AdaptiveImage_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new AdaptiveImage_page();
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("adaptiveimage") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {

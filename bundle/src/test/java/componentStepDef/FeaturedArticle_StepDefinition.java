@@ -32,10 +32,6 @@ public class FeaturedArticle_StepDefinition extends FeaturedArticle_page {
 	public void setup() {
 		fetchSession(FeaturedArticle_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(FeaturedArticle_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new FeaturedArticle_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);

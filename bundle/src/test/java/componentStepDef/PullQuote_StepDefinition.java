@@ -26,9 +26,6 @@ public class PullQuote_StepDefinition extends PullQuote_page {
 	public void setup() {
 		fetchSession(PullQuote_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(PullQuote_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		new PullQuote_page();		
-=======
 		new PullQuote_page();
 		
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("pull-quote") == null) {
@@ -45,7 +42,6 @@ public class PullQuote_StepDefinition extends PullQuote_page {
 		}
 
 		
->>>>>>> Stashed changes
 		ExtentTestManager.startTest(PullQuote_StepDefinition.class.getName());
 		for (String url : urls) {
 			currentDomain = currentDomain + "[" + url + "]";

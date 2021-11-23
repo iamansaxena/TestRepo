@@ -20,10 +20,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.PluV2_page;
-<<<<<<< Updated upstream
-import core.CustomDataProvider;
-=======
->>>>>>> Stashed changes
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -36,11 +32,8 @@ public class PluV2_StepDefinition extends PluV2_page {
 
 	private static String providerDetailsUrl = "";
 	private static String currentDomain = "=> ";
-<<<<<<< Updated upstream
-=======
 	private static ArrayList<String> intakeFormUrls= new ArrayList<>();
 	// {"http://apsrs5642:8080/content/AutomationDirectory/plu-v2-feature/intake-form-prohealth-ct.html"};
->>>>>>> Stashed changes
 	private static Logger logger;
 	private static JavascriptExecutor js ;
 	@BeforeClass
@@ -48,10 +41,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		fetchSession(PluV2_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(PluV2_StepDefinition.class.getName());
 		new PluV2_page();
-<<<<<<< Updated upstream
-		ExtentTestManager.startTest(PluV2_StepDefinition.class.getName());
-		setTagForTestClass("PluV2", author, PluV2_StepDefinition.class.getName());
-=======
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("pluv2-intake") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {
 				intakeFormUrls.add("http://apsrs5642:8080/content/AutomationDirectory/plu-v2-feature/intake-form-prohealth-ct.html");
@@ -70,7 +59,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			currentDomain = currentDomain + "[" + url + "]";
 		}
 		setTagForTestClass("PluV2", author, currentDomain, PluV2_StepDefinition.class.getName());
->>>>>>> Stashed changes
 		logger = LoggerLog4j.startTestCase(PluV2_StepDefinition.class);
 		logger.info("Urls for '" + PluV2_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(PluV2_StepDefinition.class.getName(), currentDomain);
@@ -99,21 +87,12 @@ public class PluV2_StepDefinition extends PluV2_page {
 		}
 	}
 
-<<<<<<< Updated upstream
-	@Test(enabled = false, priority = 1,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void intakeFormElementVisibilityCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-		
-			
-			 mydriver.get(testUrl);
-=======
 	@Test(enabled = false, priority = 1)
 	public void intakeFormElementVisibilityCheck() {
 		skipNonExistingComponent(intakeFormUrls);
 		for (String intakeFormUrl : intakeFormUrls) {
 			String testUrl = intakeFormUrl;
 			urlUnderTest.get().add(intakeFormUrl); mydriver.get(testUrl);
->>>>>>> Stashed changes
 			scrollToElement(mydriver, bannerImage, logger);
 
 			softAssert.assertTrue(verifyElementExists(logger, searchCardHeader, "searchCardHeader"));
@@ -168,17 +147,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			softAssert.assertTrue(verifyElementExists(logger, findLocationSubLabel, "findLocationSubLabel"));
 			softAssert.assertAll();
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 2, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void bannerImageIsVisible(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			//
-			 mydriver.get(testUrl);
-=======
 		}
 	}
 
@@ -188,7 +156,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			String testUrl = intakeFormUrl;
 			urlUnderTest.get().add(intakeFormUrl); mydriver.get(testUrl);
->>>>>>> Stashed changes
 			try {
 			 mydriver.get(mydriver.findElement(By.xpath("//*[@class=\"pluv2-img-container__medium-img\"]"))
 						.getAttribute("src"));
@@ -200,19 +167,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 
 			}
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 3, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void intakeFormTypographyCheck(String testUrl) {
-
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			//
-			 mydriver.get(testUrl);
-=======
 		}
 	}
 
@@ -224,24 +178,12 @@ public class PluV2_StepDefinition extends PluV2_page {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			String testUrl = intakeFormUrl;
 			urlUnderTest.get().add(intakeFormUrl); mydriver.get(testUrl);
->>>>>>> Stashed changes
 			scrollToElement(mydriver, searchCardHeader, logger);
 
 			hardAssert.assertEquals(PluV2_page.getFontSize(searchCardHeader), "36px");
 			hardAssert.assertEquals(PluV2_page.getFontSize(searchHelperLabel), "15px");
 			hardAssert.assertEquals(PluV2_page.getFontSize(topSearchFieldLabel), "15px");
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 4, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void intakeFormBlankFormSubmitCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-		
-			
-			 mydriver.get(testUrl);
-=======
 		}
 	}
 
@@ -251,7 +193,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			String testUrl = intakeFormUrl;
 			urlUnderTest.get().add(intakeFormUrl); mydriver.get(testUrl);
->>>>>>> Stashed changes
 			searchButton.click();
 			scrollToElement(mydriver, searchCardHeader, logger);
 			searchField.click();
@@ -262,18 +203,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			softAssert.assertEquals(errorValidationMsg.getText(), errorValidationMsgText);
 			softAssert.assertEquals(getFontSize(errorValidationMsg), "15px");
 			softAssert.assertAll();
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(enabled = false, priority = 5,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void intakeFormSearchPinCodeFormSubmitCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-		
-			
-
-			 mydriver.get(testUrl);
-=======
 		}
 	}
 
@@ -284,7 +213,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			String testUrl = intakeFormUrl;
 
 			urlUnderTest.get().add(intakeFormUrl); mydriver.get(testUrl);
->>>>>>> Stashed changes
 			scrollToElement(mydriver, searchHelperLabel, logger);
 			String input = searchHelperLabel.getText().split("or ")[1];
 			scrollToElement(mydriver, searchCardHeader, logger);
@@ -301,16 +229,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			}
 			scrollToElement(mydriver, resultsPageHeader, logger);
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 41, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void findProviderSearchLogicForRadiusCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-		//for (String intakeFormUrl : intakeFormUrls) {
-			getBaseSerpPage(testUrl);
-=======
 		}
 	}
 
@@ -319,7 +237,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		skipNonExistingComponent(intakeFormUrls);
 		for (String intakeFormUrl : intakeFormUrls) {
 			getBaseSerpPage(intakeFormUrl);
->>>>>>> Stashed changes
 
 			scrollToElement(mydriver, selectRadius, logger);
 			selectRadius(50);
@@ -338,15 +255,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 					.findElements(By.xpath("//*[@class=\"pluv2-team__distance\"]")).get(a - 1).getText().split(" ")[0]);
 			hardAssert.assertTrue(distanceFromCurrentLoc < 50);
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(description = "2 Char length search", priority = 40, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void findProviderSearchLogicFor2CharLengthCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-		//for (String intakeFormUrl : intakeFormUrls) {
-=======
 		}
 	}
 
@@ -354,19 +262,13 @@ public class PluV2_StepDefinition extends PluV2_page {
 	public void findProviderSearchLogicFor2CharLengthCheck() {
 		skipNonExistingComponent(intakeFormUrls);
 		for (String intakeFormUrl : intakeFormUrls) {
->>>>>>> Stashed changes
 			ArrayList<Character> searchInput = new ArrayList<>();
 
 			searchInput.add('s');
 			searchInput.add('a');
 
-<<<<<<< Updated upstream
-			//String testUrl = intakeFormUrl;
-			 mydriver.get(testUrl);
-=======
 			String testUrl = intakeFormUrl;
 			urlUnderTest.get().add(intakeFormUrl); mydriver.get(testUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver, moreSearchDD, logger);
 				moreSearchDD.click();
@@ -404,15 +306,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			if (result == false) {
 				fail("Search suggestions are visible even with 2 char length input");
 			}
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(description = "3 char length search", priority = 6, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void findProviderSearchLogicWith3CharLengthCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-		//for (String intakeFormUrl : intakeFormUrls) {
-=======
 		}
 	}
 
@@ -420,7 +313,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 	public void findProviderSearchLogicWith3CharLengthCheck() {
 		skipNonExistingComponent(intakeFormUrls);
 		for (String intakeFormUrl : intakeFormUrls) {
->>>>>>> Stashed changes
 			String provName = "";
 			ArrayList<Character> searchInput = new ArrayList<>();
 			ArrayList<Character> searchResultName = new ArrayList<>();
@@ -428,13 +320,8 @@ public class PluV2_StepDefinition extends PluV2_page {
 			searchInput.add('a');
 			searchInput.add('m');
 
-<<<<<<< Updated upstream
-			//String testUrl = intakeFormUrl;
-			 mydriver.get(testUrl);
-=======
 			String testUrl = intakeFormUrl;
 			urlUnderTest.get().add(intakeFormUrl); mydriver.get(testUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver, moreSearchDD, logger);
 				moreSearchDD.click();
@@ -477,11 +364,7 @@ public class PluV2_StepDefinition extends PluV2_page {
 			selectRadius(100);
 			searchButton.click();
 
-<<<<<<< Updated upstream
-
-=======
 		}
->>>>>>> Stashed changes
 	} /*
 		 * Provider Search Results
 		 * 
@@ -489,19 +372,11 @@ public class PluV2_StepDefinition extends PluV2_page {
 		 * 
 		 */
 
-<<<<<<< Updated upstream
-	@Test(enabled = false, priority = 7,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void providerSearchResultElementsVisibilityCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-		//for (String intakeFormUrl : intakeFormUrls) {
-			getBaseSerpPage(testUrl);
-=======
 	@Test(enabled = false, priority = 7)
 	public void providerSearchResultElementsVisibilityCheck() {
 		skipNonExistingComponent(intakeFormUrls);
 		for (String intakeFormUrl : intakeFormUrls) {
 			getBaseSerpPage(intakeFormUrl);
->>>>>>> Stashed changes
 			scrollToElement(mydriver, providerTab, logger);
 			softAssert.assertTrue(verifyElementExists(logger, providerTab, "providerTab"));
 			System.out.println(
@@ -526,16 +401,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 
 			softAssert.assertAll();
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(enabled = false, priority = 8,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void mainChecboxFiltrationsCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-		//for (String intakeFormUrl : intakeFormUrls) {
-			getBaseSerpPage(testUrl);
-=======
 		}
 	}
 
@@ -544,7 +409,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		skipNonExistingComponent(intakeFormUrls);
 		for (String intakeFormUrl : intakeFormUrls) {
 			getBaseSerpPage(intakeFormUrl);
->>>>>>> Stashed changes
 			scrollToElement(mydriver, providerTab, logger);
 
 			List<WebElement> totalProviderCards = mydriver
@@ -553,17 +417,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 					.findElements(By.xpath("//*[@class=\"pluv2-team__status\"]"));
 			softAssert.assertEquals(totalProviderCardsMainFiltration.size(), totalProviderCards.size());
 			softAssert.assertAll();
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(enabled = false, priority = 9,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void providerSearchResultFiltrationCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-		//for (String intakeFormUrl : intakeFormUrls) {
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getBaseSerpPage(testUrl);
-=======
 		}
 	}
 
@@ -573,7 +426,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			getBaseSerpPage(intakeFormUrl);
->>>>>>> Stashed changes
 			scrollToElement(mydriver, providerTab, logger);
 
 			for (int i = 0; i < availableFilters.size(); i++) {
@@ -715,19 +567,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 				}
 			}
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(enabled = false, priority = 10,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void resultTagsCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-		//for (String intakeFormUrl : intakeFormUrls) {
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			int tags = 0;
-
-			getBaseSerpPage(testUrl);
-=======
 		}
 	}
 
@@ -739,7 +578,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			int tags = 0;
 
 			getBaseSerpPage(intakeFormUrl);
->>>>>>> Stashed changes
 			int gen = 0;
 			////////////////////////////////////////////////////////////////////////////////
 
@@ -801,17 +639,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			int noOfTags = mydriver.findElements(By.xpath(resultTags)).size();
 			hardAssert.assertEquals(noOfTags, tags);
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(enabled = false, priority = 11,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void providerCardDetailsCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-//		for (String intakeFormUrl : intakeFormUrls) {
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getBaseSerpPage(testUrl);
-=======
 		}
 	}
 
@@ -821,7 +648,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			getBaseSerpPage(intakeFormUrl);
->>>>>>> Stashed changes
 			int i = 1;
 			String address;
 			String distance;
@@ -843,17 +669,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 				focusElement(mydriver, card.findElement(By.xpath(speciality)));
 				i++;
 			}
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 12, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void paginationCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-//
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getBaseSerpPage(testUrl);
-=======
 		}
 	}
 
@@ -863,7 +678,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			getBaseSerpPage(intakeFormUrl);
->>>>>>> Stashed changes
 			scrollToElement(mydriver, resultsPageHeader, logger);
 			selectByOptionName(logger, selectRadius, "100 miles");
 			searchButton.click();
@@ -906,17 +720,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 						"No pagination section available as the no. of results are lest than what is expected");
 			}
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 13, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void resultSortCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getBaseSerpPage(testUrl);
-=======
 		}
 	}
 
@@ -926,7 +729,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			getBaseSerpPage(intakeFormUrl);
->>>>>>> Stashed changes
 			scrollToElement(mydriver, resultSort, logger);
 			selectByOptionName(logger, resultSort, "Distance");
 			double distance = Double.parseDouble(
@@ -953,18 +755,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			hardAssert.assertTrue(name <= name_1);
 			hardAssert.assertTrue(name_1 <= name_2);
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 14, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void findLocationFromIntakeForm(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-//			
-			 mydriver.get(testUrl);
-=======
 		}
 	}
 
@@ -975,7 +765,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			String testUrl = intakeFormUrl;
 			urlUnderTest.get().add(intakeFormUrl); mydriver.get(testUrl);
->>>>>>> Stashed changes
 			searchField.click();
 			searchField.click();
 			searchField.sendKeys("06032");
@@ -991,11 +780,7 @@ public class PluV2_StepDefinition extends PluV2_page {
 			// softAssert.assertEquals(card.getText().substring(0, 3), "Pla");
 			//
 			// }
-<<<<<<< Updated upstream
-
-=======
 		}
->>>>>>> Stashed changes
 	}
 
 	/*
@@ -1003,16 +788,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 	 * Location Results pages
 	 * 
 	 */
-<<<<<<< Updated upstream
-	@Test(priority = 15, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-
-	public void locationSearchResultFiltrationCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-//			
-			 mydriver.get(testUrl);
-=======
 	@Test(priority = 15, enabled = false)
 
 	public void locationSearchResultFiltrationCheck() {
@@ -1021,7 +796,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			String testUrl = intakeFormUrl;
 			urlUnderTest.get().add(intakeFormUrl); mydriver.get(testUrl);
->>>>>>> Stashed changes
 			searchField.click();
 			searchField.click();
 			searchField.sendKeys("06032");
@@ -1170,17 +944,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 				}
 			}
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 16, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationResultsMapSpotLightCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getBaseSerpPage(testUrl);
-=======
 		}
 	}
 
@@ -1190,7 +953,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			getBaseSerpPage(intakeFormUrl);
->>>>>>> Stashed changes
 			boolean status = true;
 
 			int verified = 1;
@@ -1238,17 +1000,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 				}
 			}
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 17, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationResultsMapClusterCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getBaseSerpPage(testUrl);
-=======
 		}
 	}
 
@@ -1258,7 +1009,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			getBaseSerpPage(intakeFormUrl);
->>>>>>> Stashed changes
 			boolean status = false;
 
 			scrollToElement(mydriver, locationTab, logger);
@@ -1281,18 +1031,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 				}
 			}
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 18, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-
-	public void locationCardDetailsCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getBaseSerpPage(testUrl);
-=======
 		}
 	}
 
@@ -1303,7 +1041,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			getBaseSerpPage(intakeFormUrl);
->>>>>>> Stashed changes
 			locationTab.click();
 			int i = 1;
 			int j = 1;
@@ -1379,49 +1116,25 @@ public class PluV2_StepDefinition extends PluV2_page {
 				j++;
 			}
 
-<<<<<<< Updated upstream
-
-=======
 		}
->>>>>>> Stashed changes
 	}
 
 	/*
 	 * Location Details
 	 */
 
-<<<<<<< Updated upstream
-	@Test(priority = 19, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationDetailPageMapAndRelatedLinksCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getLocationDetailsPage(testUrl);
-=======
 	@Test(priority = 19, enabled = false)
 	public void locationDetailPageMapAndRelatedLinksCheck() {
 		skipNonExistingComponent(intakeFormUrls);
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			urlUnderTest.get().add(intakeFormUrl);getLocationDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			softAssert.assertTrue(verifyElementExists(logger, locationMap, "locationMap"));
 			softAssert.assertTrue(verifyElementExists(logger, locationLink, "locationLink"));
 			softAssert.assertTrue(verifyElementExists(logger, locationAddress, "locationAddress"));
 			logger.info("Location Address: " + locationAddress.getText());
 			logger.info("Map link: " + locationLink.getAttribute("href"));
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 20, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationDetailPageCareTeamCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getLocationDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -1431,7 +1144,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			urlUnderTest.get().add(intakeFormUrl);getLocationDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			List<WebElement> teamMembers = null;
 
 			int i = 0;
@@ -1450,29 +1162,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 				}
 
 			}
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 21, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationDetailsPageAddressAvailablityCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getLocationDetailsPage(testUrl);
-			scrollToElement(mydriver, locationAddress, logger);
-			logger.info("Current Location address: " + locationAddress.getText());
-
-
-	}
-
-	@Test(priority = 22, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationDetailsPageNameHeaderCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getLocationDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -1494,7 +1183,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			urlUnderTest.get().add(intakeFormUrl);getLocationDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			scrollToElement(mydriver, locationHeader, logger);
 			if (locationHeader.getText().isEmpty()) {
 				logger.fatal("Location name is empty");
@@ -1502,17 +1190,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			}
 
 			logger.info("Location under test: " + locationHeader.getText());
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 23, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationDetailsPageContactDetails(String testUrl) {
-		skipNonExistingComponent(testUrl);
-		//for (String intakeFormUrl : intakeFormUrls) {
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getLocationDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -1522,7 +1199,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			urlUnderTest.get().add(intakeFormUrl);getLocationDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver,
 						mydriver.findElement(By.xpath("//*[@class=\"pluv2-contact pluv2-section\"]")), logger);
@@ -1534,17 +1210,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 				logger.info("Contact options available: " + contactOption.getText());
 
 			}
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 24, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationDetailsPageServicesProvidedCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getLocationDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -1554,7 +1219,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			urlUnderTest.get().add(intakeFormUrl);getLocationDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver,
 						mydriver.findElement(By.xpath("//*[@class=\"pluv2-services pluv2-section\"]")), logger);
@@ -1567,17 +1231,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 
 			}
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 25, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationDetailsPageSpecialitiesCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getLocationDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -1587,7 +1240,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			urlUnderTest.get().add(intakeFormUrl);getLocationDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver,
 						mydriver.findElement(By.xpath("//*[@class=\"pluv2-specialties pluv2-section\"]")), logger);
@@ -1601,17 +1253,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 
 			}
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 26, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationDetailsPageLanguagesSpokenCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getLocationDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -1621,7 +1262,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			urlUnderTest.get().add(intakeFormUrl);getLocationDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 
 				mydriver.findElement(By.xpath("\\*[@class=\"pluv2-location-languages pluv2-section\"]")).getText();
@@ -1633,17 +1273,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 				logger.info("Languages available: " + language.getText());
 
 			}
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 27, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationDetailsPageParkingFacilitiesCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getLocationDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -1653,7 +1282,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			urlUnderTest.get().add(intakeFormUrl);getLocationDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver,
 						mydriver.findElement(By.xpath("//*[@class=\"pluv2-parking pluv2-section\"]")), logger);
@@ -1664,17 +1292,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			scrollToElement(mydriver, locationParkingDetail, logger);
 			logger.info("Parking details: " + locationParkingDetail.getText());
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 28, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationDetailsPageDescriptionCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getLocationDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -1684,7 +1301,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			urlUnderTest.get().add(intakeFormUrl);getLocationDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver, mydriver
 						.findElement(By.xpath("//*[@class=\"pluv2-about-us pluv2-section pluv2-about-us__tablet\"]")), logger);
@@ -1702,17 +1318,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 				logger.info("Location Description : " + aboutpara.getText());
 
 			}
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 29, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationDetailsPageTagLineCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getLocationDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -1722,7 +1327,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			urlUnderTest.get().add(intakeFormUrl);getLocationDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			WebElement tagline;
 			try {
 				scrollToElement(mydriver,
@@ -1737,17 +1341,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			}
 			logger.info("Location tagline: " + tagline.getText());
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 30, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationDetailsPagePagination(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getLocationDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -1757,7 +1350,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			urlUnderTest.get().add(intakeFormUrl);getLocationDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver, mydriver.findElement(By.xpath("//*[@aria-label=\"results pagination\"]")), logger);
 			} catch (Exception e) {
@@ -1767,17 +1359,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			paginationNext.click();
 			hardAssert.assertTrue(verifyElementExists(logger, paginationPrev, "paginationPrev button"));
 			paginationPrev.click();
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 31, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void locationDetailsNetworkMembershipsCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getLocationDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -1787,7 +1368,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			urlUnderTest.get().add(intakeFormUrl);getLocationDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver, networkMembershipSection, logger);
 			} catch (Exception e) {
@@ -1802,31 +1382,18 @@ public class PluV2_StepDefinition extends PluV2_page {
 
 			}
 			logger.info("This location has follwoing memberships: " + mem);
-<<<<<<< Updated upstream
-
-=======
 		}
->>>>>>> Stashed changes
 	}
 
 	/*
 	 * Provider details page
 	 */
-<<<<<<< Updated upstream
-	@Test(priority = 32, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void providerDetailsMandatoryElementCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getProviderDetailsPage(testUrl);
-=======
 	@Test(priority = 32, enabled = false)
 	public void providerDetailsMandatoryElementCheck() {
 		skipNonExistingComponent(intakeFormUrls);
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			getProviderDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 
 			scrollToElement(mydriver, providerNameDetail, logger);
 			softAssert.assertTrue(verifyElementExists(logger, providerNameDetail, "providerNameDetail"));
@@ -1840,17 +1407,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 					.assertTrue(verifyElementExists(logger, providerLocationSectionDetail, "providerLocationSection"));
 			softAssert.assertAll();
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 33, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void providerDetailsBoardCertificationSectionCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getProviderDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -1860,7 +1416,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			getProviderDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver, providerBoardCertSectionDetail, logger);
 			} catch (Exception e) {
@@ -1879,20 +1434,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			}
 			logger.info("Current Certifications: " + label);
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 42, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void providerDetailsOverviewSectionCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			String heads = "";
-			String para = "";
-			//String testUrl = providerDetailsUrl;
-			 mydriver.get(testUrl);
-=======
 		}
 	}
 
@@ -1905,7 +1446,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			String para = "";
 			String testUrl = providerDetailsUrl;
 			urlUnderTest.get().add(intakeFormUrl); mydriver.get(testUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver, providerOverviewSectionDetail, logger);
 			} catch (Exception e) {
@@ -1945,20 +1485,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			}
 			logger.info("Info Under expanded bio section: " + para);
 			softAssert.assertAll();
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 34, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void providerDetailsQualificationSectionCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			String heads = "";
-			String para = "";
-
-			getProviderDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -1971,7 +1497,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			String para = "";
 
 			getProviderDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver, providerQualificationSectionDetail, logger);
 			} catch (Exception e) {
@@ -2011,19 +1536,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 
 			softAssert.assertAll();
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 35, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void providerDetailsAcceptedHealthPlanSectionCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			String plans = "";
-
-			getProviderDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -2035,7 +1547,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			String plans = "";
 
 			getProviderDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver, providerHealthPlanSectionDetail, logger);
 			} catch (Exception e) {
@@ -2052,19 +1563,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 				}
 			}
 			logger.info("Health plans accepted by current doctor: " + plans);
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 36, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void providerDetailsNetworkMembershipSectionCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			String member = "";
-
-			getProviderDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -2076,7 +1574,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			String member = "";
 
 			getProviderDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver, providerNetworkMemberSectionDetail, logger);
 			} catch (Exception e) {
@@ -2095,19 +1592,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			}
 			logger.info("Membership of current doctor: " + member);
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 37, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void providerDetailsHospitalAffiliationSectionCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			String hosAff = "";
-
-			getProviderDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -2119,7 +1603,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			String hosAff = "";
 
 			getProviderDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver, providerHospAffiliationSectionDetail, logger);
 			} catch (Exception e) {
@@ -2138,20 +1621,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			}
 			logger.info("Affiliations of current doctor: " + hosAff);
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 38, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void providerDetailsLanguageSectionCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			String lang = "";
-
-			//
-			getProviderDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -2164,7 +1633,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 
 			//
 			getProviderDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver, providerLanguageSectionDetail, logger);
 			} catch (Exception e) {
@@ -2183,17 +1651,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 			}
 			logger.info("language of current doctor: " + lang);
 
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 39, enabled = false,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void providerDetailsAvatarSectionCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getProviderDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -2203,7 +1660,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			getProviderDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			try {
 				scrollToElement(mydriver, providerImageDetail, logger);
 			} catch (Exception e) {
@@ -2212,17 +1668,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 
 			hardAssert.assertTrue(verifyElementExists(logger, providerImageDetail, "Doctor's Image"));
 			focusElement(mydriver, providerImageDetail);
-<<<<<<< Updated upstream
-
-	}
-
-	@Test(priority = 43, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pluv2-intake"})
-	public void providerDetailsCtaLinksSectionCheck(String testUrl) {
-		skipNonExistingComponent(testUrl);
-
-			currentDomain = currentDomain + "[" + testUrl + "]";
-			getProviderDetailsPage(testUrl);
-=======
 		}
 	}
 
@@ -2232,7 +1677,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 		for (String intakeFormUrl : intakeFormUrls) {
 			currentDomain = currentDomain + "[" + intakeFormUrl + "]";
 			getProviderDetailsPage(intakeFormUrl);
->>>>>>> Stashed changes
 			String expectedWindowHandle = mydriver.getWindowHandle();
 			System.out.println(expectedWindowHandle);
 			try {
@@ -2261,10 +1705,6 @@ public class PluV2_StepDefinition extends PluV2_page {
 					links = mydriver.findElements(By.xpath(providerLinksSectionListDetail));
 				}
 			}
-<<<<<<< Updated upstream
-
-=======
 		}
->>>>>>> Stashed changes
 	}
 }

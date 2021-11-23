@@ -30,10 +30,6 @@ public class CenterAccordion_StepDefinition extends CenterAccordion_page {
 	public void setup() {
 		fetchSession(CenterAccordion_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(CenterAccordion_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new CenterAccordion_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);

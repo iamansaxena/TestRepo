@@ -29,10 +29,6 @@ public class AccordionV2_StepDefinition extends AccordionV2_page {
 
 		fetchSession(AccordionV2_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(AccordionV2_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new AccordionV2_page();
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
 		if (fetchUrl("accordion-v2") == null) {

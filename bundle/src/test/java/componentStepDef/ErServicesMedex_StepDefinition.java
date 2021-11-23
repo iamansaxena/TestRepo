@@ -27,10 +27,6 @@ public class ErServicesMedex_StepDefinition extends ErServicesMedex_page {
 
 		fetchSession(ErServicesMedex_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ErServicesMedex_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new ErServicesMedex_page();
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
 		if (fetchUrl("er-services") == null) {

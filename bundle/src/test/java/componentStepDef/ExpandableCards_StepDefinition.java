@@ -30,10 +30,6 @@ public class ExpandableCards_StepDefinition extends ExpandableCard_page {
 
 		fetchSession(ExpandableCards_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ExpandableCards_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new ExpandableCard_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("expCard-container") == null) {

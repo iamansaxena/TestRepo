@@ -30,10 +30,6 @@ public class AboutUs_StepDefinition extends AboutUs_page {
 
 		fetchSession(AboutUs_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(AboutUs_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new AboutUs_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("about-us") == null) {
@@ -114,17 +110,10 @@ public class AboutUs_StepDefinition extends AboutUs_page {
 		}
 	}
 
-<<<<<<< Updated upstream
-	@Test(priority = 3, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
-	"about-us" })
-	public void blankTabLabelCheck(String url) {
-		skipNonExistingComponent(url);
-=======
 	@Test(priority = 3, enabled = true)
 	public void blankTabLabelCheck() {
 		skipNonExistingComponent(urls);
 		for (String url : urls) {
->>>>>>> Stashed changes
 
 			urlUnderTest.get().add(url); mydriver.get(url);
 			List<WebElement> Tabs = mydriver.findElements(By.xpath(tabs));

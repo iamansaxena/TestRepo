@@ -31,8 +31,6 @@ public class SiteMap_StepDefinition extends SiteMap_page {
 		new SiteMap_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-<<<<<<< Updated upstream
-=======
 		if (fetchUrl("sitemap") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {
 				urls.add("http://apsrs5642:8080/content/AutomationDirectory/sitemap.html");
@@ -46,7 +44,6 @@ public class SiteMap_StepDefinition extends SiteMap_page {
 			}
 		}
 
->>>>>>> Stashed changes
 		ExtentTestManager.startTest(SiteMap_StepDefinition.class.getName());
 		for (String url : urls) {
 			currentDomain = currentDomain + "[" + url + "]";

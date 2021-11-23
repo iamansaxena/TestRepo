@@ -33,10 +33,6 @@ public class BlogFeed_StepDefinition extends BlogFeed_page {
 
 		fetchSession(BlogFeed_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(BlogFeed_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new BlogFeed_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("blog-feed") == null) {

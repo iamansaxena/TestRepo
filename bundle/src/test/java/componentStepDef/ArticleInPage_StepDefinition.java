@@ -27,10 +27,6 @@ public class ArticleInPage_StepDefinition extends ArticleInPage_page {
 
 		fetchSession(ArticleInPage_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ArticleInPage_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new ArticleInPage_page();
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("article-in-page-nav") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {

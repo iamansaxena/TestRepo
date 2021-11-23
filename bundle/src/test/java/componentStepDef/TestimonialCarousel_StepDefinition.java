@@ -31,8 +31,6 @@ public class TestimonialCarousel_StepDefinition extends TestimonialCarousel_page
 		mydriver = LATEST_DRIVER_POOL.get(TestimonialCarousel_StepDefinition.class.getName());
 		new TestimonialCarousel_page();
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-<<<<<<< Updated upstream
-=======
 		if (fetchUrl("testimonial-carousel") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {
 				urls.add("http://apsrs5642:8080/content/medexpressautomationdirectory/testimonial-carousel.html");
@@ -48,7 +46,6 @@ public class TestimonialCarousel_StepDefinition extends TestimonialCarousel_page
 			}
 		}
 
->>>>>>> Stashed changes
 		ExtentTestManager.startTest(TestimonialCarousel_StepDefinition.class.getName());
 		for (String url : urls) {
 			currentDomain = currentDomain + "[" + url + "]";

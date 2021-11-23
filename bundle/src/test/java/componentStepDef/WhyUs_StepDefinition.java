@@ -31,9 +31,6 @@ public class WhyUs_StepDefinition extends WhyUs_page {
 		fetchSession(WhyUs_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(WhyUs_StepDefinition.class.getName());
 		new WhyUs_page();
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);		
-=======
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
 		if (fetchUrl("why-us") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {
@@ -48,7 +45,6 @@ public class WhyUs_StepDefinition extends WhyUs_page {
 			}
 		}
 
->>>>>>> Stashed changes
 		ExtentTestManager.startTest(WhyUs_StepDefinition.class.getName());
 		for (String url : cardUrls) {
 			currentDomain = currentDomain + "[" + url + "]";

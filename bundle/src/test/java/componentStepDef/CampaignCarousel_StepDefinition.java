@@ -38,10 +38,6 @@ public class CampaignCarousel_StepDefinition extends CampaignCarousel_page {
 
 		fetchSession(CampaignCarousel_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(CampaignCarousel_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new CampaignCarousel_page();
 		
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("dpl-cc-app") == null) {
@@ -207,13 +203,8 @@ public class CampaignCarousel_StepDefinition extends CampaignCarousel_page {
 	}
 
 	@Test(priority = 5)
-<<<<<<< Updated upstream
-	public void slideBulletHighlightCheck(String url) {
-		skipNonExistingComponent(url);
-=======
 	public void slideBulletHighlightCheck() {
 		skipNonExistingComponent(campUrls);
->>>>>>> Stashed changes
 		int i = 1;
 		for (String camUrl : campUrls) {
 			urlUnderTest.get().add(camUrl); mydriver.get(camUrl);pauseCaraousel();
@@ -286,13 +277,8 @@ public class CampaignCarousel_StepDefinition extends CampaignCarousel_page {
 	// }
 
 	@Test(priority = 7)
-<<<<<<< Updated upstream
-	public void previousandNextButtonCheck(String url) {
-		skipNonExistingComponent(url);
-=======
 	public void previousandNextButtonCheck() {
 		skipNonExistingComponent(campUrls);
->>>>>>> Stashed changes
 		int i = 1;
 		for (String camUrl : campUrls) {
 			urlUnderTest.get().add(camUrl); mydriver.get(camUrl);
@@ -312,79 +298,6 @@ public class CampaignCarousel_StepDefinition extends CampaignCarousel_page {
 			} catch (Exception e) {
 				throw new SkipException("There is only one slide");
 			}
-<<<<<<< Updated upstream
-		} catch (Exception e) {
-			throw new SkipException("There is only one slide");
-		}
-
-		int a = 0;
-		try {
-			while (a != i) {
-				nextButton.click();
-				a++;
-			}
-
-		} catch (Exception e) {
-			throw new SkipException("There is only one slide available");
-		}
-		scrollToElement(mydriver, nextButton, logger);
-		pleaseWait(3, logger);
-
-		int j = i + 1;
-		switch (i) {
-		case 1:
-			scrollToElement(mydriver, carouselSection, logger);
-			hardAssert
-					.assertTrue(mydriver.findElement(By.xpath("//*[@data-slide=\"" + j + "\"][last()]")).isDisplayed());
-			prevButton.click();
-			pleaseWait(4, logger);
-			hardAssert
-					.assertTrue(mydriver.findElement(By.xpath("//*[@data-slide=\"" + j + "\"][last()]")).isDisplayed());
-			break;
-		case 2:
-			scrollToElement(mydriver, carouselSection, logger);
-			hardAssert
-					.assertTrue(mydriver.findElement(By.xpath("//*[@data-slide=\"" + j + "\"][last()]")).isDisplayed());
-			prevButton.click();
-			pleaseWait(4, logger);
-			hardAssert
-					.assertTrue(mydriver.findElement(By.xpath("//*[@data-slide=\"" + j + "\"][last()]")).isDisplayed());
-			break;
-		case 3:
-			scrollToElement(mydriver, carouselSection, logger);
-			List<WebElement> slide = mydriver.findElements(By.xpath("//*[@data-slide=\"" + j + "\"]"));
-			hardAssert
-					.assertTrue(mydriver.findElement(By.xpath("//*[@data-slide=\"" + j + "\"][last()]")).isDisplayed());
-			prevButton.click();
-			pleaseWait(4, logger);
-			hardAssert
-					.assertTrue(mydriver.findElement(By.xpath("//*[@data-slide=\"" + j + "\"][last()]")).isDisplayed());
-			break;
-		case 4:
-			scrollToElement(mydriver, carouselSection, logger);
-			hardAssert.assertTrue(fifthSlide.isDisplayed());
-			prevButton.click();
-			pleaseWait(4, logger);
-			hardAssert
-					.assertTrue(mydriver.findElement(By.xpath("//*[@data-slide=\"" + j + "\"][last()]")).isDisplayed());
-			break;
-		case 5:
-			scrollToElement(mydriver, carouselSection, logger);
-			hardAssert.assertTrue(firstSlide.isDisplayed());
-			prevButton.click();
-			pleaseWait(4, logger);
-			hardAssert.assertTrue(fifthSlide.isDisplayed());
-			break;
-		}
-
-	}
-
-	@Test(priority = 8)
-	public void endlessCarouselLoopCheck(String url) {
-		skipNonExistingComponent(url);
-		int i = 1;
-=======
->>>>>>> Stashed changes
 
 			int a = 0;
 			try {
@@ -442,19 +355,6 @@ public class CampaignCarousel_StepDefinition extends CampaignCarousel_page {
 		}
 	}
 
-<<<<<<< Updated upstream
-	@Test(priority = 9)
-	public void singleSlideCheck(String url) {
-		skipNonExistingComponent(url);
-
-		
-		mydriver.get(url);
-		pauseCaraousel();
-		try {
-			mydriver.findElement(By.xpath("//*[@data-slide=2]"));
-			throw new SkipException("More Than One Slide Are Available");
-		} catch (NoSuchElementException e) {
-=======
 	@Test(priority = 8)
 	public void endlessCarouselLoopCheck() {
 		skipNonExistingComponent(campUrls);
@@ -464,7 +364,6 @@ public class CampaignCarousel_StepDefinition extends CampaignCarousel_page {
 			WebDriverWait wait = new WebDriverWait(mydriver,30);
 			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(slideBullets)));
 			int noOfSlides=0; 
->>>>>>> Stashed changes
 			try {
 				noOfSlides = mydriver.findElements(By.xpath(slideBullets)).size();
 				mydriver.findElements(By.xpath(slideBullets)).get(0).click();

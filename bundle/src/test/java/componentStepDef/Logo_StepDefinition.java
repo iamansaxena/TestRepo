@@ -2,10 +2,7 @@ package componentStepDef;import java.util.concurrent.TimeUnit;
 
 import java.util.ArrayList;
 
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;

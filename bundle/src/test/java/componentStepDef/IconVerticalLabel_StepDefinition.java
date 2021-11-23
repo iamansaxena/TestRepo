@@ -26,15 +26,11 @@ public class IconVerticalLabel_StepDefinition extends IconVerticalLabel_page {
 	public void setup() {
 		fetchSession(IconVerticalLabel_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(IconVerticalLabel_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new IconVerticalLabel_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("icon-vertical") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {
-				cardUrls.add("https://stg-www.optum.com/content/AutomationDirectory/icon-vertical-rule-label-.html");
+				cardUrls.add("http://apsrs5642:8080/content/AutomationDirectory/icon-vertical-rule-label-.html");
 			} else if (Environment.equalsIgnoreCase("test")) {
 				cardUrls.add("http://apvrt31468:4503/content/AutomationDirectory/icon-vertical-rule-label-.html");
 			}

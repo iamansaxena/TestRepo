@@ -33,10 +33,6 @@ public class ColorBlock_StepDefinition extends ColorBlock_page {
 	public void setup() {
 		fetchSession(ColorBlock_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ColorBlock_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new ColorBlock_page();
 		
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("color-block") == null) {

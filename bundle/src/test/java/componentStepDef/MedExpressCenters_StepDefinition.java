@@ -37,9 +37,6 @@ public class MedExpressCenters_StepDefinition extends MedExpressCenters_page {
 		mydriver = LATEST_DRIVER_POOL.get(MedExpressCenters_StepDefinition.class.getName());
 		new MedExpressCenters_page();
 
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("medexpress-centers=") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {
 				urls.add("http://apsrs5642:8080/content/medexpressautomationdirectory/medexpresscenters.html");
@@ -54,7 +51,6 @@ public class MedExpressCenters_StepDefinition extends MedExpressCenters_page {
 			}
 		}
 
->>>>>>> Stashed changes
 		ExtentTestManager.startTest(MedExpressCenters_StepDefinition.class.getName());
 		for (String url : urls) {
 			currentDomain = currentDomain + "[" + url + "]";

@@ -35,11 +35,7 @@ public class InteractiveMap_StepDefinition extends InteractiveMap_page {
 	@BeforeClass
 	public void setup() {
 		fetchSession(InteractiveMap_StepDefinition.class);
-<<<<<<< Updated upstream
-		//mydriver = LATEST_DRIVER_POOL.get(InteractiveMap_StepDefinition.class.getName());
-=======
 		mydriver = LATEST_DRIVER_POOL.get(InteractiveMap_StepDefinition.class.getName());
->>>>>>> Stashed changes
 		new InteractiveMap_page();
 		
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("interactive-map") == null) {

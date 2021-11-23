@@ -31,10 +31,6 @@ public class Card300Image_StepDefinition extends Card300Image_page {
 	public void setup() {
 		fetchSession(Card300Image_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Card300Image_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new Card300Image_page();
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("mcard-300") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {

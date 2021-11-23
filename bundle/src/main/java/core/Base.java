@@ -23,6 +23,7 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -30,7 +31,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -67,23 +67,6 @@ import utils.Logo;
  *
  */
 public class Base extends LoggerLog4j {
-<<<<<<< Updated upstream
-	protected static HashMap<String, String> xpathList = new HashMap<>();
-	protected static ConcurrentHashMap<String, WebDriver> LATEST_DRIVER_POOL = new ConcurrentHashMap<>();
-	static String parentTunnel = "optumtest"; // "sso-optum-aman.mohan";
-	static String tunnelIdentifier = "Optum-Prd"; // "mytunnel";
-	protected static String dateName = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-	protected static String serverIP = "http://127.7.7.7:5353/";
-	protected static int MAX_DURATION = 9000;
-	protected static int SAUCE_SESSION_TIMEOUT = 1000;
-	protected static DesiredCapabilities capability;
-	protected static String browserName;
-	protected static final Properties componentProperties = new Properties();
-	protected static ConcurrentHashMap<String, String> authors;
-	protected static ConcurrentHashMap<String, String> tags;
-	protected static ConcurrentHashMap<String, WebDriver> driverMap;
-	protected static ConcurrentHashMap<String, String> testURLS;
-=======
 	public static HashMap<String, String> xpathList = new HashMap<>();
 	public static ConcurrentHashMap<String, WebDriver> LATEST_DRIVER_POOL = new ConcurrentHashMap<>();
 	static String parentTunnel = "optumtest";
@@ -99,7 +82,6 @@ public class Base extends LoggerLog4j {
 	public static ConcurrentHashMap<String, String> tags;
 	public static ConcurrentHashMap<String, WebDriver> driverMap;
 	public static ConcurrentHashMap<String, String> testURLS;
->>>>>>> Stashed changes
 	protected static Assertion hardAssert;
 	protected static String localBrowser;
 	protected static Boolean isRegression;
@@ -176,12 +158,7 @@ public class Base extends LoggerLog4j {
 	public static void initialize() throws InterruptedException {
 //		 System.setProperty("scan", "true");
 		// System.setProperty("upload", "true");
-		 System.setProperty("defaultExecution", "true");
-<<<<<<< Updated upstream
-		// System.setProperty("regression", "true");
-
-=======
->>>>>>> Stashed changes
+//		 System.setProperty("defaultExecution", "false");
 		startTime = ExecutionTImeCalculator.getCurrentTime();
 		authors = new ConcurrentHashMap<>();
 		tags = new ConcurrentHashMap<>();
@@ -202,8 +179,8 @@ public class Base extends LoggerLog4j {
 
 		try {
 
-			 property.load(new FileInputStream("./src/test/java/runner/Config-stg.properties"));
-//			property.load(new FileInputStream(System.getProperty("config-file")));
+//			 property.load(new FileInputStream("./src/test/java/runner/Config-stg.properties"));
+			property.load(new FileInputStream(System.getProperty("config-file")));
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -384,33 +361,31 @@ public class Base extends LoggerLog4j {
 		hardAssert = new Assertion();
 
 		if (remoteExecution.equalsIgnoreCase("true") && remoteExecution != null) {
-//			String URL = "https://sso-optum-" + sauceUserName + ":" + sauceAccessKey
-//					+ "@ondemand.us-west-1.saucelabs.com:443/wd/hub";
-			 String URL = "http://localhost:4444";
+			String URL = "https://sso-optum-" + sauceUserName + ":" + sauceAccessKey
+					+ "@ondemand.us-west-1.saucelabs.com:443/wd/hub";
+			// String URL = "http://localhost:80/wd/hub";
 			browser = remoteBrowser;
 			if (remoteBrowser != null || sauceAccessKey != null || sauceUserName != null || remoteVersion != null) {
 				try {
-					 DesiredCapabilities cap;
+					// DesiredCapabilities cap;
 					switch (remoteBrowser) {
 					case "-c":
 
 						synchronized (className) {
 							tChromeOptions.set(new ChromeOptions());
 						}
-//						tChromeOptions.get().setCapability("sauce:options", capability);
-//						tChromeOptions.get().setCapability(CapabilityType.SUPPORTS_APPLICATION_CACHE, "true");
-//						tChromeOptions.get().setAcceptInsecureCerts(true);
-//						tChromeOptions.get().setCapability("acceptInsecureCerts", true);
-//						tChromeOptions.get().setCapability("platformName", platform);
-//						tChromeOptions.get().setCapability("browserVersion", remoteVersion);
-//						// tChromeOptions.get().setPageLoadStrategy(PageLoadStrategy.EAGER);
+						tChromeOptions.get().setCapability("sauce:options", capability);
+						tChromeOptions.get().setCapability(CapabilityType.SUPPORTS_APPLICATION_CACHE, "true");
+						tChromeOptions.get().setAcceptInsecureCerts(true);
+						tChromeOptions.get().setCapability("acceptInsecureCerts", true);
+						tChromeOptions.get().setCapability("platformName", platform);
+						tChromeOptions.get().setCapability("browserVersion", remoteVersion);
+						// tChromeOptions.get().setPageLoadStrategy(PageLoadStrategy.EAGER);
 
-						 cap = new DesiredCapabilities();
-						 cap.setPlatform(Platform.ANY);
-						 cap.setBrowserName(new ChromeOptions().getBrowserName());
-//						 cap.setCapability("deviceName", "Galaxy S6");
+						// cap = new DesiredCapabilities().chrome();
+						// cap.setPlatform(Platform.WINDOWS);
 						synchronized (className) {
-							tDriver.set(new RemoteWebDriver(new java.net.URL(URL), cap));
+							tDriver.set(new RemoteWebDriver(new java.net.URL(URL), tChromeOptions.get()));
 						}
 						break;
 					case "-f":
@@ -891,39 +866,7 @@ public class Base extends LoggerLog4j {
 		return skipConditionMapPool.get();
 	}
 
-<<<<<<< Updated upstream
-	protected HashMap<String, Boolean> skipNonExistingComponent(String urls) {
-		synchronized (urls) {
-			urlsPool.set(new ArrayList<>());
-			urlsPool.get().add(urls);
-			skipConditionMapPool.set(new HashMap<>());
-		}
-		if (urlsPool.get().size() == 0 || urlsPool.get().toString().trim().isEmpty()) {
-			skipConditionMapPool.set(null);
-			throw new SkipException("Can't find Component url");
-		} else {
-			urlsPool.get().stream().forEach(a -> {
-				skipConditionMapPool.get().put(a, false);
-			});
-
-		}
-		return skipConditionMapPool.get();
-	}
-
-	/**
-	 * This method is used to fetch random value within the given range where
-	 * 'maximum' will be exclusive and 'minimum' will be inclusive
-	 * 
-	 * @param maximum
-	 *            end of range (exclusive)
-	 * @param minimum
-	 *            start of range (inclusive)
-	 * @return random integer
-	 */
-	protected synchronized static int getRandomInteger(int maximum, int minimum) {
-=======
 	public synchronized static int getRandomInteger(int maximum, int minimum) {
->>>>>>> Stashed changes
 		return ((int) (Math.random() * (maximum - minimum))) + minimum;
 	}
 
@@ -1262,52 +1205,6 @@ public class Base extends LoggerLog4j {
 
 	}
 
-<<<<<<< Updated upstream
-	/**
-	 * This method is used to fetch the URLs out of the test data using the given
-	 * key
-	 * 
-	 * @param componentName
-	 *            Value from either CmponentList.properties or XpathList.properties
-	 *            will be parsed by the script
-	 * @return An array of Script Test URLs
-	 */
-
-	protected synchronized static String fetchUrl(String componentName) {
-		if (System.getProperty("defaultExecution") == null
-				|| System.getProperty("defaultExecution").equalsIgnoreCase("false")) {
-
-			String COMPONENT = null;
-			Iterator<String> it = componentData.keySet().iterator();
-			while (it.hasNext()) {
-				String key = it.next();
-				if (key.toLowerCase().contains(componentName.toLowerCase())) {
-					COMPONENT = key;
-					break;
-				}
-			}
-			if (COMPONENT == null) {
-				// return "ERROR WHILE FETCHING URL FOR "+componentName;
-				return null;
-			} else {
-				if (componentData.containsKey(COMPONENT)) {
-					String a = componentData.get(COMPONENT).replace("[", "").replace("]", "").replace("\"", "");
-					String[] urlSet = a.split(",");
-					String randomURLs = null;
-					if (a != null && !a.isEmpty()) {
-						int i = getRandomInteger(urlSet.length, 0);
-						int j = 0;
-						if (urlSet.length - 1 != 0) {
-							while (j == i) {
-								j = getRandomInteger(urlSet.length, 0);
-							}
-							randomURLs = urlSet[i] + "," + urlSet[j];
-						} else {
-							randomURLs = urlSet[i];
-						}
-
-						return randomURLs;
-=======
 	public synchronized static String fetchUrl(String componentName) {
 		if (System.getProperty("defaultExecution") == null
 				|| System.getProperty("defaultExecution").equalsIgnoreCase("false")) {
@@ -1323,17 +1220,12 @@ public class Base extends LoggerLog4j {
 							j = getRandomInteger(urlSet.length, 0);
 						}
 						randomURLs = urlSet[i] + "," + urlSet[j];
->>>>>>> Stashed changes
 					} else {
 						randomURLs = urlSet[i];
 					}
-<<<<<<< Updated upstream
-				} else {
-=======
 
 					return randomURLs;
 				} else
->>>>>>> Stashed changes
 					return null;
 			} else
 				return null;
@@ -1349,99 +1241,6 @@ public class Base extends LoggerLog4j {
 		return actionPool.get();
 	}
 
-<<<<<<< Updated upstream
-	ThreadLocal<WebDriver> medexVisibilityDriverPool = new ThreadLocal<>();
-	ThreadLocal<WebElement> medexVisibilityComponentPool = new ThreadLocal<>();
-	ThreadLocal<Logger> medexVisibilityLoggerPool = new ThreadLocal<>();
-
-	/**
-	 * This method is used to remove the static header which appears on scrolling
-	 * the page and restricts the view of the elements
-	 * 
-	 * @param mydriver
-	 *            Driver object of the requesting class
-	 * @param medexComponent
-	 *            Medex Component Section locator
-	 * @param logger
-	 */
-	protected void scrolltillvisibilityMedex(WebDriver mydriver, WebElement medexComponent, Logger logger) {
-
-		synchronized (mydriver) {
-			synchronized (medexComponent) {
-				synchronized (logger) {
-					medexVisibilityComponentPool.set(medexComponent);
-					medexVisibilityDriverPool.set(mydriver);
-					medexVisibilityLoggerPool.set(logger);
-				}
-			}
-		}
-		scrollToElementWithoutWait(medexVisibilityDriverPool.get(), medexVisibilityComponentPool.get());
-		pleaseWait(2, medexVisibilityLoggerPool.get());
-
-		try {
-			((JavascriptExecutor) medexVisibilityDriverPool.get())
-					.executeScript("return document.getElementsByClassName('header med-header sticky')[0].remove();");
-		} catch (WebDriverException e) {
-		}
-
-		scrollToElementWithoutWait(medexVisibilityDriverPool.get(), medexVisibilityComponentPool.get());
-		pleaseWait(2, medexVisibilityLoggerPool.get());
-
-	}
-
-	/**
-	 * This method is used to get a WebDriverWait object in a Threadsafe way
-	 * 
-	 * @param mydriver
-	 *            Driver object of the requesting class
-	 * @param timeout
-	 *            Max time interval for which the script need to wait
-	 * @return
-	 */
-	public synchronized static WebDriverWait getWebDriverWait(WebDriver mydriver, int timeout) {
-		return new WebDriverWait(mydriver, timeout);
-	}
-
-	ThreadLocal<String> tryLoopVisibilityErrorPool = new ThreadLocal<>();
-	ThreadLocal<WebElement> tryLoopVisibilityElementPool = new ThreadLocal<>();
-	ThreadLocal<Boolean> tryLoopVisibilityStatusPool = new ThreadLocal<>();
-	ThreadLocal<Boolean> tryLoopVisibilityThrowErrorOptionPool = new ThreadLocal<>();
-
-	/**
-	 * This method is used to re use try-catch block and wait for element
-	 * availability. Also it can be declared if you want to throw skip exception or
-	 * not when element is not available.
-	 * 
-	 * @param element
-	 *            Element to be found
-	 * @param errorMessage
-	 *            Error to be displayed if element not found
-	 * @param logger
-	 * @return
-	 */
-	protected boolean isElementExists(WebElement element, String errorMessage, Logger logger, Boolean throwErrorOrNot) {
-		synchronized (element) {
-			synchronized (errorMessage) {
-				synchronized (logger) {
-					synchronized (throwErrorOrNot) {
-						tryLoopVisibilityElementPool.set(element);
-						tryLoopVisibilityErrorPool.set(errorMessage);
-						tryLoopVisibilityStatusPool.set(false);
-						tryLoopVisibilityThrowErrorOptionPool.set(throwErrorOrNot);
-					}
-				}
-			}
-
-		}
-		try {
-			tryLoopVisibilityElementPool.get().isDisplayed();
-			tryLoopVisibilityStatusPool.set(true);
-		} catch (Exception e) {
-			tryLoopVisibilityStatusPool.set(false);
-			if (tryLoopVisibilityThrowErrorOptionPool.get() == true) {
-				throw new SkipException(tryLoopVisibilityErrorPool.get());
-			}
-=======
 	private static void setBrowser() {
 		// System.setProperty("browser", "-ie");
 		if (System.getProperty("browser") == null || System.getProperty("browser").trim().isEmpty()
@@ -1466,7 +1265,6 @@ public class Base extends LoggerLog4j {
 		} else {
 			logger.info("Only select your browser from the available list =>\n-ie; -e; -c; -f");
 			System.exit(0);
->>>>>>> Stashed changes
 		}
 	}
 }

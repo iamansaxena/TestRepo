@@ -40,8 +40,6 @@ public class QuickContact_StepDefinition extends QuickContact_page {
 		new QuickContact_page();
 		
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-<<<<<<< Updated upstream
-=======
 		if (fetchUrl("quick-contact") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {
 				cardUrls.add("http://apsrs5642:8080/content/medexpressautomationdirectory/quick-contact.html");
@@ -56,7 +54,6 @@ public class QuickContact_StepDefinition extends QuickContact_page {
 			}
 		}
 
->>>>>>> Stashed changes
 		ExtentTestManager.startTest(QuickContact_StepDefinition.class.getName());
 		for (String url : cardUrls) {
 			currentDomain = currentDomain + "[" + url + "]";

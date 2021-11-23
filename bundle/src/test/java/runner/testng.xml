@@ -2,49 +2,15 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="OCAC Automation Suite" verbose="2">
 	<listeners>
-		<!-- <listener class-name="runner.AnnotationTransformer" /> -->
+		<listener class-name="runner.AnnotationTransformer" />
 		<listener class-name="runner.TestListener" />
 	</listeners>
 	<test name="Automation Project" parallel="classes"
-<<<<<<< Updated upstream
-	thread-count="100">	
-
+		thread-count="70">
 		<classes>
-
-
-       <class name="componentStepDef.MapBanner_StepDefinition" />
-
-		<class name="componentStepDef.AskForAReferral_StepDefinition" />
-		<class name="componentStepDef.RequestAnAppointmentProhealth_StepDefinition" />
-		<class name="componentStepDef.NearbyLocationMedex_StepDefinition" />
-		<class name="componentStepDef.ArticleCrossLinkMedex_StepDefinition" />
-		<class name="componentStepDef.CentersContentMedex_StepDefinition" />
-		<class name="componentStepDef.NewsroomMedex_StepDefinition" />
-		<class name="componentStepDef.PromoMessageHubMedex_StepDefinition" />
-		<class name="componentStepDef.EmployeeCarouselMedex_StepDefinition" />
-		<class name="componentStepDef.MainNavMedex_StepDefinition" />
-
-		<class name="componentStepDef.RealtimeMedex_StepDefinition" />
-   	<class name="componentStepDef.MedexSiteSearchAndResult_StepDefinition" />
-		<class name="componentStepDef.ServicesSectionMedex_StepDefinition" />
-		<class name="componentStepDef.MiddleImagePlusMedex_StepDefinition" />
-		<class name="componentStepDef.ContactUsTabMedex_StepDefinition" />
-		<class name="componentStepDef.AtGlanceMedex_StepDefinition" />
-		<class name="componentStepDef.LocalAlertHubMedex_StepDefinition" />
-
-		<class name="componentStepDef.Insurance_Section_StepDefinition" /> 
-    <class name="componentStepDef.ForumHeroBanner_StepDefinition" />
-      <class name="componentStepDef.CtaModuleMedex_StepDefinition" />
 
       <class name="componentStepDef.MedExpressCenters_StepDefinition" />
 	  	<class name="componentStepDef.ErServicesMedex_StepDefinition" /> 
-=======
-		thread-count="70">
-		<classes>
-<class name="componentStepDef.IconVerticalLabel_StepDefinition" />
-      <!-- <class name="componentStepDef.MedExpressCenters_StepDefinition" /> -->
-	  <!-- 	<class name="componentStepDef.ErServicesMedex_StepDefinition" /> 
->>>>>>> Stashed changes
       <class name="componentStepDef.IntroTextHorizontal_StepDefinition" />			
       <class name="componentStepDef.Campaign_StepDefinition" /> 
 		  <class name = "componentStepDef.CentersCards_StepDefinition"/>
@@ -130,21 +96,10 @@
 			<class name="componentStepDef.DynamicAlert_StepDefinition" />
 			<class name="componentStepDef.PullQuote_StepDefinition" />
 			<class name="componentStepDef.Card300Image_StepDefinition" />
-<<<<<<< Updated upstream
-			<class name="componentStepDef.LocalMessage_StepDefinition" />  
-
-			<!--
-			<class name="componentStepDef.Aarp_StepDefinition" />
-			<class name = "componentStepDef.CareerSearch_StepDefinition"/> 
-			<class name="componentStepDef.MCL_StepDefinition" /> <class name 
-				= "componentStepDef.PluV2_StepDefinition"/> -->
-
-=======
-			<class name="componentStepDef.LocalMessage_StepDefinition" /> -->
+			<class name="componentStepDef.LocalMessage_StepDefinition" />
 
 			<!-- <class name="componentStepDef.MCL_StepDefinition" /> <class name 
 				= "componentStepDef.PluV2_StepDefinition"/> -->
->>>>>>> Stashed changes
 		</classes>
 	</test>
 </suite>

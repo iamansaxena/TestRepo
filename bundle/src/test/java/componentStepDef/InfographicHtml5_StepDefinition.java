@@ -25,10 +25,6 @@ public class InfographicHtml5_StepDefinition extends InfographicHtml5_page{
 
 		fetchSession(InfographicHtml5_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(InfographicHtml5_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new InfographicHtml5_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("infographic-html5") == null) {

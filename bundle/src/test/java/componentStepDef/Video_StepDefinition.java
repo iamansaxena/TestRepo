@@ -40,8 +40,6 @@ public class Video_StepDefinition extends Video_page {
 		new Video_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-<<<<<<< Updated upstream
-=======
 		if (fetchUrl("video-comp") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {
 				urls.add("http://apsrs5642:8080/content/AutomationDirectory/video-component.html");
@@ -55,7 +53,6 @@ public class Video_StepDefinition extends Video_page {
 			}
 		}
 
->>>>>>> Stashed changes
 		ExtentTestManager.startTest(Video_StepDefinition.class.getName());
 		for (String url : urls) {
 			currentDomain = currentDomain + "[" + url + "]";

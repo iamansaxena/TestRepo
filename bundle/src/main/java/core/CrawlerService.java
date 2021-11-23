@@ -139,17 +139,17 @@ public class CrawlerService extends Base implements Runnable {
 		if (domPool.get() != null) {
 			domPool.get().select("a[href]").forEach(link -> {
 				if (!link.absUrl("href").toLowerCase().contains("mailto") && !link.absUrl("href").isEmpty()
-						&& !link.absUrl("href").trim().toLowerCase().contains("tel:")
-						&& !link.absUrl("href").trim().toLowerCase().endsWith(".pdf")
-						&& !link.absUrl("href").trim().toLowerCase().endsWith(".png")
-						&& !link.absUrl("href").trim().toLowerCase().endsWith(".mp3")
-						&& !link.absUrl("href").trim().toLowerCase().endsWith(".mp4")
-						&& !link.absUrl("href").trim().toLowerCase().endsWith(".crdownload")
-						&& !link.absUrl("href").trim().toLowerCase().endsWith(".jpg")) {
+						&& !link.absUrl("href").toLowerCase().contains("tel:")
+						&& !link.absUrl("href").toLowerCase().endsWith(".pdf")
+						&& !link.absUrl("href").toLowerCase().endsWith(".png")
+						&& !link.absUrl("href").toLowerCase().endsWith(".mp3")
+						&& !link.absUrl("href").toLowerCase().endsWith(".mp4")
+						&& !link.absUrl("href").toLowerCase().endsWith(".crdownload")
+						&& !link.absUrl("href").toLowerCase().endsWith(".jpg")) {
 
-					if (domainPool.get().equals(getDomainName(link.absUrl("href").split("#")[0].trim()))) {
-						if (!hyperlinkPool.get().contains(link.absUrl("href").trim())) {
-							hyperlinkPool.get().add(link.absUrl("href").trim());
+					if (domainPool.get().equals(getDomainName(link.absUrl("href").split("#")[0]))) {
+						if (!hyperlinkPool.get().contains(link.absUrl("href"))) {
+							hyperlinkPool.get().add(link.absUrl("href"));
 						}
 					}
 
@@ -174,7 +174,7 @@ public class CrawlerService extends Base implements Runnable {
 
 		while (CONNECTION_STATUS.get() == false) {
 			try {
-				domPool.set(Jsoup.connect(pageUnderScanPool.get().trim()).followRedirects(true).timeout(CONNECTION_TIMEOUT)
+				domPool.set(Jsoup.connect(pageUnderScanPool.get()).followRedirects(true).timeout(CONNECTION_TIMEOUT)
 						.ignoreContentType(true).maxBodySize(48000000).get());
 				CONNECTION_STATUS.set(true);
 

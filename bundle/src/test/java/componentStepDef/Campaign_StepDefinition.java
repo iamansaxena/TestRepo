@@ -32,10 +32,6 @@ public class Campaign_StepDefinition extends Campaign_page{
 	public void setup() {
 		fetchSession(Campaign_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Campaign_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new Campaign_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("campaign") == null) {

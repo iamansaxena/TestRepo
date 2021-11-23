@@ -32,10 +32,6 @@ public class IconPickerNew_StepDefinition extends IconPickerNew_page  {
 	public void setup() {
 		fetchSession(IconPickerNew_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(IconPickerNew_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new IconPickerNew_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("icon-picker-v2") == null) {

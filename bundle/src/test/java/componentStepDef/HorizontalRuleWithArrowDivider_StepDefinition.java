@@ -25,10 +25,6 @@ public class HorizontalRuleWithArrowDivider_StepDefinition extends HorizontalRul
 
 		fetchSession(HorizontalRuleWithArrowDivider_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(HorizontalRuleWithArrowDivider_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new HorizontalRuleArrowDivider_page();
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
 		if (fetchUrl("HorizontalRuleWithArrowDivider") == null) {

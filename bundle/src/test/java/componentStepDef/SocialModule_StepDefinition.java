@@ -31,8 +31,6 @@ public class SocialModule_StepDefinition extends SocialModule_page {
 		mydriver = LATEST_DRIVER_POOL.get(SocialModule_StepDefinition.class.getName());
 		new SocialModule_page();
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-<<<<<<< Updated upstream
-=======
 		if (fetchUrl("social-module") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {
 				urls.add("http://apsrs5642:8080/content/medexpressautomationdirectory/social-module.html");
@@ -48,7 +46,6 @@ public class SocialModule_StepDefinition extends SocialModule_page {
 			}
 		}
 
->>>>>>> Stashed changes
 		ExtentTestManager.startTest(SocialModule_StepDefinition.class.getName());
 		for (String url : urls) {
 			currentDomain = currentDomain + "[" + url + "]";

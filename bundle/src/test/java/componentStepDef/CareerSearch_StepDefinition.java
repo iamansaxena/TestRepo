@@ -37,10 +37,6 @@ public class CareerSearch_StepDefinition extends CareerSearch_page{
 	public void setup() {
 		fetchSession(CareerSearch_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(CareerSearch_StepDefinition.class.getName());
-<<<<<<< Updated upstream
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-=======
->>>>>>> Stashed changes
 		new CareerSearch_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("career-search") == null) {

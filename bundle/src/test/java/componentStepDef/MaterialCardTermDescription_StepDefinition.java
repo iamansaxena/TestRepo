@@ -36,8 +36,6 @@ public class MaterialCardTermDescription_StepDefinition extends MaterialCardTerm
 		new MaterialCardTermDescription_Page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
-<<<<<<< Updated upstream
-=======
 		if (fetchUrl("mcard-termdesc") == null) {
 			if (Environment.equalsIgnoreCase("stage")) {
 				mcardUrls.add("https://stg-sma.optum.com/en/about-us/who-we-are.html");
@@ -51,7 +49,6 @@ public class MaterialCardTermDescription_StepDefinition extends MaterialCardTerm
 			}
 		}
 
->>>>>>> Stashed changes
 		ExtentTestManager.startTest(MaterialCardTermDescription_StepDefinition.class.getName());
 		for (String url : mcardUrls) {
 			currentDomain = currentDomain + "[" + url + "]";

@@ -93,10 +93,6 @@ public static void setExecutionTime() throws ParseException {
 		try {
 			FileUtils.copyFile(source, new File(destination));
 		} catch (IOException e) {
-<<<<<<< Updated upstream
-			logger.info("Unable to find screenshot file");
-			e.printStackTrace();
-=======
 		logger.info("Unable to find screenshot file");
 			e.printStackTrace();
 		}
@@ -104,7 +100,6 @@ public static void setExecutionTime() throws ParseException {
 		if(upload==true) {
 		return serverDir;
 //		return destination;
->>>>>>> Stashed changes
 		}
 		else {
 			return destination;
