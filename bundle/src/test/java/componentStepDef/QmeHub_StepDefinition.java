@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.QmeHub_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -23,6 +22,7 @@ public class QmeHub_StepDefinition extends QmeHub_page {
 
 	private String author = "Aman Saxena";
 	private static String currentDomain = "=>";
+	private static ArrayList<String> cardUrls= new ArrayList<>();
 	private static Logger logger;
 	// private static HashMap<String, ArrayList<String>> results;
 
@@ -31,8 +31,28 @@ public class QmeHub_StepDefinition extends QmeHub_page {
 		fetchSession(QmeHub_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(QmeHub_StepDefinition.class.getName());
 		new QmeHub_page();
+		
+		
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("qme-hub-search") == null) {
+
+			if (Environment.equalsIgnoreCase("stage")) {
+				cardUrls.add("https://stg-bank.optum.com/resources/medical-expenses.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				cardUrls.add("http://apvrt31468:4503/content/AutomationDirectory/medical-expenses.html");
+			}
+		
+		} else {
+			String[] scannedUrls = fetchUrl("qme-hub-search").split(",");
+			for (String link : scannedUrls) {
+				cardUrls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(QmeHub_StepDefinition.class.getName());
-		setTagForTestClass("QmeHub", author, QmeHub_StepDefinition.class.getName());
+		for (String url : cardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("QmeHub", author, currentDomain, QmeHub_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(QmeHub_StepDefinition.class);
 		logger.info("Urls for '" + QmeHub_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(QmeHub_StepDefinition.class.getName(), currentDomain);
@@ -54,12 +74,12 @@ public class QmeHub_StepDefinition extends QmeHub_page {
 //		mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"qme-hub"})
-	public void elementVisibilityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 1, enabled = true)
+	public void elementVisibilityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 
 			softAssert.assertTrue(verifyElementExists(logger, searchInput, "SearchModule"));
 			scrollToElement(mydriver, accountTypeSectionLabel, logger);
@@ -69,17 +89,17 @@ public class QmeHub_StepDefinition extends QmeHub_page {
 			getResults(logger);
 			logger.info("Result Set ==>\n" + results);
 			softAssert.assertAll();
-
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"qme-hub"})
-	public void expenseTypeFilterFunctionality(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 2, enabled = true)
+	public void expenseTypeFilterFunctionality() {
+		skipNonExistingComponent(cardUrls);
 		if(Environment.trim().equalsIgnoreCase("test")) {
 			throw new SkipException("Can't execute this method on test environment");
 		}
-
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			
 			if(expenseTypeSectionLabel.getAttribute("aria-expanded").equals("false")) {
 				expenseTypeSectionLabel.click();
@@ -125,17 +145,17 @@ public class QmeHub_StepDefinition extends QmeHub_page {
 				hardAssert.assertEquals(capitalizeHyphenString(icon.getAttribute("innerHTML")), capitalizeHyphenString(
 						capitalizeWhiteString(filterLabel).substring(0, filterLabel.length() - 1)));
 			}
-
+		}
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"qme-hub"})
-	public void accountTypeFilterFunctionality(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 3, enabled = true)
+	public void accountTypeFilterFunctionality() {
+		skipNonExistingComponent(cardUrls);
 		if(Environment.trim().equalsIgnoreCase("test")) {
 			throw new SkipException("Can't execute this method on test environment");
 		}
-
-			 
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); 
 			mydriver.get(cardUrl);
 
 			hardAssert.assertNotEquals(results.get("HSA or MSA"), results.get("Health care FSA"));
@@ -145,30 +165,30 @@ public class QmeHub_StepDefinition extends QmeHub_page {
 			hardAssert.assertNotEquals(results.get("Limited purpose FSA"), results.get("Health care FSA"));
 			hardAssert.assertNotEquals(results.get("Limited purpose FSA"), results.get("Dependent care FSA"));
 
-
+		}
 	}
 
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"qme-hub"})
-	public void resultTags(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 4, enabled = true)
+	public void resultTags() {
+		skipNonExistingComponent(cardUrls);
 		if(Environment.trim().equalsIgnoreCase("test")) {
 			throw new SkipException("Can't execute this method on test environment");
 		}
-
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			scrollToElement(mydriver, accountTypeFilter2, logger);
 			accountTypeFilter2.click();
 			scrollToElement(mydriver, accountTypeTag, logger);
 			hardAssert.assertEquals(accountTypeFilter2.getText(), accountTypeTag.getText());
-
+		}
 	}
 
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"qme-hub"})
-	public void collapseFilterSection(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 5, enabled = true)
+	public void collapseFilterSection() {
+		skipNonExistingComponent(cardUrls);
 
-
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			scrollToElement(mydriver, accountTypeSectionLabel, logger);
 			
 			pleaseWait(1, logger);
@@ -184,17 +204,17 @@ public class QmeHub_StepDefinition extends QmeHub_page {
 			pleaseWait(1, logger);
 			hardAssert.assertEquals(expenseTypeSectionLabel.getAttribute("aria-expanded"), "false");
 
-
+		}
 	}
 
-	@Test(priority = 6, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"qme-hub"})
-	public void searchFunctionality(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 6, enabled = true)
+	public void searchFunctionality() {
+		skipNonExistingComponent(cardUrls);
 		if(Environment.trim().equalsIgnoreCase("test")) {
 			throw new SkipException("Can't execute this method on test environment");
 		}
-
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			getVisibility(mydriver, searchInput, 30);
 			scrollToElement(mydriver, searchInput, logger);
 			String input = mydriver.findElements(By.xpath(resultElement)).get(0).getText();
@@ -203,17 +223,17 @@ public class QmeHub_StepDefinition extends QmeHub_page {
 			searchButton.click();
 
 			hardAssert.assertEquals(mydriver.findElements(By.xpath(resultElement)).get(0).getText(), input);
-
+		}
 	}
 
-	@Test(priority = 6, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"qme-hub"})
-	public void tooltipOnHover(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 6, enabled = true)
+	public void tooltipOnHover() {
+		skipNonExistingComponent(cardUrls);
 		if(Environment.trim().equalsIgnoreCase("test")) {
 			throw new SkipException("Can't execute this method on test environment");
 		}
-
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			getVisibility(mydriver, mydriver.findElements(By.xpath(resultElement)).get(0), 30);
 			scrollToElement(mydriver, mydriver.findElements(By.xpath(resultElement)).get(0), logger);
 			moveMouseOnToElement(mydriver , mydriver.findElements(By.xpath(resultElement)).get(0));
@@ -221,6 +241,6 @@ public class QmeHub_StepDefinition extends QmeHub_page {
 			hardAssert.assertTrue(
 					verifyElementExists(logger, mydriver.findElement(By.xpath("//*[@tooltip]")), "ToolTip"));
 			logger.info("ToolTip text => " + mydriver.findElement(By.xpath("//*[@tooltip]")).getAttribute("tooltip"));
-
+		}
 	}
 }

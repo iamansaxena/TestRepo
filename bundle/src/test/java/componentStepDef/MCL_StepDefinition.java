@@ -23,13 +23,13 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.MCL_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
 public class MCL_StepDefinition extends MCL_page {
 	private String author = "Aman Saxena";
 	private static String currentDomain = "=>";
+	private static ArrayList<String> cardUrls = new ArrayList<>();
 	private static Logger logger;
 
 	@BeforeClass
@@ -38,8 +38,24 @@ public class MCL_StepDefinition extends MCL_page {
 		fetchSession(MCL_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MCL_StepDefinition.class.getName());
 		new MCL_page();
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("mcl-library") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+
+			} else if (Environment.equalsIgnoreCase("test")) {
+				cardUrls.add("https://library.optum.com/media-assets-library.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("mcl-library").split(",");
+			for (String link : scannedUrls) {
+				cardUrls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(MCL_StepDefinition.class.getName());
-		setTagForTestClass("MCL", author, MCL_StepDefinition.class.getName());
+		for (String url : cardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("MCL", author, currentDomain, MCL_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(MCL_StepDefinition.class);
 		logger.info("Urls for '" + MCL_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(MCL_StepDefinition.class.getName(), currentDomain);
@@ -65,12 +81,12 @@ public class MCL_StepDefinition extends MCL_page {
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void elementVisiblityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 1, enabled = true)
+	public void elementVisiblityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-
-			visitMainSearchPage(cardUrl);
+		for (String cardUrl : cardUrls) {
+			visitMainSearchPage(cardUrls.get(0));
 			// getVisibility(mydriver, mydriver.findElement(By.xpath(resultCardNames)), 10);
 			scrollToElement(mydriver, sortDropDown, logger);
 			softAssert.assertTrue(verifyElementExists(logger, sortDropDown, "Sort drop down"));
@@ -83,12 +99,12 @@ public class MCL_StepDefinition extends MCL_page {
 			scrollToElement(mydriver, clearFilterButton, logger);
 			softAssert.assertTrue(verifyElementExists(logger, clearFilterButton, "Clear Filter Button"));
 			softAssert.assertAll();
-
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void sortFunctionalityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 2, enabled = true)
+	public void sortFunctionalityCheck() {
+		skipNonExistingComponent(cardUrls);
 
 		// for (String cardUrl : cardUrls) {
 		// customLogsPool.get().add(url); mydriver.get(cardUrl);
@@ -143,9 +159,9 @@ public class MCL_StepDefinition extends MCL_page {
 		// }
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void filterCategorySectionFunctionalityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 3, enabled = true)
+	public void filterCategorySectionFunctionalityCheck() {
+		skipNonExistingComponent(cardUrls);
 
 		// for (String cardUrl : cardUrls) {
 		scrollToElement(mydriver, mydriver.findElement(By.xpath(filterCategory)), logger);
@@ -176,9 +192,9 @@ public class MCL_StepDefinition extends MCL_page {
 
 	}
 
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void clearFilterFunctionalityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 4, enabled = true)
+	public void clearFilterFunctionalityCheck() {
+		skipNonExistingComponent(cardUrls);
 		scrollToElement(mydriver, clearFilterButton, logger);
 		clearFilterButton.click();
 		try {
@@ -190,9 +206,9 @@ public class MCL_StepDefinition extends MCL_page {
 
 	}
 
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void filterTagsFunctionalityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 5, enabled = true)
+	public void filterTagsFunctionalityCheck() {
+		skipNonExistingComponent(cardUrls);
 		scrollToElement(mydriver, mydriver.findElement(By.xpath(filterCategory)), logger);
 		List<WebElement> categories = mydriver.findElements(By.xpath(filterCategory));
 		boolean flag = false;
@@ -227,9 +243,9 @@ public class MCL_StepDefinition extends MCL_page {
 
 	}
 
-	@Test(priority = 6, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void hoverEffectFnctionalityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 6, enabled = true)
+	public void hoverEffectFnctionalityCheck() {
+		skipNonExistingComponent(cardUrls);
 		scrollToElement(mydriver, mydriver.findElements(By.xpath(resultImages)).get(0), logger);
 
 		moveMouseOnToElement(mydriver, mydriver.findElements(By.xpath(resultImages)).get(0));
@@ -239,17 +255,17 @@ public class MCL_StepDefinition extends MCL_page {
 
 	}
 
-	@Test(priority = 7, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void assetDownloadFunctionalityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 7, enabled = true)
+	public void assetDownloadFunctionalityCheck() {
+		skipNonExistingComponent(cardUrls);
 		scrollToElement(mydriver, mydriver.findElements(By.xpath(resultDownloadButton)).get(0), logger);
 		mydriver.findElements(By.xpath(resultDownloadButton)).get(0).click();
 		mydriver.findElements(By.xpath(resultDownloadButton)).get(0).getAttribute("lang").contains("en");
 	}
 
-	@Test(priority = 8, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void paginationCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 8, enabled = true)
+	public void paginationCheck() {
+		skipNonExistingComponent(cardUrls);
 		scrollToElement(mydriver, mydriver.findElements(By.xpath(pages)).get(0), logger);
 
 		mydriver.findElements(By.xpath(pages)).get(0).click();
@@ -271,9 +287,9 @@ public class MCL_StepDefinition extends MCL_page {
 				.assertTrue(mydriver.findElements(By.xpath(pages)).get(1).getAttribute("class").contains("is-active"));
 	}
 
-	@Test(priority = 9, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void assetCardDetailsCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 9, enabled = true)
+	public void assetCardDetailsCheck() {
+		skipNonExistingComponent(cardUrls);
 
 		List<WebElement> assets = mydriver.findElements(By.xpath(resultCards));
 		List<WebElement> lastModified = mydriver.findElements(By.xpath(resultCards));
@@ -292,11 +308,11 @@ public class MCL_StepDefinition extends MCL_page {
 		}
 	}
 
-	@Test(priority = 10, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void filterTagsInUrl(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
-		if (mydriver.getCurrentUrl().contains(cardUrl)) {
-			visitMainSearchPage(cardUrl);
+	@Test(priority = 10, enabled = true)
+	public void filterTagsInUrl() {
+		skipNonExistingComponent(cardUrls);
+		if (mydriver.getCurrentUrl().contains(cardUrls.get(0))) {
+			visitMainSearchPage(cardUrls.get(0));
 		}
 
 		scrollToElement(mydriver, mydriver.findElement(By.xpath(filterCategory)), logger);
@@ -319,9 +335,9 @@ public class MCL_StepDefinition extends MCL_page {
 		}
 	}
 
-	@Test(priority = 11, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void copyLinkFunctionalityField(String cardUrl) throws UnsupportedFlavorException, IOException {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 11, enabled = true)
+	public void copyLinkFunctionalityField() throws UnsupportedFlavorException, IOException {
+		skipNonExistingComponent(cardUrls);
 		pleaseWait(1, logger);
 		scrollToElement(mydriver, mydriver.findElement(By.xpath(filterCategory)), logger);
 		List<WebElement> categories = mydriver.findElements(By.xpath(filterCategory));
@@ -348,9 +364,9 @@ public class MCL_StepDefinition extends MCL_page {
 		}
 	}
 
-	@Test(priority = 12, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void filterTagsInCopyInptField(String cardUrl) throws UnsupportedFlavorException, IOException {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 12, enabled = true)
+	public void filterTagsInCopyInptField() throws UnsupportedFlavorException, IOException {
+		skipNonExistingComponent(cardUrls);
 
 		pleaseWait(1, logger);
 		scrollToElement(mydriver, mydriver.findElement(By.xpath(filterCategory)), logger);
@@ -381,9 +397,9 @@ public class MCL_StepDefinition extends MCL_page {
 
 	}
 
-	@Test(priority = 13, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void assetResultElementRedirectionCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 13, enabled = true)
+	public void assetResultElementRedirectionCheck() {
+		skipNonExistingComponent(cardUrls);
 
 		List<WebElement> assets = mydriver.findElements(By.xpath(resultImages));
 		int i = getRandomInteger(assets.size(), 0);
@@ -395,10 +411,10 @@ public class MCL_StepDefinition extends MCL_page {
 
 	}
 
-	@Test(priority = 14, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void assetDetailsPageDetailFieldsCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
-		visitMainSearchPage(cardUrl);
+	@Test(priority = 14, enabled = true)
+	public void assetDetailsPageDetailFieldsCheck() {
+		skipNonExistingComponent(cardUrls);
+		visitMainSearchPage(cardUrls.get(0));
 		List<WebElement> assets = mydriver.findElements(By.xpath(resultImages));
 		int i = getRandomInteger(assets.size(), 0);
 		scrollToElement(mydriver, assets.get(i).findElement(By.xpath("(parent::a)[1]")), logger);
@@ -430,9 +446,9 @@ public class MCL_StepDefinition extends MCL_page {
 		softAssert.assertAll();
 	}
 
-	@Test(priority = 15, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void technicalAssetDetatialsCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 15, enabled = true)
+	public void technicalAssetDetatialsCheck() {
+		skipNonExistingComponent(cardUrls);
 		scrollToElementWithoutWait(mydriver, technicalDetailSection);
 		List<WebElement> techKeys = mydriver.findElements(By.xpath(assetTechInfoKeys));
 		for (WebElement techKey : techKeys) {
@@ -442,20 +458,20 @@ public class MCL_StepDefinition extends MCL_page {
 		hardAssert.assertEquals(techKeys.size(), 5);
 	}
 
-	@Test(priority = 16, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void assetDownloadFromDetailsPage(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 16, enabled = true)
+	public void assetDownloadFromDetailsPage() {
+		skipNonExistingComponent(cardUrls);
 		scrollToElement(mydriver, assetPageDownloadButton, logger);
 		assetPageDownloadButton.click();
 		assetPageDownloadButton.getAttribute("lang").contains("en");
 
 	}
 
-	@Test(priority = 17, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void markFavFromDetailsPage(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 17, enabled = true)
+	public void markFavFromDetailsPage() {
+		skipNonExistingComponent(cardUrls);
 		unFavAllAsset();
-		visitMainSearchPage(cardUrl);
+		visitMainSearchPage(cardUrls.get(0));
 
 		List<WebElement> assetsResults = mydriver.findElements(By.xpath(resultImages));
 		int i = getRandomInteger(assetsResults.size(), 0);
@@ -486,11 +502,11 @@ public class MCL_StepDefinition extends MCL_page {
 		}
 	}
 
-	@Test(priority = 18, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void markFavFromResultPage(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 18, enabled = true)
+	public void markFavFromResultPage() {
+		skipNonExistingComponent(cardUrls);
 		unFavAllAsset();
-		visitMainSearchPage(cardUrl);
+		visitMainSearchPage(cardUrls.get(0));
 		List<WebElement> favButtonResults = mydriver.findElements(By.xpath(resultMarkFavoriteButton));
 		int i = getRandomInteger(favButtonResults.size(), 0);
 		scrollToElement(mydriver, favButtonResults.get(i), logger);// .findElement(By.xpath("(parent::a)[1]")));
@@ -520,13 +536,13 @@ public class MCL_StepDefinition extends MCL_page {
 		}
 	}
 
-	@Test(priority = 19, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mcl-library"})
-	public void filterCondition(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 19, enabled = true)
+	public void filterCondition() {
+		skipNonExistingComponent(cardUrls);
 		try{clearFilters();}catch (Exception e) {
 			
 		}
-		visitMainSearchPage(cardUrl);
+		visitMainSearchPage(cardUrls.get(0));
 		scrollToElement(mydriver, mydriver.findElement(By.xpath(filterCategory)), logger);
 		List<WebElement> categories = mydriver.findElements(By.xpath(filterCategory));
 		int i = 2;

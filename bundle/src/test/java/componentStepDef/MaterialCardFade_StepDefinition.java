@@ -14,13 +14,13 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.MaterialCardFade_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
 public class MaterialCardFade_StepDefinition extends MaterialCardFade_page {
 	private String author = "Aman Saxena";
 	private static Logger logger;
+	private static ArrayList<String> matUrls= new ArrayList<>();
 	private static String currentDomain = "=>";
 
 	@BeforeClass
@@ -28,8 +28,25 @@ public class MaterialCardFade_StepDefinition extends MaterialCardFade_page {
 		fetchSession(MaterialCardFade_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MaterialCardFade_StepDefinition.class.getName());
 		new MaterialCardFade_page();
+		
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("mcard-fade") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				matUrls.add("http://apsrs5642:8080/content/AutomationDirectory/Material_Card_Fade.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				matUrls.add("http://apvrt31468:4503/content/AutomationDirectory/Material_Card_Fade.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("mcard-fade").split(",");
+			for (String link : scannedUrls) {
+				matUrls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(MaterialCardFade_StepDefinition.class.getName());
-		setTagForTestClass("MaterialCardFade", author, MaterialCardFade_StepDefinition.class.getName());
+		for (String url : matUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("MaterialCardFade", author, currentDomain, MaterialCardFade_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(MaterialCardFade_StepDefinition.class);
 		logger.info("Urls for '" + MaterialCardFade_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(MaterialCardFade_StepDefinition.class.getName(), currentDomain);
@@ -51,11 +68,11 @@ public class MaterialCardFade_StepDefinition extends MaterialCardFade_page {
 //		mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-fade"})
-	public void elementVisibilityCheck(String matUrl) {
-		skipNonExistingComponent(matUrl);
-
-			 mydriver.get(matUrl);
+	@Test(priority = 1, enabled = true)
+	public void elementVisibilityCheck() {
+		skipNonExistingComponent(matUrls);
+		for (String matUrl : matUrls) {
+			urlUnderTest.get().add(matUrl); mydriver.get(matUrl);
 
 			currentDomain = currentDomain + "[" + matUrl + "]";
 			List<WebElement> cards = mydriver.findElements(By.xpath("//*[@class=\"mcard mcard__fade\"]"));
@@ -66,14 +83,14 @@ public class MaterialCardFade_StepDefinition extends MaterialCardFade_page {
 				hardAssert.assertFalse(mydriver.findElements(By.xpath(buttons)).get(i).getText().isEmpty());
 
 			}
-
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-fade"})
-	public void additionalFieldsCheck(String matUrl) {
-		skipNonExistingComponent(matUrl);
-
-			 mydriver.get(matUrl);
+	@Test(priority = 2, enabled = true)
+	public void additionalFieldsCheck() {
+		skipNonExistingComponent(matUrls);
+		for (String matUrl : matUrls) {
+			urlUnderTest.get().add(matUrl); mydriver.get(matUrl);
 			currentDomain = currentDomain + "[" + matUrl + "]";
 			List<WebElement> desc = mydriver.findElements(By.xpath(descriptions));
 			for (WebElement des : desc) {
@@ -81,14 +98,14 @@ public class MaterialCardFade_StepDefinition extends MaterialCardFade_page {
 //				String s = des.getText();
 				hardAssert.assertFalse(des.getText().isEmpty());
 			}
-
+		}
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-fade"})
-	public void hyperlinkRedirectionCheck(String matUrl) {
-		skipNonExistingComponent(matUrl);
-
-			 mydriver.get(matUrl);
+	@Test(priority = 3, enabled = true)
+	public void hyperlinkRedirectionCheck() {
+		skipNonExistingComponent(matUrls);
+		for (String matUrl : matUrls) {
+			urlUnderTest.get().add(matUrl); mydriver.get(matUrl);
 			currentDomain = currentDomain + "[" + matUrl + "]";
 //			List<WebElement> desc = mydriver.findElements(By.xpath(descriptions));
 			List<WebElement> cards = mydriver.findElements(By.xpath("(//*[@class=\"mcard mcard__fade\"])/a"));
@@ -121,6 +138,9 @@ public class MaterialCardFade_StepDefinition extends MaterialCardFade_page {
 
 				}
 			}
+
+		}
+
 	}
 
 }

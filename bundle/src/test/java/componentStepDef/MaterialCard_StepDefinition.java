@@ -1,9 +1,11 @@
-package componentStepDef;import static org.testng.Assert.fail;
+package componentStepDef;import java.util.concurrent.TimeUnit;
+
+import static org.testng.Assert.fail;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -15,13 +17,13 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.MaterialCard_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
 public class MaterialCard_StepDefinition extends MaterialCard_page {
 	private String author = "Aman Saxena";
 	private static String currentDomain = "=>";
+	private static ArrayList<String> matUrls= new ArrayList<>();
 	private static Logger logger;
 
 	@BeforeClass
@@ -30,8 +32,25 @@ public class MaterialCard_StepDefinition extends MaterialCard_page {
 		fetchSession(MaterialCard_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MaterialCard_StepDefinition.class.getName());
 		new MaterialCard_page();
+		
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("material-card-title") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				matUrls.add("http://apsrs5642:8080/content/AutomationDirectory/MaterialCard.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				matUrls.add("http://apvrt31468:4503/content/AutomationDirectory/MaterialCard.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("material-card-title").split(",");
+			for (String link : scannedUrls) {
+				matUrls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(MaterialCard_StepDefinition.class.getName());
-		setTagForTestClass("Material Card", author, MaterialCard_StepDefinition.class.getName());
+		for (String url : matUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("Material Card", author, currentDomain, MaterialCard_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(MaterialCard_StepDefinition.class);
 		logger.info("Urls for '" + MaterialCard_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(MaterialCard_StepDefinition.class.getName(), currentDomain);
@@ -55,10 +74,11 @@ public class MaterialCard_StepDefinition extends MaterialCard_page {
 //		mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card section"})
-	public void elementVisibilityCheck(String matUrl) {
-		skipNonExistingComponent(matUrl);
-			 mydriver.get(matUrl);
+	@Test(priority = 1, enabled = true)
+	public void elementVisibilityCheck() {
+		skipNonExistingComponent(matUrls);
+		for (String matUrl : matUrls) {
+			urlUnderTest.get().add(matUrl); mydriver.get(matUrl);
 			currentDomain = currentDomain + "[" + matUrl + "]";
 			List<WebElement> cards = mydriver
 					.findElements(By.xpath("//*[@class=\"material-card section mcard--handled cq-Editable-dom\"]"));
@@ -69,13 +89,15 @@ public class MaterialCard_StepDefinition extends MaterialCard_page {
 				hardAssert.assertFalse(mydriver.findElements(By.xpath(buttons)).get(i).getText().isEmpty());
 
 			}
+
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card section"})
-	public void additionalFieldsVisibilityCheck(String matUrl) {
-		skipNonExistingComponent(matUrl);
-		
-			 mydriver.get(matUrl);
+	@Test(priority = 2, enabled = true)
+	public void additionalFieldsVisibilityCheck() {
+		skipNonExistingComponent(matUrls);
+		for (String matUrl : matUrls) {
+			urlUnderTest.get().add(matUrl); mydriver.get(matUrl);
 			currentDomain = currentDomain + "[" + matUrl + "]";
 			List<WebElement> cards = mydriver
 					.findElements(By.xpath("//*[@class=\"material-card section mcard--handled cq-Editable-dom\"]"));
@@ -110,15 +132,15 @@ public class MaterialCard_StepDefinition extends MaterialCard_page {
 				}
 
 			}
-		
+		}
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card section"})
-	public void buttonRedirectionCheck(String matUrl) {
-		skipNonExistingComponent(matUrl);
-		
+	@Test(priority = 3, enabled = true)
+	public void buttonRedirectionCheck() {
+		skipNonExistingComponent(matUrls);
+		for (String matUrl : matUrls) {
 			int i = 0;
-			 mydriver.get(matUrl);
+			urlUnderTest.get().add(matUrl); mydriver.get(matUrl);
 			currentDomain = currentDomain + "[" + matUrl + "]";
 			List<WebElement> cards = mydriver.findElements(By.xpath("//*[contains(@class,\"material-card section mcard\") ]/a[@href]"));
 			i = getRandomInteger(cards.size(), 0);
@@ -132,7 +154,7 @@ public class MaterialCard_StepDefinition extends MaterialCard_page {
 			jsWaitForPageToLoad(10,mydriver, logger);
 			assertRedirection(mydriver, logger, getDomainName(matUrl), expLink,handle);
 			
-		
+		}
 	}
 
 }

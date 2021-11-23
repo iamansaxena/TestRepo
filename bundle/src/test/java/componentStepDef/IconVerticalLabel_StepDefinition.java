@@ -1,6 +1,7 @@
-package componentStepDef;
+package componentStepDef;import java.util.concurrent.TimeUnit;
 
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
@@ -12,23 +13,45 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.IconVerticalLabel_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
 public class IconVerticalLabel_StepDefinition extends IconVerticalLabel_page {
 	private String author = "Prateek Srivastava";
 	private static String currentDomain = "=>";
+	private static ArrayList<String> cardUrls = new ArrayList<>();
 	private static Logger logger;
 
 	@BeforeClass
 	public void setup() {
 		fetchSession(IconVerticalLabel_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(IconVerticalLabel_StepDefinition.class.getName());
+<<<<<<< Updated upstream
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+=======
+>>>>>>> Stashed changes
 		new IconVerticalLabel_page();
+
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("icon-vertical") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				cardUrls.add("https://stg-www.optum.com/content/AutomationDirectory/icon-vertical-rule-label-.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				cardUrls.add("http://apvrt31468:4503/content/AutomationDirectory/icon-vertical-rule-label-.html");
+			}
+
+		} else {
+			String[] scannedUrls = fetchUrl("icon-vertical").split(",");
+			for (String link : scannedUrls) {
+				cardUrls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(IconVerticalLabel_StepDefinition.class.getName());
-		setTagForTestClass("IconVerticalLabel", author, IconVerticalLabel_StepDefinition.class.getName());
+		for (String url : cardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("IconVerticalLabel", author, currentDomain,
+				IconVerticalLabel_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(IconVerticalLabel_StepDefinition.class);
 		logger.info("Urls for '" + IconVerticalLabel_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(IconVerticalLabel_StepDefinition.class.getName(), currentDomain);
@@ -49,22 +72,22 @@ public class IconVerticalLabel_StepDefinition extends IconVerticalLabel_page {
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
-			"icon-div-text" })
-	public void blankHeaderCheck(String url) {
-		skipNonExistingComponent(url);
+	@Test(priority = 1, enabled = true)
+	public void blankHeaderCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-		mydriver.get(url);
-		try {
-			scrollToElement(mydriver, headline, logger);
-		} catch (NoSuchElementException e) {
-			throw new SkipException("No headline field is available");
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
+			try {
+				scrollToElement(mydriver, headline, logger);
+			} catch (NoSuchElementException e) {
+				throw new SkipException("No headline field is available");
+			}
+			hardAssert.assertTrue(verifyElementExists(logger, headline,"headline"));
+			hardAssert.assertFalse(headline.getText().isEmpty());
+			logger.info("Icon vertical label : " + headline.getText());
+
 		}
-		hardAssert.assertTrue(verifyElementExists(logger, headline, "headline"));
-		hardAssert.assertFalse(headline.getText().isEmpty());
-		logger.info("Icon vertical label : " + headline.getText());
-
 	}
 
 }

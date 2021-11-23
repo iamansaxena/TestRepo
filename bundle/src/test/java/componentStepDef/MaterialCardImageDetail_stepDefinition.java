@@ -17,7 +17,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.MaterialCardImageDetail_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -25,6 +24,7 @@ public class MaterialCardImageDetail_stepDefinition extends MaterialCardImageDet
 	private String author = "Aman Saxena";
 	private static String currentDomain = "=>";
 	private static Logger logger;
+	private static ArrayList<String> cardUrls = new ArrayList<>();
 	JSONArray links = new JSONArray();// = {
 	// "http://apvrt31468:4503/content/AutomationDirectory/Material_Card_Image_Detail.html"
 	// };
@@ -36,8 +36,24 @@ public class MaterialCardImageDetail_stepDefinition extends MaterialCardImageDet
 		fetchSession(MaterialCardImageDetail_page.class);
 		mydriver = LATEST_DRIVER_POOL.get(MaterialCardImageDetail_page.class.getName());
 		new MaterialCardImageDetail_page();
-		setTagForTestClass("MaterialCardImageDetail", author, MaterialCardImageDetail_stepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("mcard-detail-image") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				cardUrls.add("http://apsrs5642:8080/content/AutomationDirectory/Material_Card_Image_Detail.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				cardUrls.add("http://apvrt31468:4503/content/AutomationDirectory/Material_Card_Image_Detail.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("mcard-detail-image").split(",");
+			for (String link : scannedUrls) {
+				cardUrls.add(link);
+			}
+		}
+		setTagForTestClass("MaterialCardImageDetail", author, currentDomain,
+				MaterialCardImageDetail_stepDefinition.class.getName());
 		ExtentTestManager.startTest(MaterialCardImageDetail_stepDefinition.class.getName());
+		for (String url : cardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
 		logger = LoggerLog4j.startTestCase(MaterialCardImageDetail_stepDefinition.class);
 		logger.info("Urls for '" + MaterialCardImageDetail_stepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(MaterialCardImageDetail_stepDefinition.class.getName(), currentDomain);
@@ -59,11 +75,11 @@ public class MaterialCardImageDetail_stepDefinition extends MaterialCardImageDet
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-image-detail-cta"})
-	public void elementVisibilityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
-
-			 mydriver.get(cardUrl);
+	@Test(priority = 1, enabled = true)
+	public void elementVisibilityCheck() {
+		skipNonExistingComponent(cardUrls);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 
 			List<WebElement> cards = mydriver.findElements(By.xpath(MaterialCardImageDetail_page.cards));
 
@@ -73,15 +89,15 @@ public class MaterialCardImageDetail_stepDefinition extends MaterialCardImageDet
 							"//*[contains(@class,\"material-card-image-detail\")]//*[@class=\"mcard__imgcta__title\"]"))
 					.size(), cards.size());
 
-
+		}
 
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-image-detail-cta"})
-	public void cardLinkRedirectionCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
-
-			 mydriver.get(cardUrl);
+	@Test(priority = 2, enabled = true)
+	public void cardLinkRedirectionCheck() {
+		skipNonExistingComponent(cardUrls);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			Set<String> tabs = mydriver.getWindowHandles();
 			List<WebElement> cards = mydriver.findElements(By.xpath("//a[contains(@class,\"cta-link\")]"));
 			int i = getRandomInteger(cards.size(), 0);
@@ -94,14 +110,14 @@ public class MaterialCardImageDetail_stepDefinition extends MaterialCardImageDet
 			assertRedirection(mydriver, logger, getDomainName(cardUrl), expUrl, handle);
 		
 
-
+		}
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-image-detail-cta"})
-	public void blankDescriptionCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
-
-			 mydriver.get(cardUrl);
+	@Test(priority = 3, enabled = true)
+	public void blankDescriptionCheck() {
+		skipNonExistingComponent(cardUrls);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 
 			List<WebElement> descriptions = mydriver.findElements(By.xpath(MaterialCardImageDetail_page.descriptions));
 			for (WebElement description : descriptions) {
@@ -113,10 +129,10 @@ public class MaterialCardImageDetail_stepDefinition extends MaterialCardImageDet
 				}
 
 			}
-
+		}
 	}
 //DISABLING THIS AS CONTENT CHECK IS NOT IN SCOPE
-/*	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-image-detail-cta"})
+/*	@Test(priority = 4, enabled = true)
 	public void cardBrokenImageCheck() {
 		skipNonExistingComponent(cardUrls);
 		for (String cardUrl : cardUrls) {
@@ -139,11 +155,11 @@ public class MaterialCardImageDetail_stepDefinition extends MaterialCardImageDet
 		}
 	}*/
 
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-image-detail-cta"})
-	public void blankCardTitleCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
-
-			 mydriver.get(cardUrl);
+	@Test(priority = 5, enabled = true)
+	public void blankCardTitleCheck() {
+		skipNonExistingComponent(cardUrls);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			// *[@class="mcard__image-container"]/following-sibling::div[1]
 			List<WebElement> cards = mydriver.findElements(By.xpath(MaterialCardImageDetail_page.cards));
 			int i = 1;
@@ -168,11 +184,11 @@ public class MaterialCardImageDetail_stepDefinition extends MaterialCardImageDet
 				}
 
 			}
-
+		}
 	}
 
 //	Disabling this as UX is not in the scope for now
-	/*@Test(priority = 6, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-image-detail-cta"})
+	/*@Test(priority = 6, enabled = true)
 	public void cardContentAlignmentCheck() {
 		skipNonExistingComponent(cardUrls);
 		if (Environment.equalsIgnoreCase("test")) {

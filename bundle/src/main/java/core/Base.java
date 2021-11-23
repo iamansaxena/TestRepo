@@ -1,17 +1,26 @@
 package core;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
-import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,18 +28,23 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.jsoup.Jsoup;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.ie.ElementScrollBehavior;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -53,6 +67,7 @@ import utils.Logo;
  *
  */
 public class Base extends LoggerLog4j {
+<<<<<<< Updated upstream
 	protected static HashMap<String, String> xpathList = new HashMap<>();
 	protected static ConcurrentHashMap<String, WebDriver> LATEST_DRIVER_POOL = new ConcurrentHashMap<>();
 	static String parentTunnel = "optumtest"; // "sso-optum-aman.mohan";
@@ -68,6 +83,23 @@ public class Base extends LoggerLog4j {
 	protected static ConcurrentHashMap<String, String> tags;
 	protected static ConcurrentHashMap<String, WebDriver> driverMap;
 	protected static ConcurrentHashMap<String, String> testURLS;
+=======
+	public static HashMap<String, String> xpathList = new HashMap<>();
+	public static ConcurrentHashMap<String, WebDriver> LATEST_DRIVER_POOL = new ConcurrentHashMap<>();
+	static String parentTunnel = "optumtest";
+	static String tunnelIdentifier = "Optum-Prd";
+	public static String dateName = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+	public static String serverIP = "http://127.7.7.7:5353/";
+	protected static int MAX_DURATION = 2000;
+	protected static int SAUCE_SESSION_TIMEOUT = 6000;
+	public static DesiredCapabilities capability;
+	public static String browserName;
+	private static final Properties componentProperties = new Properties();
+	public static ConcurrentHashMap<String, String> authors;
+	public static ConcurrentHashMap<String, String> tags;
+	public static ConcurrentHashMap<String, WebDriver> driverMap;
+	public static ConcurrentHashMap<String, String> testURLS;
+>>>>>>> Stashed changes
 	protected static Assertion hardAssert;
 	protected static String localBrowser;
 	protected static Boolean isRegression;
@@ -78,13 +110,12 @@ public class Base extends LoggerLog4j {
 	protected static String Environment;
 	protected static SoftAssert softAssert;
 	protected static Actions action;
-	protected static String tag;
-	protected static String author;
+	public static String tag;
+	public static String author;
 	protected static String browser;
-	protected static String IeDriverPath;
+	public static String IeDriverPath;
 	protected static String chrome_path;
 	protected static String firefox_path;
-	protected static String nasPath;
 	protected static String remoteBrowser;
 	protected static String remoteVersion;
 	protected static String edgeDriverPath;
@@ -92,17 +123,17 @@ public class Base extends LoggerLog4j {
 	protected static String sauceUserName;
 	protected static String remoteExecution;
 	protected static String platform;
-	protected static String startTime;
+	public static String startTime;
 	protected static boolean upload;
-	protected static ConcurrentHashMap<String, String> componentData = new ConcurrentHashMap<String, String>();
-	protected static String qaHandleAttribute = "data-qahandle";
-	protected static String qaHandleLocator = "//*[@data-qahandle]";
-	protected static ThreadLocal<ArrayList<String>> urlUnderTest = new ThreadLocal<>();
-	protected static ThreadLocal<ArrayList<String>> customTestLogs = new ThreadLocal<>();
-	protected static ThreadLocal<EdgeOptions> tEdgeOptions = new ThreadLocal<>();
+	public static ConcurrentHashMap<String, String> componentData = new ConcurrentHashMap<String, String>();
+	public static String qaHandleAttribute = "data-qahandle";
+	public static String qaHandleLocator = "//*[@data-qahandle]";
+	public static ThreadLocal<ArrayList<String>> urlUnderTest = new ThreadLocal<>();
+	public static ThreadLocal<ArrayList<String>> customTestLogs = new ThreadLocal<>();
+	public static ThreadLocal<EdgeOptions> tEdgeOptions = new ThreadLocal<>();
 	private static ThreadLocal<WebDriverWait> waitPool = new ThreadLocal<WebDriverWait>();
-	protected static ThreadLocal<String> classNameSession = new ThreadLocal<>();
-	protected static ThreadLocal<WebDriver> tDriver = new ThreadLocal<>();
+	private static ThreadLocal<String> classNameSession = new ThreadLocal<>();
+	private static ThreadLocal<WebDriver> tDriver = new ThreadLocal<>();
 	protected static ThreadLocal<ChromeOptions> tChromeOptions = new ThreadLocal<>();
 	protected static ThreadLocal<InternetExplorerOptions> tIeOptions = new ThreadLocal<>();
 	protected static ThreadLocal<FirefoxOptions> tFirefoxOptions = new ThreadLocal<>();
@@ -119,84 +150,394 @@ public class Base extends LoggerLog4j {
 	private static ThreadLocal<WebElement> moveMouseElementPool = new ThreadLocal<WebElement>();
 	private static ThreadLocal<String> domainPool = new ThreadLocal<>();
 	private static ThreadLocal<URI> urlPoolForDomain = new ThreadLocal<>();
-	protected static ThreadLocal<HashMap<String, Boolean>> skipConditionMapPool = new ThreadLocal<>();
+	public static ThreadLocal<HashMap<String, Boolean>> skipConditionMapPool = new ThreadLocal<>();
 	private static ThreadLocal<ArrayList<String>> urlsPool = new ThreadLocal<>();
 	static ThreadLocal<String> expectedDomainPool = new ThreadLocal<>();
-	private static ThreadLocal<String> xpathPool = new ThreadLocal<>();
-	private static ThreadLocal<String> xpathManipulation = new ThreadLocal<>();
 	static ThreadLocal<String> expUrlPool = new ThreadLocal<>();
 	static ThreadLocal<String> currentWindowHandlePool = new ThreadLocal<>();
 	static ThreadLocal<String> errorStackPool = new ThreadLocal<>();
-	static ThreadLocal<Integer> waitTimeout = new ThreadLocal<>();
-	static ThreadLocal<String> stringManipulationPool = new ThreadLocal<>();
-	static ThreadLocal<WebDriver> pageLoadDriverPool = new ThreadLocal<>();
-	static ThreadLocal<Integer> intTimeout = new ThreadLocal<>();
-	static ThreadLocal<WebDriver> jsePool = new ThreadLocal<>();
-	static ThreadLocal<WebElement> mouseElementPool = new ThreadLocal<>();
-	static ThreadLocal<Logger> pageLoadLoggerPool = new ThreadLocal<>();
-	protected static Properties property;
 
-	/**
-	 * This method is like a getter method for creating a script-specific browser
-	 * session and will store the session in LATEST_DRIVER_POOL where the 'key'
-	 * would be the class name
-	 * 
-	 * @param clazz
-	 *            Class name of the requesting script
-	 */
-	protected static void fetchSession(@SuppressWarnings("rawtypes") Class clazz) {
+	private static Properties property;
 
-		synchronized (clazz) {
-			DriverSessionHandler obj = new DriverSessionHandler(clazz);
-			Thread t = new Thread(obj);
-			t.setName(clazz.getName());
-			t.start();
+	public static void fetchSession(@SuppressWarnings("rawtypes") Class clazz) {
 
-			try {
-				t.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		DriverSessionHandler obj = new DriverSessionHandler(clazz);
+		Thread t = new Thread(obj);
+		t.start();
+		try {
+			t.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * This method initialize and prepares the setup required before starting the
-	 * execution
-	 */
-	protected static void initialize() {
-		// System.setProperty("scan", "true");
-		// System.setProperty("scanWith", "xpath");
+
+	public static void initialize() throws InterruptedException {
+//		 System.setProperty("scan", "true");
 		// System.setProperty("upload", "true");
 		 System.setProperty("defaultExecution", "true");
+<<<<<<< Updated upstream
 		// System.setProperty("regression", "true");
 
+=======
+>>>>>>> Stashed changes
 		startTime = ExecutionTImeCalculator.getCurrentTime();
 		authors = new ConcurrentHashMap<>();
 		tags = new ConcurrentHashMap<>();
 		driverMap = new ConcurrentHashMap<String, WebDriver>();
 		testURLS = new ConcurrentHashMap<String, String>();
-		logger = LoggerLog4j.startTestCase(Base.class);
-		Logo.init();
+		int logoCount = 0;
 		System.setProperty("logFilename", "./logs");
 		System.setProperty("org.freemarker.loggerLibrary", "none");
-		 Configurator.loadConfig("./src/test/java/runner/Config-test.properties");
-//		Configurator.loadConfig(System.getProperty("config-file"));
-		Configurator.setConfig();
+
+		logger = LoggerLog4j.startTestCase(Base.class);
+		if (logoCount == 0) {
+			new Logo();
+			logger.info("\n\n\n\n \t\t\t\t\tFresh Suite Execution");
+			logoCount++;
+		}
+
+		property = new Properties();
+
+		try {
+
+			 property.load(new FileInputStream("./src/test/java/runner/Config-stg.properties"));
+//			property.load(new FileInputStream(System.getProperty("config-file")));
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			LoggerLog4j.logger.fatal("Configurations file not found");
+			System.exit(0);
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			logger.fatal("Unable to load cofigurations");
+			System.exit(0);
+		}
+		url = property.getProperty("URL_FOR_AUT").split(";");
+
+		clientName = property.getProperty("client");
+		setBrowser();
+
+		remoteVersion = property.getProperty("remoteVersion");
+
+		if (System.getProperty("remoteExecution") == null) {
+			remoteExecution = property.getProperty("remoteExecution");
+		} else {
+			remoteExecution = System.getProperty("remoteExecution");
+		}
+
+		if (System.getProperty("sauceUsername") == null) {
+			sauceUserName = property.getProperty("sauceUserName");
+		} else {
+			sauceUserName = System.getProperty("sauceUsername");
+		}
+
+		if (System.getProperty("sauceKey") == null) {
+			sauceAccessKey = property.getProperty("sauceAccessKey");
+		} else {
+			sauceAccessKey = System.getProperty("sauceKey");
+		}
+		if (System.getProperty("upload") == null || !(System.getProperty("upload").trim().equalsIgnoreCase("true"))) {
+			upload = false;
+		} else if (System.getProperty("upload").equalsIgnoreCase("true")) {
+			upload = true;
+		}
+		if (System.getProperty("regression") == null
+				|| !(System.getProperty("regression").trim().equalsIgnoreCase("true"))) {
+			System.setProperty("regression", "false");
+			isRegression = false;
+		} else if (System.getProperty("regression").trim().equalsIgnoreCase("true")) {
+			isRegression = true;
+		}
+
+		platform = property.getProperty("platform");
+		chrome_path = property.getProperty("ChromeDriverPath");
+		firefox_path = property.getProperty("FirefoxDriverPath");
+		IeDriverPath = property.getProperty("IeDriverPath");
+		edgeDriverPath = property.getProperty("edgeDriverPath");
+		AUT = property.getProperty("AUT");
+		Executor = property.getProperty("Executor");
+		Environment = property.getProperty("Environment").trim();
+		logger.info("Current Environment is : " + Environment);
+		if (System.getProperty("os.name").contains("Windows")) {
+			System.setProperty("dataFile",
+					System.getProperty("user.dir") + "\\src\\main\\resources\\ComponentTestData.xlsx");
+		} else {
+			System.setProperty("dataFile",
+					System.getProperty("user.dir") + "/src/main/resources/ComponentTestData.xlsx");
+		}
+		Scanner xpathProperties = null;
+
+		try {
+			xpathProperties = new Scanner(new File("src/main/resources/XpathList.properties"));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		if (System.getProperty("scanWith") == null || System.getProperty("scanWith").toLowerCase().contains("xpath")) {
+			while (xpathProperties.hasNextLine()) {
+				componentData.put(xpathProperties.nextLine(), "-");
+			}
+		} else {
+
+			try {
+				componentProperties.load(new FileInputStream("src/main/resources/ComponentList.properties"));
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			Set<Object> componentList = componentProperties.keySet();
+			for (Object key : componentList) {
+
+				if (!componentProperties.getProperty(key.toString()).isEmpty()
+						|| componentProperties.getProperty(key.toString()) != null) {
+					componentData.put(key.toString().trim(), componentProperties.getProperty(key.toString()));
+				} else {
+					componentData.put(key.toString().trim(), "-");
+				}
+
+			}
+		}
+
+		capability = DriverSessionHandler.getCapabilities();
+
+		if (System.getProperty("scan") == null || !(System.getProperty("scan").trim().equalsIgnoreCase("true"))) {
+
+			if (System.getProperty("defaultExecution") == null
+					|| !(System.getProperty("defaultExecution").trim().equalsIgnoreCase("true"))) {
+				logger.info(
+						"User has not opted for scanning. Hence, we'll pick from pre-defined list of component available at "
+								+ serverIP);
+				logger.info("Downloading the updated file from the server..");
+				getComponentUrl(logger);
+			} else {
+				logger.info("Execution with static URLs is starting...");
+			}
+
+		} else if (System.getProperty("scan").equalsIgnoreCase("true")) {
+
+			for (String url : Base.url) {
+				new CrawlerService(url);
+
+			}
+			for (Thread t : CrawlerService.threadPool) {
+				t.join();
+			}
+			Path p3 = Paths.get(System.getProperty("user.dir") + "/src/main/resources/COMPONENT-URL-LIST-"
+					+ Environment.trim() + ".json");
+			try {
+				FileWriter a = new FileWriter(new File(p3.toString()));
+				Set<String> dataKey = componentData.keySet();
+				a.write("{\n");
+				Iterator<String> it = dataKey.iterator();
+				int i = 0;
+				while (it.hasNext()) {
+
+					String key = it.next();
+					if (i < dataKey.size() - 1) {
+						a.write("\"" + key + "\": [" + componentData.get(key) + "],\n");
+					}
+
+					else if (i == dataKey.size() - 1) {
+						a.write("\"" + key + "\": [" + componentData.get(key) + "]\n");
+					}
+					i++;
+				}
+				a.write("}");
+				a.flush();
+				logger.info("URL List is ready to be uploaded!");
+
+				logger.info("Uploading the fresh url list for " + Environment);
+				Thread.sleep(2000);
+				if (upload == true) {
+					FileUploader.uploadUrlList();
+				} else {
+					// FileReader b = new FileReader(p3.toFile());
+					List<String> lines = Files.readAllLines(p3, StandardCharsets.UTF_8);
+					logger.info("Not uploading the Scanning results as the 'Upload function is disabled'");
+					logger.info("URLS going to be used are:");
+					for (String jLines : lines) {
+						logger.info(jLines);
+					}
+				}
+				a.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
+
 		logger.info("INITIALIZED AND READY TO GO!!  \\\\(^ ^)//");
 
 	}
 
-	/**
-	 * This method is used to wait explicitly
-	 * 
-	 * @param durationInSeconds
-	 *            time for which wscript need to wait
-	 * @param logger
-	 *            logger object of the requesting class
-	 */
+	public WebDriver getWebdriverInstance(String className) {
+		synchronized (className) {
+			loggerPool.set(LoggerLog4j.startTestCase(Base.class));
+			classNameSession.set(className);
+		}
+		softAssert = new SoftAssert();
+		hardAssert = new Assertion();
+
+		if (remoteExecution.equalsIgnoreCase("true") && remoteExecution != null) {
+//			String URL = "https://sso-optum-" + sauceUserName + ":" + sauceAccessKey
+//					+ "@ondemand.us-west-1.saucelabs.com:443/wd/hub";
+			 String URL = "http://localhost:4444";
+			browser = remoteBrowser;
+			if (remoteBrowser != null || sauceAccessKey != null || sauceUserName != null || remoteVersion != null) {
+				try {
+					 DesiredCapabilities cap;
+					switch (remoteBrowser) {
+					case "-c":
+
+						synchronized (className) {
+							tChromeOptions.set(new ChromeOptions());
+						}
+//						tChromeOptions.get().setCapability("sauce:options", capability);
+//						tChromeOptions.get().setCapability(CapabilityType.SUPPORTS_APPLICATION_CACHE, "true");
+//						tChromeOptions.get().setAcceptInsecureCerts(true);
+//						tChromeOptions.get().setCapability("acceptInsecureCerts", true);
+//						tChromeOptions.get().setCapability("platformName", platform);
+//						tChromeOptions.get().setCapability("browserVersion", remoteVersion);
+//						// tChromeOptions.get().setPageLoadStrategy(PageLoadStrategy.EAGER);
+
+						 cap = new DesiredCapabilities();
+						 cap.setPlatform(Platform.ANY);
+						 cap.setBrowserName(new ChromeOptions().getBrowserName());
+//						 cap.setCapability("deviceName", "Galaxy S6");
+						synchronized (className) {
+							tDriver.set(new RemoteWebDriver(new java.net.URL(URL), cap));
+						}
+						break;
+					case "-f":
+
+						synchronized (className) {
+							tFirefoxOptions.set(new FirefoxOptions());
+						}
+						tFirefoxOptions.get().setCapability("sauce:options", capability);
+						tFirefoxOptions.get().setCapability(CapabilityType.SUPPORTS_APPLICATION_CACHE, "true");
+						tFirefoxOptions.get().setAcceptInsecureCerts(true);
+						tFirefoxOptions.get().setCapability("acceptInsecureCerts", true);
+						tFirefoxOptions.get().setCapability("platformName", platform);
+						tFirefoxOptions.get().setCapability("browserVersion", remoteVersion);
+						// tFirefoxOptions.get().setPageLoadStrategy(PageLoadStrategy.EAGER);
+						synchronized (className) {
+							tDriver.set(new RemoteWebDriver(new java.net.URL(URL), tFirefoxOptions.get()));
+						}
+						break;
+
+					case "-e":
+
+						synchronized (className) {
+							tEdgeOptions.set(new EdgeOptions());
+						}
+						tEdgeOptions.get().setCapability("sauce:options", capability);
+						tEdgeOptions.get().setCapability(CapabilityType.SUPPORTS_APPLICATION_CACHE, "true");
+						tEdgeOptions.get().setCapability("acceptInsecureCerts", true);
+						tEdgeOptions.get().setCapability("platformName", platform);
+						tEdgeOptions.get().setCapability("browserVersion", remoteVersion);
+						// tEdgeOptions.get().setCapability(CapabilityType.PAGE_LOAD_STRATEGY,
+						// PageLoadStrategy.EAGER);
+
+						// cap = new DesiredCapabilities().edge();
+						// cap.setPlatform(Platform.WINDOWS);
+						synchronized (className) {
+							tDriver.set(new RemoteWebDriver(new java.net.URL(URL), tEdgeOptions.get()));
+						}
+						break;
+
+					case "-s":
+
+						synchronized (className) {
+							tSafariOptions.set(new SafariOptions());
+						}
+						tSafariOptions.get().setCapability("sauce:options", capability);
+						tSafariOptions.get().setCapability(CapabilityType.SUPPORTS_APPLICATION_CACHE, "true");
+						tSafariOptions.get().setCapability("platformName", "macOS 11");
+						tSafariOptions.get().setCapability("browserVersion", "14");
+						synchronized (className) {
+							tDriver.set(new RemoteWebDriver(new java.net.URL(URL), tSafariOptions.get()));
+						}
+						break;
+
+					default:
+						loggerPool.get().info("Remote Browser Configuration is invalid and now exiting!!");
+						System.exit(0);
+					}
+				} catch (MalformedURLException e) {
+					loggerPool.get().fatal("Remote Configuration Error!");
+					System.exit(0);
+				}
+
+			}
+
+		} else {
+			browser = localBrowser;
+			switch (localBrowser) {
+
+			case "-c":
+				System.setProperty("webdriver.chrome.driver", chrome_path);
+				tChromeOptions.set(new ChromeOptions());
+				tChromeOptions.get().setCapability(CapabilityType.ELEMENT_SCROLL_BEHAVIOR,
+						ElementScrollBehavior.BOTTOM);
+				loggerPool.get().info(
+						"Now just sit back and relax. \nExecution will take place via Google Chrome and you'll be informed once everything is done..");
+
+				tDriver.set(new ChromeDriver(tChromeOptions.get()));
+				break;
+
+			case "-hc":
+				System.setProperty("webdriver.chrome.driver", chrome_path);
+				tChromeOptions.set(new ChromeOptions());
+
+				tChromeOptions.get().addArguments("--headless");
+				loggerPool.get().info(
+						"Now just sit back and relax. \nExecution will take place via Google Chrome [HEADLESS] and you'll be informed once everything is done..");
+
+				tDriver.set(new ChromeDriver(tChromeOptions.get()));
+				break;
+
+			case "-e":
+				System.setProperty("webdriver.edge.driver", edgeDriverPath);
+				tEdgeOptions.set(new EdgeOptions());
+
+				loggerPool.get().info(
+						"Now just sit back and relax. \nExecution will take place via Edge and you'll be informed once everything is done..");
+
+				tDriver.set(new EdgeDriver());
+				break;
+
+			case "-ie":
+				loggerPool.get().info(
+						"Now just sit back and relax. \nWe'll use IE11 for test excution and you'll be informed once everything is done.");
+				System.setProperty("webdriver.ie.driver", IeDriverPath);
+				tDriver.set(new InternetExplorerDriver());
+				break;
+			default:
+				loggerPool.get().info("Local Browser Configuration is invalid and now exiting!!");
+				System.exit(0);
+			}
+
+		}
+
+		tDriver.get().manage().window().maximize();
+		tDriver.get().manage().deleteAllCookies();
+		tDriver.get().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		tDriver.get().manage().timeouts().setScriptTimeout(50, TimeUnit.SECONDS);
+
+		loggerPool.get()
+				.info("Browser session for class '" + classNameSession.get() + "' => " + tDriver.get().toString());
+		return tDriver.get();
+	}
+
+	ThreadLocal<Integer> waitTimeout = new ThreadLocal<>();
+
 	@SuppressWarnings("static-access")
-	protected static void pleaseWait(Integer durationInSeconds, Logger logger) {
+	public void pleaseWait(Integer durationInSeconds, Logger logger) {
 		synchronized (durationInSeconds) {
 			synchronized (logger) {
 				loggerPool.set(logger);
@@ -212,16 +553,7 @@ public class Base extends LoggerLog4j {
 
 	}
 
-	/**
-	 * This method is to focus and highlight the required WebElement using red
-	 * outline
-	 * 
-	 * @param driver
-	 *            driver object of the requesting script
-	 * @param element
-	 *            WebElement needs to be highlighted
-	 */
-	protected static void focusElement(WebDriver driver, WebElement element) {
+	public void focusElement(WebDriver driver, WebElement element) {
 		synchronized (driver) {
 			synchronized (element) {
 				elementManipulationDriverPool.set(driver);
@@ -233,17 +565,7 @@ public class Base extends LoggerLog4j {
 				.executeScript("arguments[0].setAttribute('style', 'border: 2px solid red;');", elementPool.get());
 	}
 
-	/**
-	 * This method is used to select an option using select class with the help of
-	 * visible text of the option
-	 * 
-	 * @param logger
-	 * @param element
-	 *            WebElement [Drop down]
-	 * @param optionTextToSelect
-	 *            visible text of element to be selected
-	 */
-	protected void selectByOptionName(Logger logger, WebElement element, String optionTextToSelect) {
+	public void selectByOptionName(Logger logger, WebElement element, String optionTextToSelect) {
 
 		synchronized (logger) {
 			synchronized (element) {
@@ -259,50 +581,10 @@ public class Base extends LoggerLog4j {
 
 		selectByOptionPool.get().selectByVisibleText(elementNamePool.get());
 		methodLoggerPool.get()
-				.info("Selected by name '" + elementNamePool.get() + "' from dropdown  " + elementPool.get().getText());
+				.info("Selected option '" + elementNamePool.get() + "' from dropdown  " + elementPool.get().getText());
 	}
 
-	/**
-	 * This method is used to select an option using select class with the help of
-	 * value of the 'value' attribute of the option
-	 * 
-	 * @param logger
-	 * @param element
-	 *            WebElement [Drop down]
-	 * @param optionTextToSelect
-	 *            'value' attribute of the element to be selected
-	 */
-	protected void selectByValue(Logger logger, WebElement element, String optionTextToSelect) {
-
-		synchronized (logger) {
-			synchronized (element) {
-				synchronized (optionTextToSelect) {
-
-					methodLoggerPool.set(logger);
-					elementPool.set(element);
-					elementNamePool.set(optionTextToSelect);
-					selectByOptionPool.set(new Select(element));
-				}
-			}
-		}
-
-		selectByOptionPool.get().selectByValue(elementNamePool.get());
-		methodLoggerPool.get().info(
-				"Selected by value '" + elementNamePool.get() + "' from dropdown  " + elementPool.get().getText());
-	}
-
-	/**
-	 * This method is used to select an option using select class with the help of
-	 * index no. of the option
-	 * 
-	 * @param element
-	 *            element WebElement [Drop down]
-	 * @param optionIndex
-	 *            index of the webelement to be selected
-	 * @param logger
-	 * @return
-	 */
-	protected String selectByOptionIndex(WebElement element, Integer optionIndex, Logger logger) {
+	public String selectByOptionIndex(WebElement element, Integer optionIndex, Logger logger) {
 		synchronized (element) {
 			synchronized (optionIndex) {
 				synchronized (logger) {
@@ -317,24 +599,12 @@ public class Base extends LoggerLog4j {
 
 		selectByOptionPool.get().selectByIndex(optionIndexPool.get());
 		loggerPool.get()
-				.info("Selected by index: '"
-						+ selectByOptionPool.get().getOptions().get(optionIndexPool.get()).getText()
-						+ "' from dropdown  \n" + selectByOptionPool.get().getFirstSelectedOption().getText());
+				.info("Selected option '" + selectByOptionPool.get().getOptions().get(optionIndexPool.get()).getText()
+						+ "' from dropdown  \n" + elementPool.get().getAttribute("innterText"));
 		return elementPool.get().getAttribute("innterText");
 	}
 
-	/**
-	 * This method is used to check availability and visibility of a WebElement in a
-	 * handled way
-	 * 
-	 * @param logger
-	 * @param element
-	 *            WebElement who's existence needs to be asserted
-	 * @param elementName
-	 *            Name for reference
-	 * @return boolean
-	 */
-	protected static boolean verifyElementExists(Logger logger, WebElement element, String elementName) {
+	public boolean verifyElementExists(Logger logger, WebElement element, String elementName) {
 		synchronized (logger) {
 			synchronized (element) {
 				synchronized (elementName) {
@@ -366,17 +636,7 @@ public class Base extends LoggerLog4j {
 
 	}
 
-	/**
-	 * This method is used to compare the actual and expected visible text of a
-	 * WebElement
-	 * 
-	 * @param element
-	 *            WebElement who's text to be verified
-	 * @param expectedText
-	 *            WebElement's inner text
-	 * @return boolean
-	 */
-	protected synchronized boolean verifyElementText(WebElement element, String expectedText) {
+	public synchronized boolean verifyElementText(WebElement element, String expectedText) {
 		try {
 			String actualText = element.getText();
 			if (actualText.trim().equalsIgnoreCase(actualText))
@@ -389,18 +649,7 @@ public class Base extends LoggerLog4j {
 		}
 	}
 
-	/**
-	 * This method is used to compare the actual and expected attribute value of a
-	 * WebElement
-	 * 
-	 * @param element
-	 *            WebElement who's attribute to be verified
-	 * @param attributeName
-	 *            Attribute who's value to be asserted
-	 * @param expectedText
-	 * @return
-	 */
-	protected synchronized boolean verifyAttributeValue(WebElement element, String attributeName, String expectedText) {
+	public synchronized boolean verifyAttributeValue(WebElement element, String attributeName, String expectedText) {
 		boolean status = false;
 		try {
 			logger.info("Verifying element attribute " + attributeName);
@@ -429,19 +678,7 @@ public class Base extends LoggerLog4j {
 		return status;
 	}
 
-	/**
-	 * This method is used to compare the actual and expected CSS attribute value of
-	 * a WebElement
-	 * 
-	 * @param element
-	 *            WebElement who's attribute to be verified
-	 * @param cssAttributeName
-	 *            Attribute who's value to be asserted
-	 * @param expectedValue
-	 *            expected attribute value
-	 * @return boolean
-	 */
-	protected synchronized boolean verifyCSSValue(WebElement element, String cssAttributeName, String expectedValue) {
+	public synchronized boolean verifyCSSValue(WebElement element, String cssAttributeName, String expectedValue) {
 		boolean status = false;
 		try {
 
@@ -467,16 +704,9 @@ public class Base extends LoggerLog4j {
 		return status;
 	}
 
-	/**
-	 * This method is used to hover the mouse cursor over the required WebElement
-	 * 
-	 * @param mydriver
-	 *            Driver object of requesting class
-	 * @param element
-	 *            WebElent on which mouse t be hovered
-	 * @return WebElement
-	 */
-	protected WebElement moveMouseOnToElement(WebDriver mydriver, WebElement element) {
+	// private static ThreadLocal<WebDriver> moveMouseElementPool = new
+	// ThreadLocal<WebElement>();
+	public WebElement moveMouseOnToElement(WebDriver mydriver, WebElement element) {
 
 		synchronized (mydriver) {
 			synchronized (element) {
@@ -495,33 +725,12 @@ public class Base extends LoggerLog4j {
 		return moveMouseElementPool.get();
 	}
 
-	/**
-	 * This method is used to scroll the page by pre-defined coordinates in pixels
-	 * 
-	 * @param mydriver
-	 *            Driver object of requesting class
-	 * @param i
-	 *            X - Coordinate
-	 * @param j
-	 *            Y - Coordinate
-	 */
-	protected synchronized void scrollPageByDimensions(WebDriver mydriver, int pixelX, int pixelY) {
+	public synchronized void scrollPageByDimensions(WebDriver mydriver, int i, int j) {
 		JavascriptExecutor js = (JavascriptExecutor) mydriver;
-		js.executeScript("window.scrollBy(" + pixelX + "," + pixelY + ")");
+		js.executeScript("window.scrollBy(" + i + "," + j + ")");
 	}
 
-	/**
-	 * This method is used to scroll the page to a particular WebElement and wait
-	 * till its visibility
-	 * 
-	 * @param mydriver
-	 *            Driver object of requesting class
-	 * @param element
-	 *            WebElement to which page needs to be scrolled
-	 * @param logger
-	 * @return WebElement
-	 */
-	protected static WebElement scrollToElement(WebDriver mydriver, WebElement element, Logger logger) {
+	public WebElement scrollToElement(WebDriver mydriver, WebElement element, Logger logger) {
 		synchronized (mydriver) {
 			synchronized (element) {
 				synchronized (pageLoadLoggerPool) {
@@ -531,8 +740,9 @@ public class Base extends LoggerLog4j {
 				}
 			}
 		}
-		((JavascriptExecutor) elementManipulationDriverPool.get()).executeScript("arguments[0].scrollIntoView()",
-				elementPool.get());
+		// arguments[0].scrollIntoView({block: 'center', inline: 'nearest'})
+		((JavascriptExecutor) elementManipulationDriverPool.get())
+				.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'})", elementPool.get());
 
 		getVisibility(elementManipulationDriverPool.get(), elementPool.get(), 10);
 
@@ -542,17 +752,7 @@ public class Base extends LoggerLog4j {
 
 	}
 
-	/**
-	 * This method is used to scroll the page to a particular WebElement without
-	 * waiting for its visibility Under this method page will be scrolled without
-	 * waiting for visibility
-	 * 
-	 * @param mydriver
-	 *            Driver object of requesting class
-	 * @param element
-	 *            WebElement to which page needs to be scrolled
-	 */
-	protected void scrollToElementWithoutWait(WebDriver mydriver, WebElement element) {
+	public void scrollToElementWithoutWait(WebDriver mydriver, WebElement element) {
 		synchronized (mydriver) {
 			synchronized (element) {
 				elementPool.set(element);
@@ -565,18 +765,7 @@ public class Base extends LoggerLog4j {
 		focusElement(elementManipulationDriverPool.get(), elementPool.get());
 	}
 
-	/**
-	 * This method is used to wait for the visibility of a particular WebElement
-	 * 
-	 * @param mydriver
-	 *            Driver object of requesting class
-	 * @param e
-	 *            WebElement needs to be visible
-	 * @param timeout
-	 *            Time interval for which script needs to wait
-	 * @return WebElement
-	 */
-	protected static WebElement getVisibility(WebDriver mydriver, WebElement e, Integer timeout) {
+	public WebElement getVisibility(WebDriver mydriver, WebElement e, Integer timeout) {
 		synchronized (mydriver) {
 			synchronized (e) {
 				synchronized (timeout) {
@@ -591,19 +780,10 @@ public class Base extends LoggerLog4j {
 
 	}
 
-	/**
-	 * This method is used to wait till the availability or presence in the DOM of a
-	 * WebElement
-	 * 
-	 * @param mydriver
-	 *            Driver object of requesting class
-	 * @param xpath
-	 *            Xpath of the webelement
-	 * @param timeout
-	 *            Time interval for which script needs to wait
-	 * @return WEbElement
-	 */
-	protected WebElement getPresence(WebDriver mydriver, String xpath, Integer timeout) {
+	private static ThreadLocal<String> xpathPool = new ThreadLocal<>();
+	private static ThreadLocal<String> xpathManipulation = new ThreadLocal<>();
+
+	public WebElement getPresence(WebDriver mydriver, String xpath, Integer timeout) {
 		synchronized (mydriver) {
 			synchronized (xpath) {
 				synchronized (timeout) {
@@ -635,26 +815,12 @@ public class Base extends LoggerLog4j {
 
 	}
 
-	/**
-	 * This method is to get the font size of the visible text
-	 * 
-	 * @param element
-	 *            WebElement who's font size needs to be fetched
-	 * @return Font Size
-	 */
-	protected synchronized static String getFontSize(WebElement element) {
+	public synchronized static String getFontSize(WebElement element) {
 		String fontSize = element.getCssValue("font-size");
 		return fontSize;
 	}
 
-	/**
-	 * This method is to get the font color of the visible text
-	 * 
-	 * @param element
-	 *            WebElement who's font size needs to be fetched
-	 * @return String Hex color code
-	 */
-	protected synchronized static String getHexFontColor(WebElement element) {
+	public synchronized static String getHexFontColor(WebElement element) {
 		String rgbaValue = element.getCssValue("background-color");
 		String[] hexValue = rgbaValue.replace("rgba(", "").replace(")", "").split(",");
 
@@ -669,29 +835,17 @@ public class Base extends LoggerLog4j {
 		return actualColor.toUpperCase();
 	}
 
-	/**
-	 * This method is used to set the script info for reporting purpose
-	 * 
-	 * @param tag
-	 *            Component/Script Name
-	 * @param author
-	 *            Script Owner Name
-	 * @param className
-	 *            Script class name
-	 */
-	protected synchronized static void setTagForTestClass(String tag, String author, String className) {
-		tags.put(className, tag);
-		authors.put(className, author);
+	public synchronized static void setTagForTestClass(String tag, String author, String website, String ClassName) {
+
+		// testURLS.put(ClassName, website);
+
+		tags.put(ClassName, tag);
+
+		authors.put(ClassName, author);
+
 	}
 
-	/**
-	 * This method is to find first 5 characters of the domain of any given URL
-	 * 
-	 * @param url
-	 *            Hyperlink
-	 * @return First 5 character of the domain
-	 */
-	protected synchronized String getDomainNameSubset(String url) {
+	public synchronized String getDomainNameSubset(String url) {
 		try {
 			urlPoolForDomain.set(new URI(url));
 
@@ -704,14 +858,7 @@ public class Base extends LoggerLog4j {
 		return domainPool.get();
 	}
 
-	/**
-	 * This method is to find the full domain of any given URL
-	 * 
-	 * @param url
-	 *            Hyperlink
-	 * @return Domain of the given hyperlink
-	 */
-	protected synchronized static String getDomainName(String url) {
+	public synchronized static String getDomainName(String url) {
 		try {
 			urlPoolForDomain.set(new URI(url));
 			domainPool.set(urlPoolForDomain.get().getHost());
@@ -723,15 +870,7 @@ public class Base extends LoggerLog4j {
 		return domainPool.get();
 	}
 
-	/**
-	 * This method is required to be called on the very first line of each TC. It'll
-	 * skip the TC if there's no URL available to run the TC
-	 * 
-	 * @param urls
-	 *            Url data from the script
-	 * @return Throws SkipException if the given Url data is empty
-	 */
-	protected HashMap<String, Boolean> skipNonExistingComponent(ArrayList<String> urls) {
+	public HashMap<String, Boolean> skipNonExistingComponent(ArrayList<String> urls) {
 		synchronized (urls) {
 			urlsPool.set(urls);
 			skipConditionMapPool.set(new HashMap<>());
@@ -743,11 +882,16 @@ public class Base extends LoggerLog4j {
 			urlsPool.get().stream().forEach(a -> {
 				skipConditionMapPool.get().put(a, false);
 			});
-
+			/*
+			 * for(String url : urlsPool.get()) {
+			 * 
+			 * skipConditionMapPool.get().put(url, false); }
+			 */
 		}
 		return skipConditionMapPool.get();
 	}
 
+<<<<<<< Updated upstream
 	protected HashMap<String, Boolean> skipNonExistingComponent(String urls) {
 		synchronized (urls) {
 			urlsPool.set(new ArrayList<>());
@@ -777,47 +921,14 @@ public class Base extends LoggerLog4j {
 	 * @return random integer
 	 */
 	protected synchronized static int getRandomInteger(int maximum, int minimum) {
+=======
+	public synchronized static int getRandomInteger(int maximum, int minimum) {
+>>>>>>> Stashed changes
 		return ((int) (Math.random() * (maximum - minimum))) + minimum;
 	}
 
-	/**
-	 * This method is used to fetch random value within the given range where
-	 * 'maximum' will be exclusive and 'minimum' will be inclusive
-	 * 
-	 * @param start
-	 *            start of range (inclusive)
-	 * @param end
-	 *            end of range (exclusive)
-	 * @param excludes
-	 *            numbers to exclude (= numbers you do not want)
-	 * @return the random number within start-end but not one of excludes
-	 */
-	protected static int getRandomIntegerWithExclusion(int start, int end, int... excludes) {
-		int rangeLength = end - start - excludes.length;
-		int randomInt = new Random().nextInt(rangeLength) + start;
-
-		for (int i = 0; i < excludes.length; i++) {
-			if (excludes[i] > randomInt) {
-				return randomInt;
-			}
-
-			randomInt++;
-		}
-
-		return randomInt;
-	}
-
-	/**
-	 * This method is used to check if the the required file is downloaded or not
-	 * 
-	 * @param filename
-	 *            Name of the file downloaded
-	 * @param mydriver
-	 *            Driver object of requesting class
-	 * @return boolean
-	 */
 	@Deprecated
-	protected static boolean isDownloaded(String filename, WebDriver mydriver) {
+	public static boolean isDownloaded(String filename, WebDriver mydriver) {
 		System.setProperty("java.io.tmpdir", "./Dowloads");
 		String tmpFolderPath = System.getProperty("java.io.tmpdir");
 		String expectedFileName = filename;
@@ -835,19 +946,8 @@ public class Base extends LoggerLog4j {
 		return status;
 	}
 
-	/**
-	 * This method is used to log into the AEM only to use when using unpublished
-	 * urls for test purpose
-	 * 
-	 * @param mydriver
-	 *            Driver object of requesting class
-	 * @param userName
-	 *            AEM login username
-	 * @param password
-	 *            AEM login password
-	 * @param logger
-	 */
-	protected synchronized void loginTestEnv(WebDriver mydriver, String userName, String password, Logger logger) {
+	/// only to use when using unpublished urls for test purpose
+	public synchronized void loginTestEnv(WebDriver mydriver, String userName, String password, Logger logger) {
 		try {
 			scrollToElement(mydriver, mydriver.findElement(By.xpath("//*[@aria-label=\"User name\"]")), logger);
 			mydriver.findElement(By.xpath("//*[@aria-label=\"User name\"]")).sendKeys(userName);
@@ -866,14 +966,7 @@ public class Base extends LoggerLog4j {
 		logger.info("User Is logged into Test environment");
 	}
 
-	/**
-	 * This method is used to capitalize every character before ' '
-	 * 
-	 * @param givenString
-	 *            Capitalize every character before ' '
-	 * @return
-	 */
-	protected synchronized static String capitalizeWhiteString(String givenString) {
+	public synchronized static String capitalizeWhiteString(String givenString) {
 
 		String[] arr = givenString.split(" ");
 		StringBuffer sb = new StringBuffer();
@@ -884,15 +977,7 @@ public class Base extends LoggerLog4j {
 		return sb.toString().trim();
 	}
 
-	/**
-	 * This method is used to capitalize every character before '-' and for
-	 * replacing '-' with ' '
-	 * 
-	 * @param givenString
-	 *            Capitalize the string in camel case and replacing '-' with ' '
-	 * @return
-	 */
-	protected synchronized static String capitalizeHyphenString(String givenString) {
+	public synchronized static String capitalizeHyphenString(String givenString) {
 
 		String[] arr = givenString.split("-");
 		StringBuffer sb = new StringBuffer();
@@ -903,111 +988,25 @@ public class Base extends LoggerLog4j {
 		return sb.toString().trim();
 	}
 
-	/**
-	 * This method is used to Switch the focus of the WebDriver to next tab
-	 * 
-	 * @param mydriver
-	 *            Driver object of requesting class
-	 * @param logger
-	 * @param currentWindowHandle
-	 *            Window handle of the active browser tab
-	 * @return
-	 */
-	protected static synchronized WebDriver switchToNextTab(WebDriver mydriver, Logger logger,
-			String currentWindowHandle) {
-		Set<String> tabSet = mydriver.getWindowHandles();
-		Iterator<String> it = tabSet.iterator();
+	public static synchronized void switchToNextTab(WebDriver mydriver, Logger logger, String currentWindowHandle) {
+		Set<String> tabs = mydriver.getWindowHandles();
+		Iterator<String> it = tabs.iterator();
 
 		while (it.hasNext()) {
 			String a = it.next();
 			if (!a.equals(currentWindowHandle)) {
-				logger.info("Current tab title => '" + mydriver.getTitle() + "'   " + mydriver.getWindowHandle());
+				logger.info("Current tab title => '" + mydriver.getTitle() + "'");
 				mydriver.switchTo().window(a);
-				logger.info("Switched to prev tab with title => '" + mydriver.getTitle() + "'");
+				logger.info("Switch to next tab with title => '" + mydriver.getTitle() + "'");
 
 				break;
 			}
 		}
-		return mydriver;
 	}
 
-	protected static synchronized WebDriver switchToTab(WebDriver mydriver, Logger logger, String currentWindowHandle) {
-		Set<String> tabSet = mydriver.getWindowHandles();
-		Iterator<String> it = tabSet.iterator();
+	static ThreadLocal<String> stringManipulationPool = new ThreadLocal<>();
 
-		while (it.hasNext()) {
-			String a = it.next();
-			if (!a.equals(currentWindowHandle)) {
-				logger.info("Current tab title => '" + mydriver.getTitle() + "'   " + mydriver.getWindowHandle());
-				mydriver.switchTo().window(a).close();
-
-			}
-		}
-		mydriver.switchTo().window(currentWindowHandle);
-		return mydriver;
-	}
-
-	/**
-	 * This method is used to fetch only the last node of the URL without '.html'
-	 * using the current url of the provided browser session
-	 * 
-	 * @param mydriver
-	 *            Driver object of the requesting class
-	 * @return String
-	 */
-	protected synchronized String getLastNodeOfActualLinkWithoutHtml(WebDriver mydriver) {
-		String lastNode = mydriver.getCurrentUrl().split("/")[mydriver.getCurrentUrl().split("/").length - 1]
-				.split(".html")[0];
-		return lastNode;
-	}
-
-	/**
-	 * This method is used to fetch only the last node of the provided URL with
-	 * '.html'
-	 * 
-	 * @param expURL
-	 *            Driver object of the requesting class
-	 * @return
-	 */
-	protected synchronized String getLastNodeOfExpectedLinkWithoutHtml(String expURL) {
-		String lastNode = expURL.split(".//")[1].split("/")[expURL.split(".//")[1].split("/").length - 1]
-				.split(".html")[0];
-		return lastNode;
-	}
-
-	/**
-	 * This is to verify if the given is not a pdf link and the domain of both the
-	 * expected and actual link is same
-	 * 
-	 * @param expUrl
-	 *            Hyperlink fetched from the WebElement
-	 * @param expectedDomain
-	 *            Domain of the Test URL
-	 * @param actualUrl
-	 *            Current Url of
-	 * @return
-	 */
-	protected synchronized boolean isDomainSame(String expectedDomain, String expUrl) {
-		if (!expUrl.contains("pdf") && getDomainName(expUrl).equalsIgnoreCase(expectedDomain)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * This method is used to assert hyperlink redirecting functionality
-	 * 
-	 * @param mydriver
-	 *            Driver object of requesting class
-	 * @param logger
-	 * @param testUrlDomain
-	 *            Main test component url's domain
-	 * @param expHyperLink
-	 * @param currentWindowHandle
-	 * @return
-	 */
-	protected WebDriver assertRedirection(WebDriver mydriver, Logger logger, String testUrlDomain, String expHyperLink,
+	public void assertRedirection(WebDriver mydriver, Logger logger, String testUrlDomain, String expHyperLink,
 			String currentWindowHandle) {
 		synchronized (mydriver) {
 			synchronized (logger) {
@@ -1027,58 +1026,92 @@ public class Base extends LoggerLog4j {
 		}
 		try {
 
-			if (isDomainSame(expectedDomainPool.get(), expUrlPool.get())) {
+			if ((!expUrlPool.get().contains("pdf"))
+					&& expectedDomainPool.get().equalsIgnoreCase(getDomainName(expUrlPool.get()))) {
 				pleaseWait(3, verifyElementLoggerPool.get());
-				verifyElementLoggerPool.get()
-						.info("Expected Url path: " + getLastNodeOfExpectedLinkWithoutHtml(expUrlPool.get())
-								+ "\nActual Url path: "
-								+ getLastNodeOfActualLinkWithoutHtml(elementManipulationDriverPool.get()));
+				verifyElementLoggerPool.get().info("Expected Url path: "
+						+ expUrlPool.get().split(".//")[1]
+								.split("/")[expUrlPool.get().split(".//")[1].split("/").length - 1].split(".html")[0]
+						+ "\nActual Url path: "
+						+ elementManipulationDriverPool.get().getCurrentUrl()
+								.split("/")[elementManipulationDriverPool.get().getCurrentUrl().split("/").length - 1]
+										.split(".html")[0]);
 
-				hardAssert.assertEquals(elementManipulationDriverPool.get().getWindowHandles().size(), 1);
-				// hardAssert.assertNotEquals(BrokenLinks.isBroken(expUrlPool.get()), 404);
-				// //temporarily disabled
+				hardAssert.assertEquals(
+						elementManipulationDriverPool.get().getCurrentUrl()
+								.split("/")[elementManipulationDriverPool.get().getCurrentUrl().split("/").length - 1]
+										.split(".html")[0],
+						expUrlPool.get().split(".//")[1].split("/")[expUrlPool.get().split(".//")[1].split("/").length
+								- 1].split(".html")[0]);
 				verifyElementLoggerPool.get().info("Assertion passes for same tab!");
-				switchToTab(elementManipulationDriverPool.get(), verifyElementLoggerPool.get(),
-						currentWindowHandlePool.get());
 			} else if (expectedDomainPool.get().contains(".pdf")
 					|| !expectedDomainPool.get().equalsIgnoreCase(getDomainName(expUrlPool.get()))) {
 
-				pleaseWait(3, verifyElementLoggerPool.get());
-				verifyElementLoggerPool.get().info("Expected Url path: " + expUrlPool.get() + "\nActual Url path: "
-						+ elementManipulationDriverPool.get().getCurrentUrl());
+				// String a = expUrlPool.get().split(getDomainName(expUrlPool.get()))[1];
+				// boolean b =
+				// expUrlPool.get().split(getDomainName(expUrlPool.get()))[1].substring(0,1)=="/";
+				// System.out.println(" a ==> " + a);
+				// System.out.println(" b ==> " + b);
 
-				hardAssert.assertEquals(elementManipulationDriverPool.get().getWindowHandles().size(), 2);
-				verifyElementLoggerPool.get().info("Assertion passes for different tab!");
-				switchToTab(elementManipulationDriverPool.get(), verifyElementLoggerPool.get(),
-						currentWindowHandlePool.get());
+				if ((expUrlPool.get().split(getDomainName(expUrlPool.get()))[1].isEmpty()
+						|| expUrlPool.get().split(getDomainName(expUrlPool.get()))[1].equals("/"))
+						&& stringManipulationPool.get().split(getDomainName(stringManipulationPool.get()))[1]
+								.split("/")[1].equals("dummy")) {
 
+					switchToNextTab(elementManipulationDriverPool.get(), verifyElementLoggerPool.get(),
+							currentWindowHandlePool.get());
+					pleaseWait(3, verifyElementLoggerPool.get());
+					verifyElementLoggerPool.get().info("Expected Url : " + getDomainName(expUrlPool.get())
+							+ "\nActual Url: " + getDomainName(elementManipulationDriverPool.get().getCurrentUrl()));
+
+					hardAssert.assertEquals(getDomainName(elementManipulationDriverPool.get().getCurrentUrl()),
+							getDomainName(expUrlPool.get()));
+					verifyElementLoggerPool.get().info("Assertion passes for different tab [Homelink]!");
+					elementManipulationDriverPool.get().close();
+					elementManipulationDriverPool.get().switchTo().window(currentWindowHandlePool.get());
+					System.out.println(elementManipulationDriverPool.get().getTitle());
+
+				} else {
+					pleaseWait(3, verifyElementLoggerPool.get());
+					switchToNextTab(elementManipulationDriverPool.get(), verifyElementLoggerPool.get(),
+							currentWindowHandlePool.get());
+					pleaseWait(3, verifyElementLoggerPool.get());
+					verifyElementLoggerPool.get().info("Expected Url path: "
+							+ expUrlPool.get().split(".//")[1].split(
+									"/")[expUrlPool.get().split(".//")[1].split("/").length - 1].split(".html")[0]
+							+ "\nActual Url path: "
+							+ elementManipulationDriverPool.get().getCurrentUrl().split(
+									"/")[elementManipulationDriverPool.get().getCurrentUrl().split("/").length - 1]
+											.split(".html")[0]);
+
+					hardAssert
+							.assertEquals(
+									elementManipulationDriverPool.get().getCurrentUrl()
+											.split("/")[elementManipulationDriverPool.get().getCurrentUrl()
+													.split("/").length - 1].split(".html")[0],
+									expUrlPool.get().split(".//")[1]
+											.split("/")[expUrlPool.get().split(".//")[1].split("/").length - 1]
+													.split(".html")[0]);
+					verifyElementLoggerPool.get().info("Assertion passes for different tab!");
+					elementManipulationDriverPool.get().close();
+					elementManipulationDriverPool.get().switchTo().window(currentWindowHandlePool.get());
+					System.out.println(elementManipulationDriverPool.get().getTitle());
+
+				}
 			}
 		} catch (Exception e) {
 			synchronized (this) {
 				errorStackPool.set(ExceptionUtil.getStackTrace(e));
 			}
 			verifyElementLoggerPool.get().error(errorStackPool.get());
-			switchToPreviousTab(elementManipulationDriverPool.get(), verifyElementLoggerPool.get(),
-					currentWindowHandlePool.get());
+			switchToPreviousTab(elementManipulationDriverPool.get(), verifyElementLoggerPool.get());
 		}
-		return elementManipulationDriverPool.get();
+
 	}
 
 	static ThreadLocal<String> urlPathPool = new ThreadLocal<>();
 
-	/**
-	 * This method is used to assert hyperlink redirecting functionality where
-	 * expected key in the url is known
-	 * 
-	 * @param mydriver
-	 *            Driver object of requesting class
-	 * @param logger
-	 * @param testUrlDomain
-	 *            Main test component url's domain
-	 * @param expHyperLink
-	 * @param currentWindowHandle
-	 */
-	protected void assertStaticRedirection(WebDriver mydriver, Logger logger, String testUrlDomain, String expHyperLink,
+	public void assertStaticRedirection(WebDriver mydriver, Logger logger, String testUrlDomain, String expHyperLink,
 			String expRelativePath, String currentWindowHandle) {
 		synchronized (mydriver) {
 			synchronized (logger) {
@@ -1088,16 +1121,9 @@ public class Base extends LoggerLog4j {
 							synchronized (expRelativePath) {
 
 								urlPathPool.set(expRelativePath);
+
 								expectedDomainPool.set(testUrlDomain);
-								String expURL;
-								try {
-									expURL = Jsoup.connect(expHyperLink).followRedirects(true).ignoreContentType(true)
-											.maxBodySize(48000000).ignoreHttpErrors(true).execute().url().toString();
-								} catch (IOException e) {
-									expURL = null;
-									logger.fatal(ExceptionUtil.getStackTrace(e));
-								}
-								expUrlPool.set(expURL);
+								expUrlPool.set(expHyperLink);
 								elementManipulationDriverPool.set(mydriver);
 								verifyElementLoggerPool.set(logger);
 								currentWindowHandlePool.set(currentWindowHandle);
@@ -1130,16 +1156,12 @@ public class Base extends LoggerLog4j {
 
 	}
 
-	/**
-	 * Here the script will wait for the page to completely load
-	 * 
-	 * @param timeOutInSeconds
-	 *            Time interval for which the script needs to wait
-	 * @param mydriver
-	 *            Driver object of requesting class
-	 * @param logger
-	 */
-	protected void jsWaitForPageToLoad(Integer timeOutInSeconds, WebDriver mydriver, Logger logger) {
+	static ThreadLocal<WebDriver> pageLoadDriverPool = new ThreadLocal<>();
+	static ThreadLocal<Integer> intTimeout = new ThreadLocal<>();
+
+	static ThreadLocal<Logger> pageLoadLoggerPool = new ThreadLocal<>();
+
+	public void jsWaitForPageToLoad(Integer timeOutInSeconds, WebDriver mydriver, Logger logger) {
 		synchronized (timeOutInSeconds) {
 			synchronized (mydriver) {
 				synchronized (logger) {
@@ -1151,6 +1173,7 @@ public class Base extends LoggerLog4j {
 		}
 		String jsCommand = "return document.readyState";
 
+		// Validate readyState before doing any waits
 		if (((JavascriptExecutor) pageLoadDriverPool.get()).executeScript(jsCommand).toString().equals("complete")) {
 			return;
 		}
@@ -1159,54 +1182,38 @@ public class Base extends LoggerLog4j {
 			pleaseWait(2, pageLoadLoggerPool.get());
 			if (((JavascriptExecutor) pageLoadDriverPool.get()).executeScript(jsCommand).toString()
 					.equals("complete")) {
-				System.out.println("LOAD COMPLETE");
 				break;
 			}
 		}
 	}
 
-	/**
-	 * This method is used to Switch the focus of the WebDriver to previous tab
-	 * 
-	 * 
-	 * @param mydriver
-	 *            Driver object of requesting class
-	 * @param logger
-	 * 
-	 */
-	protected static synchronized void switchToPreviousTab(WebDriver mydriver, Logger logger,
-			String currentWindowHandle) {
-		Set<String> tabSet = mydriver.getWindowHandles();
-		Iterator<String> it = tabSet.iterator();
-		ArrayList<String> tabList = new ArrayList<>();
-
+	public static synchronized void switchToPreviousTab(WebDriver mydriver, Logger logger) {
+		Set<String> tabs = mydriver.getWindowHandles();
+		Iterator<String> it = tabs.iterator();
+		int i = 0;
+		String firstTab = "";
 		while (it.hasNext()) {
-			String a = it.next();
-			tabList.add(a);
-		}
-		Collections.reverse(tabList);
-		Iterator<String> reverseIterator = tabList.iterator();
-		while (it.hasNext()) {
-			String a = reverseIterator.next();
-			if (!a.equals(currentWindowHandle)) {
-				logger.info("Current tab title => '" + mydriver.getTitle() + "'");
-				mydriver.switchTo().window(a);
-				logger.info("Switch to next tab with title => '" + mydriver.getTitle() + "'");
 
-				break;
+			if (i == 0) {
+				firstTab = it.next();
 			}
+
+			else {
+				String a = it.next();
+				mydriver.switchTo().window(a).close();
+
+			}
+			i++;
 		}
+		mydriver.switchTo().window(firstTab);
+		logger.info("Switched to first tab with title => '" + mydriver.getTitle() + "'");
+		i = 0;
 	}
 
-	/**
-	 * Here the element will be clicked using JavaScriptExecutor
-	 * 
-	 * @param element
-	 *            WebELement to be clicked
-	 * @param mydriver
-	 *            Driver object of the requesting script
-	 */
-	protected void clickWithJS(WebElement element, WebDriver mydriver) {
+	static ThreadLocal<WebDriver> jsePool = new ThreadLocal<>();
+	static ThreadLocal<WebElement> mouseElementPool = new ThreadLocal<>();
+
+	public void clickWithJS(WebElement element, WebDriver mydriver) {
 		synchronized (element) {
 			synchronized (mydriver) {
 				jsePool.set(mydriver);
@@ -1220,15 +1227,7 @@ public class Base extends LoggerLog4j {
 
 	}
 
-	/**
-	 * Here the element will be hovered by mouse cursor using JavaScriptExecutor
-	 * 
-	 * @param element
-	 *            WebELement to be clicked
-	 * @param mydriver
-	 *            Driver object of the requesting script
-	 */
-	protected void mouseWithJS(WebElement element, WebDriver mydriver) {
+	public void mouseWithJS(WebElement element, WebDriver mydriver) {
 
 		synchronized (element) {
 			synchronized (mydriver) {
@@ -1241,15 +1240,10 @@ public class Base extends LoggerLog4j {
 		((JavascriptExecutor) jsePool.get()).executeScript(mouseOverScript, mouseElementPool.get());
 	}
 
-	/**
-	 * Here the Json file with the previous scanning result will be downloaded and
-	 * processed
-	 * 
-	 * @param logger
-	 */
-	protected static void getComponentUrl(Logger logger) {
+	public static void getComponentUrl(Logger logger) {
 
 		JSONParser json = new JSONParser();
+		FileReader read = null;
 		try {
 
 			JSONObject obj = (JSONObject) json
@@ -1268,6 +1262,7 @@ public class Base extends LoggerLog4j {
 
 	}
 
+<<<<<<< Updated upstream
 	/**
 	 * This method is used to fetch the URLs out of the test data using the given
 	 * key
@@ -1312,31 +1307,49 @@ public class Base extends LoggerLog4j {
 						}
 
 						return randomURLs;
+=======
+	public synchronized static String fetchUrl(String componentName) {
+		if (System.getProperty("defaultExecution") == null
+				|| System.getProperty("defaultExecution").equalsIgnoreCase("false")) {
+			if (componentData.containsKey(componentName)) {
+				String a = componentData.get(componentName).replace("[", "").replace("]", "").replace("\"", "");
+				String[] urlSet = a.split(",");
+				String randomURLs = null;
+				if (a != null && !a.isEmpty()) {
+					int i = getRandomInteger(urlSet.length, 0);
+					int j = 0;
+					if (urlSet.length - 1 != 0) {
+						while (j == i) {
+							j = getRandomInteger(urlSet.length, 0);
+						}
+						randomURLs = urlSet[i] + "," + urlSet[j];
+>>>>>>> Stashed changes
 					} else {
-						return null;
+						randomURLs = urlSet[i];
 					}
+<<<<<<< Updated upstream
 				} else {
+=======
+
+					return randomURLs;
+				} else
+>>>>>>> Stashed changes
 					return null;
-				}
-			}
+			} else
+				return null;
 		} else {
 			return null;
 		}
 	}
 
-	/**
-	 * Here Action Class's object will be created for specific script
-	 * 
-	 * @param mydriver
-	 * @return Action Class's object
-	 */
-	protected static Actions getActions(WebDriver mydriver) {
+	public static Actions getActions(WebDriver mydriver) {
 		synchronized (mydriver) {
 			actionPool.set(new Actions(mydriver));
 		}
 		return actionPool.get();
 	}
 
+<<<<<<< Updated upstream
 	ThreadLocal<WebDriver> medexVisibilityDriverPool = new ThreadLocal<>();
 	ThreadLocal<WebElement> medexVisibilityComponentPool = new ThreadLocal<>();
 	ThreadLocal<Logger> medexVisibilityLoggerPool = new ThreadLocal<>();
@@ -1428,7 +1441,32 @@ public class Base extends LoggerLog4j {
 			if (tryLoopVisibilityThrowErrorOptionPool.get() == true) {
 				throw new SkipException(tryLoopVisibilityErrorPool.get());
 			}
+=======
+	private static void setBrowser() {
+		// System.setProperty("browser", "-ie");
+		if (System.getProperty("browser") == null || System.getProperty("browser").trim().isEmpty()
+				|| System.getProperty("browser").trim().equalsIgnoreCase("na")) {
+			localBrowser = property.getProperty("localBrowser");
+			remoteBrowser = property.getProperty("remoteBrowser");
+		} else if (System.getProperty("browser").trim().equalsIgnoreCase("-c")) {
+			localBrowser = "-c";
+			remoteBrowser = "-c";
+		} else if (System.getProperty("browser").trim().equalsIgnoreCase("-f")) {
+			localBrowser = "-f";
+			remoteBrowser = "-f";
+		} else if (System.getProperty("browser").trim().equalsIgnoreCase("-ie")) {
+			localBrowser = "-ie";
+			remoteBrowser = "-ie";
+		} else if (System.getProperty("browser").trim().equalsIgnoreCase("-e")) {
+			localBrowser = "-e";
+			remoteBrowser = "-e";
+		} else if (System.getProperty("browser").trim().equalsIgnoreCase("-s")) {
+			localBrowser = "-s";
+			remoteBrowser = "-s";
+		} else {
+			logger.info("Only select your browser from the available list =>\n-ie; -e; -c; -f");
+			System.exit(0);
+>>>>>>> Stashed changes
 		}
-		return tryLoopVisibilityStatusPool.get();
 	}
 }

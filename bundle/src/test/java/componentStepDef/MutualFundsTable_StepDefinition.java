@@ -19,14 +19,13 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.MutualFundTable_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
 public class MutualFundsTable_StepDefinition extends MutualFundTable_page {
 	private String author = "Aman Saxena";
 	private static String currentDomain = "=>";
-	//private static ArrayList<String> cardUrls = new ArrayList<>();
+	private static ArrayList<String> cardUrls = new ArrayList<>();
 	private static Logger logger;
 
 	@BeforeClass
@@ -35,8 +34,25 @@ public class MutualFundsTable_StepDefinition extends MutualFundTable_page {
 		fetchSession(MutualFundsTable_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MutualFundsTable_StepDefinition.class.getName());
 		new MutualFundTable_page();
+
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("mutual-fund-table") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				cardUrls.add("http://apsrs5642:8080/content/AutomationDirectory/mutual-funds-table-.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				cardUrls.add("http://apvrt31468:4503/content/AutomationDirectory/mutual-funds-table-.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("mutual-fund-table").split(",");
+			for (String link : scannedUrls) {
+				cardUrls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(MutualFundsTable_StepDefinition.class.getName());
-		setTagForTestClass("BioCard", author, MutualFundsTable_StepDefinition.class.getName());
+		for (String url : cardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("BioCard", author, currentDomain, MutualFundsTable_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(MutualFundsTable_StepDefinition.class);
 		logger.info("Urls for '" + MutualFundsTable_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(MutualFundsTable_StepDefinition.class.getName(), currentDomain);
@@ -57,12 +73,12 @@ public class MutualFundsTable_StepDefinition extends MutualFundTable_page {
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mutual-funds-table"})
-	public void columnSortFunctionalityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 1, enabled = true)
+	public void columnSortFunctionalityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			int i = 0;
 			List<WebElement> assetColumnHead = mydriver.findElements(By.xpath(assetClassColumnHeader));
 			for (WebElement assetColumn : assetColumnHead) {
@@ -118,15 +134,15 @@ public class MutualFundsTable_StepDefinition extends MutualFundTable_page {
 				i++;
 			}
 			logger.info("Performance Column Sort is working fine");
-
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mutual-funds-table"})
-	public void categorySearchFilterationCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 2, enabled = true)
+	public void categorySearchFilterationCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			categoryFilter.click();
 			selectByOptionIndex(categoryFilter, 1, logger);
 			filterSubmitButton.click();
@@ -135,15 +151,15 @@ public class MutualFundsTable_StepDefinition extends MutualFundTable_page {
 			pleaseWait(2, logger);
 			hardAssert.assertTrue(verifyElementExists(logger, mydriver.findElements(By.xpath(equityElements)).get(0),
 					"Equity Table"));
-
+		}
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mutual-funds-table"})
-	public void assetClassSearchFilterationCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 3, enabled = true)
+	public void assetClassSearchFilterationCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			categoryFilter.click();
 			Select select = new Select(assetClassFilter);
 			int i = getRandomInteger(select.getOptions().size(), 1);
@@ -158,15 +174,15 @@ public class MutualFundsTable_StepDefinition extends MutualFundTable_page {
 
 				hardAssert.assertEquals(text.getText(), selectedClass);
 			}
-
+		}
 	}
 
 	@Test(priority = 4, enabled = false)
-	public void elementUniquenessCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	public void elementUniquenessCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 
 			List<WebElement> equityElement = mydriver.findElements(By.xpath(equityElements));
 			List<WebElement> lifeStyleElement = mydriver.findElements(By.xpath(lifeStyleElements));
@@ -212,15 +228,15 @@ public class MutualFundsTable_StepDefinition extends MutualFundTable_page {
 				fail("Found same element in more than one table => " + duplicateElement);
 			}
 
-
+		}
 	}
 
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mutual-funds-table"})
-	public void searchDividingHeaderFieldCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 5, enabled = true)
+	public void searchDividingHeaderFieldCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			try {
 				scrollToElement(mydriver, searchDivideHeading, logger);
 				if (searchDivideHeading.getText().isEmpty()) {
@@ -231,15 +247,15 @@ public class MutualFundsTable_StepDefinition extends MutualFundTable_page {
 			} catch (NoSuchElementException e) {
 				throw new SkipException("Can't execute as there's no 'search divide header field'");
 			}
-
+		}
 	}
 
-	@Test(priority = 6, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mutual-funds-table"})
-	public void searchFunctionalityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 6, enabled = true)
+	public void searchFunctionalityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			int i = getRandomInteger(mydriver.findElements(By.xpath(equityElements)).size(), 1);
 			String inputText = mydriver.findElements(By.xpath(equityElements)).get(i).getText();
 			logger.info("Search Input Text => " + inputText.substring(0, 4));
@@ -256,15 +272,15 @@ public class MutualFundsTable_StepDefinition extends MutualFundTable_page {
 					fail("Search Input Key '" + inputText + "'  but result inludes => " + e.getText());
 				}
 			}
-
+		}
 	}
 
-	@Test(priority = 7, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mutual-funds-table"})
-	public void searchTagsFunctionalityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 7, enabled = true)
+	public void searchTagsFunctionalityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			int i = getRandomInteger(mydriver.findElements(By.xpath(equityElements)).size(), 1);
 			String inputText = mydriver.findElements(By.xpath(equityElements)).get(i).getText();
 			logger.info("Search Input Text => " + inputText.substring(0, 4));
@@ -285,15 +301,15 @@ public class MutualFundsTable_StepDefinition extends MutualFundTable_page {
 			} catch (NoSuchElementException e) {
 
 			}
-
+		}
 	}
 
-	@Test(priority = 8, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mutual-funds-table"})
-	public void seachWithBothFiltersCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 8, enabled = true)
+	public void seachWithBothFiltersCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			int i = getRandomInteger(mydriver.findElements(By.xpath(equityElements)).size(), 1);
 			String inputText = mydriver.findElements(By.xpath(equityElements)).get(i).getText();
 			logger.info("Search Input Text => " + inputText.substring(0, 4));
@@ -316,15 +332,15 @@ public class MutualFundsTable_StepDefinition extends MutualFundTable_page {
 				j++;
 			}
 
-
+		}
 	}
 
-	@Test(priority = 9, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mutual-funds-table"})
-	public void removeFilterConditions(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 9, enabled = true)
+	public void removeFilterConditions() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			int i = getRandomInteger(mydriver.findElements(By.xpath(equityElements)).size(), 1);
 			String inputText = mydriver.findElements(By.xpath(equityElements)).get(i).getText();
 			logger.info("Search Input Text => " + inputText.substring(0, 4));
@@ -343,22 +359,20 @@ public class MutualFundsTable_StepDefinition extends MutualFundTable_page {
 			selectByOptionIndex(categoryFilter, 1, logger);
 			selectByOptionIndex(assetClassFilter, 1, logger);
 			searchClearButton.click();
-			searchClearButton.click();
-			searchSubmitButton.click();
 			searchSubmitButton.click();
 			pleaseWait(5, logger);
 			List<WebElement> elementsFull = mydriver.findElements(By.xpath(fundElement));
 			hardAssert.assertNotEquals(elements, elementsFull);
-
+		}
 
 	}
 
-	@Test(priority = 10, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"mutual-funds-table"})
-	public void removeSearchTagsCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 10, enabled = true)
+	public void removeSearchTagsCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			int i = getRandomInteger(mydriver.findElements(By.xpath(equityElements)).size(), 1);
 			String inputText = mydriver.findElements(By.xpath(equityElements)).get(i).getText();
 			logger.info("Search Input Text => " + inputText.substring(0, 4));
@@ -390,7 +404,7 @@ public class MutualFundsTable_StepDefinition extends MutualFundTable_page {
 				fail("Search tags are visible even after clicking 'clear' button");
 			}
 
-
+		}
 	}
 
 }

@@ -2,17 +2,17 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="OCAC Automation Suite" parallel="classes" thread-count="100" verbose="2" >
 <listeners>
-		<!-- <listener class-name="runner.AnnotationTransformer"/> -->
+		<listener class-name="runner.AnnotationTransformer"/>
 		<listener class-name="runner.TestListener" />
 	</listeners>
   <test name="Automation Project" >
-   <!-- <packages>
+   <packages>
    <package name="dummyStepDef"/>
-   </packages> -->
-    <classes>
+   </packages>
+  <!--   <classes>
     
     <class name = "dummyStepDef.Dummy_StepDefinition"/>
-    <!-- <class name = "dummyStepDef.Dummy_StepDefinition2"/>
+    <class name = "dummyStepDef.Dummy_StepDefinition2"/>
     <class name = "dummyStepDef.Dummy_StepDefinition3"/>
     <class name = "dummyStepDef.Dummy_StepDefinition4"/>
     <class name = "dummyStepDef.Dummy_StepDefinition5"/>
@@ -20,9 +20,9 @@
     <class name = "dummyStepDef.Dummy_StepDefinition7"/>
     <class name = "dummyStepDef.Dummy_StepDefinition8"/>
     <class name = "dummyStepDef.Dummy_StepDefinition9"/>
-    <class name = "dummyStepDef.Dummy_StepDefinition10"/> -->
+    <class name = "dummyStepDef.Dummy_StepDefinition10"/>
  
     
-    </classes> 
+    </classes>  -->
   </test>
 </suite>

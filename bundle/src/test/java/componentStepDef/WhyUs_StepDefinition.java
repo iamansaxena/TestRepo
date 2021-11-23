@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.WhyUs_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -23,6 +22,7 @@ public class WhyUs_StepDefinition extends WhyUs_page {
 
 	private String author = "Aman Saxena";
 	private static String currentDomain = "=>";
+	private static ArrayList<String> cardUrls = new ArrayList<>();
 	private static Logger logger;
 
 	@BeforeClass
@@ -31,9 +31,29 @@ public class WhyUs_StepDefinition extends WhyUs_page {
 		fetchSession(WhyUs_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(WhyUs_StepDefinition.class.getName());
 		new WhyUs_page();
+<<<<<<< Updated upstream
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);		
+=======
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		if (fetchUrl("why-us") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				cardUrls.add("http://apsrs5642:8080/content/medexpressautomationdirectory/why-us.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				cardUrls.add("http://apvrt31468:4503/content/medexpressautomationdirectory/why-us.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("why-us").split(",");
+			for (String link : scannedUrls) {
+				cardUrls.add(link);
+			}
+		}
+
+>>>>>>> Stashed changes
 		ExtentTestManager.startTest(WhyUs_StepDefinition.class.getName());
-		setTagForTestClass("Why Us [Medex]", author, WhyUs_StepDefinition.class.getName());
+		for (String url : cardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("Why Us [Medex]", author, currentDomain, WhyUs_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(WhyUs_StepDefinition.class);
 		logger.info("Urls for '" + WhyUs_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(WhyUs_StepDefinition.class.getName(), currentDomain);
@@ -53,12 +73,12 @@ public class WhyUs_StepDefinition extends WhyUs_page {
 		softAssert = new SoftAssert();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"why-us"})
-	public void elementVisibilityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 1, enabled = true)
+	public void elementVisibilityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			scrollToElement(mydriver, whyUsSection, logger);
 			List<WebElement> icons = mydriver.findElements(By.xpath(columnIcons));
@@ -82,15 +102,15 @@ public class WhyUs_StepDefinition extends WhyUs_page {
 					+ verifyElementExists(logger, icons.get(3), "Column-4 Icon"));
 
 			softAssert.assertAll();
-
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"why-us"})
-	public void copyFieldVisibilityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 2, enabled = true)
+	public void copyFieldVisibilityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			scrollToElement(mydriver, whyUsSection, logger);
 			ArrayList<WebElement> authoredCopyFields = new ArrayList<>();
@@ -117,21 +137,21 @@ public class WhyUs_StepDefinition extends WhyUs_page {
 
 			}
 
-
+		}
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"why-us"})
-	public void titleLinkRedirectionCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 3, enabled = true)
+	public void titleLinkRedirectionCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			scrollToElement(mydriver, whyUsSection, logger);
 
 			try {
 				mydriver.findElement(By.xpath(columnTitle)).isDisplayed();
-				mydriver.findElement(By.xpath(columnLinks)).isDisplayed();
+
 			} catch (Exception e) {
 				throw new SkipException("There is no Title field available");
 			}
@@ -144,6 +164,6 @@ public class WhyUs_StepDefinition extends WhyUs_page {
 			titles.get(i).click();
 			pleaseWait(4, logger);
 			assertRedirection(mydriver, logger, getDomainName(cardUrl), expLink, handle);
-
+		}
 	}
 }

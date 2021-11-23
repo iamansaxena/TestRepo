@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.Sharebar_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -18,6 +17,7 @@ public class Sharebar_StepDefinition extends Sharebar_page {
 
 	private String author = "Aman Saxena";
 	private static Logger logger;
+	private static ArrayList<String> urls = new ArrayList<>();
 	private static String currentDomain = "=>";
 
 	@BeforeClass
@@ -26,8 +26,24 @@ public class Sharebar_StepDefinition extends Sharebar_page {
 		fetchSession(Sharebar_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Sharebar_StepDefinition.class.getName());
 		new Sharebar_page();
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("share-bar") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				urls.add("http://apsrs5642:8080/content/AutomationDirectory/sharebar.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				urls.add("http://apvrt31468:4503/content/AutomationDirectory/sharebar.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("share-bar").split(",");
+			for (String link : scannedUrls) {
+				urls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(Sharebar_StepDefinition.class.getName());
-		setTagForTestClass("Sharebar", author, Sharebar_StepDefinition.class.getName());
+		for (String url : urls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("Sharebar", author, currentDomain, Sharebar_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(Sharebar_StepDefinition.class);
 		logger.info("Urls for '" + Sharebar_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(Sharebar_StepDefinition.class.getName(), currentDomain);
@@ -49,11 +65,11 @@ public class Sharebar_StepDefinition extends Sharebar_page {
 		mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"share-bar"})
-	public void supportedShareOptionsAvailabilityCheck(String url) {
-		skipNonExistingComponent(url);
-		
-			
+	@Test(priority = 1, enabled = true)
+	public void supportedShareOptionsAvailabilityCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			scrollToElement(mydriver, sharebarContainer, logger);
 			try {
@@ -87,14 +103,14 @@ public class Sharebar_StepDefinition extends Sharebar_page {
 			} catch (Exception e) {
 				customTestLogs.get().add("Twitter share option not available");
 			}
-
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"share-bar"})
-	public void shareInNewTabCheck(String url) {
-		skipNonExistingComponent(url);
-		
-			
+	@Test(priority = 2, enabled = true)
+	public void shareInNewTabCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			String baseTab = mydriver.getWindowHandle();
 			scrollToElement(mydriver, sharebarContainer, logger);
@@ -133,16 +149,16 @@ public class Sharebar_StepDefinition extends Sharebar_page {
 			} catch (Exception e) {
 				customTestLogs.get().add("Twitter share option is not available");
 			}
-
+		}
 
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"share-bar"})
-	public void redirectionCheck(String url) {
-		skipNonExistingComponent(url);
+	@Test(priority = 3, enabled = true)
+	public void redirectionCheck() {
+		skipNonExistingComponent(urls);
 
-		
-			
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			scrollToElement(mydriver, sharebarContainer, logger);
 			String handle = mydriver.getWindowHandle();			
@@ -179,6 +195,6 @@ public class Sharebar_StepDefinition extends Sharebar_page {
 			} catch (Exception e) {
 				customTestLogs.get().add("Twitter share option is not available");
 			}
-//			}
+			}
 	}
 }

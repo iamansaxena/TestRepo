@@ -1,9 +1,9 @@
-package componentStepDef;
+package componentStepDef;import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -16,7 +16,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.IconStrip_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -25,16 +24,37 @@ public class IconStrip_StepDefinition extends IconStrip_page {
 
 	private static String currentDomain = "=>";
 
+	private static ArrayList<String> iconstrip = new ArrayList<>();
 	private static Logger logger;
 
 	@BeforeClass
 	public void setup() {
 		fetchSession(IconStrip_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(IconStrip_StepDefinition.class.getName());
+<<<<<<< Updated upstream
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+=======
+>>>>>>> Stashed changes
 		new IconStrip_page();
+		
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("icon-strip") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				iconstrip.add("http://apsrs5642:8080/content/AutomationDirectory/icon-strip.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				iconstrip.add("http://apvrt31468:4503/content/AutomationDirectory/icon-strip.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("icon-strip").split(",");
+			for (String link : scannedUrls) {
+				iconstrip.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(IconStrip_StepDefinition.class.getName());
-		setTagForTestClass("IconStrip", author, IconStrip_StepDefinition.class.getName());
+		for (String url : iconstrip) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("IconStrip", author, currentDomain, IconStrip_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(IconStrip_StepDefinition.class);
 		logger.info("Urls for '" + IconStrip_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(IconStrip_StepDefinition.class.getName(), currentDomain);
@@ -56,15 +76,13 @@ public class IconStrip_StepDefinition extends IconStrip_page {
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
-			"icon-strip" })
-	public void elementVisibilityCheck(String url) {
+	@Test(priority = 1, enabled = true)
+	public void elementVisibilityCheck() {
 
-		skipNonExistingComponent(url);
-
-		
-		mydriver.get(url);
-
+		skipNonExistingComponent(iconstrip);
+		for (String strip : iconstrip) {
+			urlUnderTest.get().add(strip); mydriver.get(strip);
+		}
 		List<WebElement> cards = mydriver.findElements(By.xpath(IconStrip_page.segments));
 		int i = 0;
 		for (WebElement card : cards) {
@@ -82,33 +100,31 @@ public class IconStrip_StepDefinition extends IconStrip_page {
 			i++;
 
 		}
+
 	}
 
-	@Test(priority = 2, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
-			"icon-strip" })
-	public void titleVisibilityCheck(String url) {
-		skipNonExistingComponent(url);
-
-		
-		mydriver.get(url);
-		getVisibility(mydriver, title, 10);
-		softAssert.assertTrue(verifyElementExists(logger, title, "Icon Segment Title"));
-		softAssert.assertAll();
-		if (IconStrip_page.title.getText() != null) {
-			logger.info("Icon Strip Title ==>" + title.getText());
-		} else {
-			fail("Icon Strip segment has missing header");
+	@Test(priority = 2, enabled = true)
+	public void titleVisibilityCheck() {
+		skipNonExistingComponent(iconstrip);
+		for (String strip : iconstrip) {
+			urlUnderTest.get().add(strip); mydriver.get(strip);
+			getVisibility(mydriver, title, 10);
+			softAssert.assertTrue(verifyElementExists(logger, title, "Icon Segment Title"));
+			softAssert.assertAll();
+			if (IconStrip_page.title.getText() != null) {
+				logger.info("Icon Strip Title ==>" + title.getText());
+			} else {
+				fail("Icon Strip segment has missing header");
+			}
 		}
 	}
 
-	@Test(priority = 3, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
-			"icon-strip" })
-	public void cardredirectionAvailabilityCheck(String url) {
-		skipNonExistingComponent(url);
-
-		
-		mydriver.get(url);
-
+	@Test(priority = 3, enabled = true)
+	public void cardredirectionAvailabilityCheck() {
+		skipNonExistingComponent(iconstrip);
+		for (String strip : iconstrip) {
+			urlUnderTest.get().add(strip); mydriver.get(strip);
+		}
 		List<WebElement> segments = mydriver.findElements(By.xpath(IconStrip_page.segments));
 		int i = 1;
 		for (WebElement segment : segments) {
@@ -123,34 +139,34 @@ public class IconStrip_StepDefinition extends IconStrip_page {
 		}
 
 	}
+	
+	
+	@Test(priority = 4, enabled = true)
+	public void cardLinkRedirectionCheck() {
+		skipNonExistingComponent(iconstrip);
+		for (String strip : iconstrip) {
+			urlUnderTest.get().add(strip); mydriver.get(strip);
 
-	@Test(priority = 4, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
-			"icon-strip" })
-	public void cardLinkRedirectionCheck(String url) {
-		skipNonExistingComponent(url);
+			List<WebElement> links;
 
-		
-		mydriver.get(url);
+			try {
+				scrollToElement(mydriver, mydriver.findElement(By.xpath("//*[@class=\"iconstrip__item\"]/a")), logger);
+				links = mydriver.findElements(By.xpath("//*[@class=\"iconstrip__item\"]/a"));
 
-		List<WebElement> links;
+			} catch (Exception e) {
+				throw new SkipException("No Segment Found with link");
 
-		try {
-			scrollToElement(mydriver, mydriver.findElement(By.xpath("//*[@class=\"iconstrip__item\"]/a")), logger);
-			links = mydriver.findElements(By.xpath("//*[@class=\"iconstrip__item\"]/a"));
-
-		} catch (Exception e) {
-			throw new SkipException("No Segment Found with link");
-
+			}
+			int i = getRandomInteger(links.size(), 0);
+			scrollToElement(mydriver, links.get(i), logger);
+			String linkUrl = links.get(i).getAttribute("href");
+//			getActions(mydriver).click(links.get(i)).perform();
+			String handle = mydriver.getWindowHandle();
+			links.get(i).click();
+			pleaseWait(4, logger);
+			jsWaitForPageToLoad(10,mydriver, logger);
+			assertRedirection(mydriver, logger, getDomainName(strip), linkUrl, handle);
 		}
-		int i = getRandomInteger(links.size(), 0);
-		scrollToElement(mydriver, links.get(i), logger);
-		String linkUrl = links.get(i).getAttribute("href");
-		// getActions(mydriver).click(links.get(i)).perform();
-		String handle = mydriver.getWindowHandle();
-		links.get(i).click();
-		pleaseWait(4, logger);
-		jsWaitForPageToLoad(10, mydriver, logger);
-		assertRedirection(mydriver, logger, getDomainName(url), linkUrl, handle);
-	}
 
+	}
 }

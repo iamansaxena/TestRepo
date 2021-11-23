@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.ResourceLibrarySidebar_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -23,7 +22,7 @@ public class ResourceLibrarySidebar_StepDefinition extends ResourceLibrarySideba
 
 	private String author = "Aman Saxena";
 	private static String currentDomain = "=>";
-	//private static ArrayList<String> cardUrls = new ArrayList<>();
+	private static ArrayList<String> cardUrls = new ArrayList<>();
 	private static Logger logger;
 
 	@BeforeClass
@@ -32,8 +31,25 @@ public class ResourceLibrarySidebar_StepDefinition extends ResourceLibrarySideba
 		fetchSession(ResourceLibrarySidebar_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ResourceLibrarySidebar_StepDefinition.class.getName());
 		new ResourceLibrarySidebar_page();
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("resource-lib-sidebar") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				cardUrls.add("http://apsrs5642:8080/content/AutomationDirectory/resourcelibrarysidebar.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				cardUrls.add("http://apvrt31468:4503/content/AutomationDirectory/resourcelibrarysidebar.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("resource-lib-sidebar").split(",");
+			for (String link : scannedUrls) {
+				cardUrls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(ResourceLibrarySidebar_StepDefinition.class.getName());
-		setTagForTestClass("Resource Library Sidebar", author, ResourceLibrarySidebar_StepDefinition.class.getName());
+		for (String url : cardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("Resource Library Sidebar", author, currentDomain,
+				ResourceLibrarySidebar_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(ResourceLibrarySidebar_StepDefinition.class);
 		logger.info("Urls for '" + ResourceLibrarySidebar_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(ResourceLibrarySidebar_StepDefinition.class.getName(), currentDomain);
@@ -54,12 +70,12 @@ public class ResourceLibrarySidebar_StepDefinition extends ResourceLibrarySideba
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"right_aside"})
-	public void newsLetterLabelCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 1, enabled = true)
+	public void newsLetterLabelCheck() {
+		skipNonExistingComponent(cardUrls);
 
-
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			try {
 				scrollToElement(mydriver, newsLetterLabel, logger);
@@ -68,15 +84,15 @@ public class ResourceLibrarySidebar_StepDefinition extends ResourceLibrarySideba
 			}
 			hardAssert.assertFalse(newsLetterLabel.getText().isEmpty());
 			logger.info("New Letter Label => " + newsLetterLabel.getText());
-
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"right_aside"})
-	public void newsLetterRedirectionCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 2, enabled = true)
+	public void newsLetterRedirectionCheck() {
+		skipNonExistingComponent(cardUrls);
 
-
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			try {
 				scrollToElement(mydriver, newsLetterButton, logger);
@@ -105,15 +121,15 @@ public class ResourceLibrarySidebar_StepDefinition extends ResourceLibrarySideba
 			 * hardAssert.assertTrue(mydriver.getCurrentUrl().contains(expectedLink)); }
 			 */
 
-
+		}
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"right_aside"})
-	public void expertiseSectionDefaultElementsCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 3, enabled = true)
+	public void expertiseSectionDefaultElementsCheck() {
+		skipNonExistingComponent(cardUrls);
 
-
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			int i = 0;
 
@@ -144,16 +160,16 @@ public class ResourceLibrarySidebar_StepDefinition extends ResourceLibrarySideba
 
 			}
 
-
+		}
 
 	}
 
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"right_aside"})
-	public void expertiseSectionRedirectionCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 4, enabled = true)
+	public void expertiseSectionRedirectionCheck() {
+		skipNonExistingComponent(cardUrls);
 
-
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 
 			try {
@@ -173,15 +189,15 @@ public class ResourceLibrarySidebar_StepDefinition extends ResourceLibrarySideba
 			} else {
 				hardAssert.assertTrue(mydriver.getCurrentUrl().contains(expected));
 			}
-
+		}
 	}
 
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"right_aside"})
-	public void resourceSectionRedirectionCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 5, enabled = true)
+	public void resourceSectionRedirectionCheck() {
+		skipNonExistingComponent(cardUrls);
 
-
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 
 			try {
@@ -206,6 +222,6 @@ public class ResourceLibrarySidebar_StepDefinition extends ResourceLibrarySideba
 			} else {
 				hardAssert.assertTrue(mydriver.getCurrentUrl().contains(expLink));
 			}*/
-
+		}
 	}
 }

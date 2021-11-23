@@ -13,6 +13,7 @@ import org.openqa.selenium.support.PageFactory;
 import core.Base;
 
 public class PluV2_page extends Base {
+	Base obj = new  Base();
 	protected static String ComponentUrl;
 	protected static WebDriver mydriver;
 	@FindBy(xpath = "//*[@class=\"pluv2-results__info pluv2__col\"]//span")
@@ -272,7 +273,7 @@ public class PluV2_page extends Base {
 
 	public PluV2_page() {
 		PageFactory.initElements(mydriver, this);
-//		ComponentUrl = "https://stg-empire.optum.com/content/AutomationDirectory/plu-v2-feature/intake-form-prohealth-ct.html";
+//		ComponentUrl = "http://apsrs5642:8080/content/AutomationDirectory/plu-v2-feature/intake-form-prohealth-ct.html";
 	}
 
 	public static void selectRadius(int value) throws NoSuchElementException, StaleElementReferenceException {
@@ -282,39 +283,39 @@ public class PluV2_page extends Base {
 
 	public  void getBaseSerpPage(String urlToIntakeForm) {
 		mydriver.get(urlToIntakeForm);
-		scrollToElement(mydriver, mydriver.findElement(By.xpath("//*[@id=\"pluv2-search__helper-text\"]")), logger);
+		obj.scrollToElement(mydriver, mydriver.findElement(By.xpath("//*[@id=\"pluv2-search__helper-text\"]")), logger);
 		String input = searchHelperLabel.getText().split("or ")[1];
-		scrollToElement(mydriver, searchField, logger);
+		obj.scrollToElement(mydriver, searchField, logger);
 		searchField.click();
 		searchField.click();
 		searchField.sendKeys(input);
 
 		searchButton.click();
-		scrollToElement(mydriver, resultsPageHeader, logger);
+		obj.scrollToElement(mydriver, resultsPageHeader, logger);
 
 	}
 
 	public  void getLocationDetailsPage(String urlToIntakeForm) {
 		getBaseSerpPage(urlToIntakeForm);
 		locationTab.click();
-		pleaseWait(1, logger);
+		obj.pleaseWait(1, logger);
 
 		List<WebElement> locationCards = mydriver.findElements(By.xpath(resultLocationCardNames));
 		int maxCard = locationCards.size() - 1;
 		locationCards.get(getRandomInteger(maxCard, 0)).click();
-		scrollToElement(mydriver, locationHeader, logger);
+		obj.scrollToElement(mydriver, locationHeader, logger);
 
 	}
 
 	public void getProviderDetailsPage(String urlToIntakeForm) {
 		getBaseSerpPage(urlToIntakeForm);
 		providerTab.click();
-		pleaseWait(1, logger);
+		obj.pleaseWait(1, logger);
 
 		List<WebElement> providerCards = mydriver.findElements(By.xpath(resultProviderCardNames));
 		int maxCard = providerCards.size() - 1;
 		providerCards.get(getRandomInteger(maxCard, 0)).click();
-		scrollToElement(mydriver, providerNameDetail, logger);
+		obj.scrollToElement(mydriver, providerNameDetail, logger);
 	}
 
 }

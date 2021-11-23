@@ -6,6 +6,7 @@
 		<listener class-name="runner.TestListener" />
 	</listeners>
 	<test name="Automation Project" parallel="classes"
+<<<<<<< Updated upstream
 	thread-count="100">	
 
 		<classes>
@@ -37,6 +38,13 @@
 
       <class name="componentStepDef.MedExpressCenters_StepDefinition" />
 	  	<class name="componentStepDef.ErServicesMedex_StepDefinition" /> 
+=======
+		thread-count="70">
+		<classes>
+<class name="componentStepDef.IconVerticalLabel_StepDefinition" />
+      <!-- <class name="componentStepDef.MedExpressCenters_StepDefinition" /> -->
+	  <!-- 	<class name="componentStepDef.ErServicesMedex_StepDefinition" /> 
+>>>>>>> Stashed changes
       <class name="componentStepDef.IntroTextHorizontal_StepDefinition" />			
       <class name="componentStepDef.Campaign_StepDefinition" /> 
 		  <class name = "componentStepDef.CentersCards_StepDefinition"/>
@@ -45,11 +53,12 @@
 		  <class name = "componentStepDef.ThoughLeadership_StepDefinition"/>
       <class name="componentStepDef.QuickContact_StepDefinition" />  
       <class name = "componentStepDef.AccordionV2_StepDefinition"/>
+      <class name = "componentStepDef.CareerSearch_StepDefinition"/>
+
       <class name = "componentStepDef.TestimonialCarousel_StepDefinition"/>
       <class name="componentStepDef.CenterAccordion_StepDefinition" />
       <class name = "componentStepDef.WhyUs_StepDefinition"/>
-<class name="componentStepDef.HorizontalRuleWithArrowDivider_StepDefinition" />
-<class name="componentStepDef.HorizontalRuleWithNoArrowDivider_StepDefinition" />
+ 	
 		  <class name="componentStepDef.WaitTime_StepDefinition" />
 
 			<class name="componentStepDef.ImageResponsiveRendition_StepDefinition" />
@@ -67,6 +76,7 @@
 			<class name="componentStepDef.IconVerticalLabel_StepDefinition" />
 			<class name="componentStepDef.Aarp_StepDefinition" />
 			<class name="componentStepDef.ArticleInPage_StepDefinition" />
+			<class name="componentStepDef.CampaignCarousel_StepDefinition" />
 
 			<class name="componentStepDef.MutualFundsTable_StepDefinition" />
 			<class
@@ -107,7 +117,8 @@
 			<class name="componentStepDef.MainHeroBanner_StepDefinition" />
 			<class name="componentStepDef.SubHeroBanner_StepDefinition" />
 
-			<class name="componentStepDef.MaterialCardInfographic_StepDefinition" />
+			<class
+				name="componentStepDef.MaterialCardInfographic_StepDefinition" />
 			<class name="componentStepDef.FeaturedArticle_StepDefinition" />
 
 
@@ -119,6 +130,7 @@
 			<class name="componentStepDef.DynamicAlert_StepDefinition" />
 			<class name="componentStepDef.PullQuote_StepDefinition" />
 			<class name="componentStepDef.Card300Image_StepDefinition" />
+<<<<<<< Updated upstream
 			<class name="componentStepDef.LocalMessage_StepDefinition" />  
 
 			<!--
@@ -127,6 +139,12 @@
 			<class name="componentStepDef.MCL_StepDefinition" /> <class name 
 				= "componentStepDef.PluV2_StepDefinition"/> -->
 
+=======
+			<class name="componentStepDef.LocalMessage_StepDefinition" /> -->
+
+			<!-- <class name="componentStepDef.MCL_StepDefinition" /> <class name 
+				= "componentStepDef.PluV2_StepDefinition"/> -->
+>>>>>>> Stashed changes
 		</classes>
 	</test>
 </suite>

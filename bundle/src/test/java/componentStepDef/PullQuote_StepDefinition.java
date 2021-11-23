@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.PullQuote_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -20,18 +19,42 @@ public class PullQuote_StepDefinition extends PullQuote_page {
 
 	private String author = "Sai Tummala";
 	private static Logger logger;
+	private static ArrayList<String> urls = new ArrayList<>();
 	private static String currentDomain = "=>";
 
 	@BeforeClass
 	public void setup() {
 		fetchSession(PullQuote_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(PullQuote_StepDefinition.class.getName());
+<<<<<<< Updated upstream
 		new PullQuote_page();		
+=======
+		new PullQuote_page();
+		
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("pull-quote") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				urls.add("http://apsrs5642:8080/content/AutomationDirectory/pull-quote.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				urls.add("http://apvrt31468:4503/content/AutomationDirectory/pull-quote.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("pull-quote").split(",");
+			for (String link : scannedUrls) {
+				urls.add(link);
+			}
+		}
+
+		
+>>>>>>> Stashed changes
 		ExtentTestManager.startTest(PullQuote_StepDefinition.class.getName());
-		setTagForTestClass("PullQuote", author, PullQuote_StepDefinition.class.getName());
+		for (String url : urls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("PullQuote", author, currentDomain, PullQuote_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(PullQuote_StepDefinition.class);
 		logger.info("Urls for '" + PullQuote_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(PullQuote_StepDefinition.class.getName(), currentDomain);
+
 		driverMap.put(PullQuote_StepDefinition.class.getName().split("\\.")[1], mydriver);
 		pleaseWait(1, logger);
 		logger.info("Browser pool at '" + PullQuote_StepDefinition.class.getName() + "' =>\n" + driverMap);
@@ -48,11 +71,11 @@ public class PullQuote_StepDefinition extends PullQuote_page {
 //		mydriver.manage().deleteAllCookies();
 	}
 	
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pull-quote"})
-	public void pullQuoteBlockCheck(String url) {
-		skipNonExistingComponent(url);
-		
-			 mydriver.get(url);
+	@Test(priority = 1, enabled = true)
+	public void pullQuoteBlockCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			scrollToElement(mydriver, pullQuoteSection, logger);
 			focusElement(mydriver, blockQuote);
 			focusElement(mydriver, blockQuoteCitation);
@@ -62,14 +85,14 @@ public class PullQuote_StepDefinition extends PullQuote_page {
 			softAssert.assertTrue(verifyElementExists(logger, blockQuoteCitation,
 					"Caption Citation of Quote ::> " + blockQuoteCitation.getText()));
 			softAssert.assertAll();
-
+		}
 	}
 	
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pull-quote"})
-	public void displayPullQuoteButtonLinkText(String url) {
-		skipNonExistingComponent(url);
-		
-			 mydriver.get(url);
+	@Test(priority = 2, enabled = true)
+	public void displayPullQuoteButtonLinkText() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			try {
 				blockQuotelink.isDisplayed();
 			} catch (Exception e) {
@@ -77,15 +100,15 @@ public class PullQuote_StepDefinition extends PullQuote_page {
 			}
 			hardAssert.assertFalse(blockQuotelink.getText().isEmpty());
 			logger.info("Text displayed inside Button Link => "+blockQuotelink.getText());
-	
+		}	
 		}
 
 	
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"pull-quote"})
-	public void quoteLinkRedirectionCheck(String url) {
-		skipNonExistingComponent(url);
-		
-			 mydriver.get(url);
+	@Test(priority = 3, enabled = true)
+	public void quoteLinkRedirectionCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			
 			try {
 				blockQuotelink.isDisplayed();
@@ -96,7 +119,7 @@ public class PullQuote_StepDefinition extends PullQuote_page {
 				String handle = mydriver.getWindowHandle();
 				blockQuotelink.click();
 				assertRedirection(mydriver, logger, getDomainName(url), quoteLink,handle);
-
+		}
 	}
 
 }

@@ -12,7 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import core.Base;
 
-public class ExcelHandler extends Base{
+public class ExcelHandler {
 	public static int totalRows;
 	public static int totalColumns;
 	public static int totalSheets;
@@ -134,8 +134,8 @@ public class ExcelHandler extends Base{
 				} else {
 
 					ArrayList<Character> exists = new ArrayList<>();
-					for (String a : getDomainName(runtimeData.get(ComponentName).get("URL")).split(";")) {
-						if (!getDomainName(URL).equals(getDomainName(a))) {
+					for (String a : Base.getDomainName(runtimeData.get(ComponentName).get("URL")).split(";")) {
+						if (!Base.getDomainName(URL).equals(Base.getDomainName(a))) {
 							exists.add('f');
 
 						} else {
@@ -151,8 +151,8 @@ public class ExcelHandler extends Base{
 						logger.info("Found '" + ComponentName + "' on page => " + URL);
 					}
 
-					// if (!getDomainName(URL)
-					// .equals(getDomainName(runtimeData.get(ComponentName).get("URL")))) {
+					// if (!Base.getDomainName(URL)
+					// .equals(Base.getDomainName(runtimeData.get(ComponentName).get("URL")))) {
 					//
 					//
 					// }

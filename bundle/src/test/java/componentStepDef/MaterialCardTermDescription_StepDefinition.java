@@ -18,13 +18,14 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.MaterialCardTermDescription_Page;
-import core.CustomDataProvider;
+
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
 public class MaterialCardTermDescription_StepDefinition extends MaterialCardTermDescription_Page {
 	private String author = "Sai Tummala";
 	private static String currentDomain = "=>";
+	private static ArrayList<String> mcardUrls = new ArrayList<>();
 	private static Logger logger;
 
 	@BeforeClass
@@ -35,8 +36,28 @@ public class MaterialCardTermDescription_StepDefinition extends MaterialCardTerm
 		new MaterialCardTermDescription_Page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+<<<<<<< Updated upstream
+=======
+		if (fetchUrl("mcard-termdesc") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				mcardUrls.add("https://stg-sma.optum.com/en/about-us/who-we-are.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				mcardUrls.add("http://test-sma.optum.com/en/about-us/who-we-are.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("mcard-termdesc").split(",");
+			for (String link : scannedUrls) {
+				mcardUrls.add(link);
+			}
+		}
+
+>>>>>>> Stashed changes
 		ExtentTestManager.startTest(MaterialCardTermDescription_StepDefinition.class.getName());
-		setTagForTestClass("MaterialCardTermDesc", author, MaterialCardTermDescription_StepDefinition.class.getName());
+		for (String url : mcardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("MaterialCardTermDesc", author, currentDomain,
+				MaterialCardTermDescription_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(MaterialCardTermDescription_StepDefinition.class);
 		logger.info(
 				"Urls for '" + MaterialCardTermDescription_StepDefinition.class.getName() + "' => " + currentDomain);
@@ -59,12 +80,12 @@ public class MaterialCardTermDescription_StepDefinition extends MaterialCardTerm
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-term-descption"})
-	public void cardElementVisibilityCheck(String mcardUrl) {
+	@Test(priority = 1, enabled = true)
+	public void cardElementVisibilityCheck() {
 
-		skipNonExistingComponent(mcardUrl);
-
-			
+		skipNonExistingComponent(mcardUrls);
+		for (String mcardUrl : mcardUrls) {
+			urlUnderTest.get().add(mcardUrl);
 			mydriver.get(mcardUrl);
 
 			List<WebElement> cards = mydriver.findElements(By.xpath(MaterialCardTermDescription_Page.mCards));
@@ -93,13 +114,13 @@ public class MaterialCardTermDescription_StepDefinition extends MaterialCardTerm
 				i++;
 
 			}
-
+		}
 
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-term-descption"})
-	public void buttonVisibilityCheck(String mcardUrl) {
-		skipNonExistingComponent(mcardUrl);
+	@Test(priority = 2, enabled = true)
+	public void buttonVisibilityCheck() {
+		skipNonExistingComponent(mcardUrls);
 		List<WebElement> materialcards = mydriver
 				.findElements(By.xpath("//*[@class=\"material-card-term-descption section\"]"));
 		int i = 0;
@@ -110,14 +131,14 @@ public class MaterialCardTermDescription_StepDefinition extends MaterialCardTerm
 		}
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-term-descption"})
-	public void learnMoreButtonRedirection(String mcardUrl) {
-		skipNonExistingComponent(mcardUrl);
-
+	@Test(priority = 3, enabled = true)
+	public void learnMoreButtonRedirection() {
+		skipNonExistingComponent(mcardUrls);
+		for (String mcardUrl : mcardUrls) {
 			int i = 0;
 			String btnLink = null;
 			List<WebElement> buttons;
-			
+			urlUnderTest.get().add(mcardUrl);
 			mydriver.get(mcardUrl);
 			currentDomain = currentDomain + "[" + mcardUrl + "]";
 			List<WebElement> materialcards = mydriver
@@ -138,21 +159,23 @@ public class MaterialCardTermDescription_StepDefinition extends MaterialCardTerm
 			if (btnLink.isEmpty()) {
 				fail("Button Hyperlink is empty");
 				logger.error("Button Hyperlink is empty");
+				break;
 			}
 
 			if (btnLink != null) {
 				scrollToElement(mydriver, buttons.get(i), logger);
 				logger.info("Material Card button link: " + btnLink);
+				break;
 			}
 
-
+		}
 	}
 
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-term-descption"})
-	public void buttonHyperLinkRedirection(String mcardUrl) {
-		skipNonExistingComponent(mcardUrl);
-
-			
+	@Test(priority = 4, enabled = true)
+	public void buttonHyperLinkRedirection() {
+		skipNonExistingComponent(mcardUrls);
+		for (String mcardUrl : mcardUrls) {
+			urlUnderTest.get().add(mcardUrl);
 			mydriver.get(mcardUrl);
 			currentDomain = currentDomain + "[" + mcardUrl + "]";
 			// List<WebElement> desc = mydriver.findElements(By.xpath(descriptions));
@@ -181,7 +204,7 @@ public class MaterialCardTermDescription_StepDefinition extends MaterialCardTerm
 					allHandles.remove(currentHandle);
 					mydriver.switchTo().window(allHandles.iterator().next());
 					hardAssert.assertNotEquals(mydriver.getWindowHandle(), currentHandle);
-					
+					urlUnderTest.get().add(mcardUrl);
 					mydriver.get(currentPage);
 				} else if (hyperlinkDomain.equals(domain)) {
 					hardAssert.assertEquals(mydriver.getWindowHandle(), currentHandle);
@@ -189,6 +212,6 @@ public class MaterialCardTermDescription_StepDefinition extends MaterialCardTerm
 				}
 			}
 
-
+		}
 	}
 }

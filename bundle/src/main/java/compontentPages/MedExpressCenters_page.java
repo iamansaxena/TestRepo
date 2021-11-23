@@ -20,10 +20,10 @@ public class MedExpressCenters_page extends Base {
 	protected static WebDriver mydriver=null;
 	Base obj = new Base();
 
-	@FindBy(xpath = "//*[@class='centers-sitemap parbase section']")
+	@FindBy(xpath = "//main/div/div[@class='centers-sitemap parbase section']")
 	protected static WebElement medExpressCenterSection;
 	
-	@FindBy(xpath = "//*[@class='centers-sitemap parbase section']//a[contains(@href,'medexpress')]")
+	@FindBy(xpath = "//main/div/div[@class='centers-sitemap parbase section']//a[contains(@href,'medexpress')]")
 	protected static List<WebElement> medExpresscenterList;
 	
 	@FindBy(xpath = "//div[@class='medcenter']//h1[@class='medcenter__title']")

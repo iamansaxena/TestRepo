@@ -13,7 +13,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.ThoughLeadership_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -21,6 +20,7 @@ public class ThoughLeadership_StepDefinition extends ThoughLeadership_page {
 
 	private String author = "Aman Saxena";
 	private static Logger logger;
+	private static ArrayList<String> urls = new ArrayList<>();
 	private static String currentDomain = "=>";
 
 	@BeforeClass
@@ -30,8 +30,25 @@ public class ThoughLeadership_StepDefinition extends ThoughLeadership_page {
 		mydriver = LATEST_DRIVER_POOL.get(ThoughLeadership_StepDefinition.class.getName());
 		new ThoughLeadership_page();
 
+		if (fetchUrl("tl-container") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				urls.add("http://apsrs5642:8080/content/AutomationDirectory/thoughtleadership.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				urls.add("http://apvrt31468:4503/content/AutomationDirectory/thoughtleadership.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("tl-container").split(",");
+			for (String link : scannedUrls) {
+				urls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(ThoughLeadership_StepDefinition.class.getName());
-		setTagForTestClass("Thought Leadership", author, ThoughLeadership_StepDefinition.class.getName());
+		for (String url : urls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("Thought Leadership", author, currentDomain,
+				ThoughLeadership_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(ThoughLeadership_StepDefinition.class);
 		logger.info("Urls for '" + ThoughLeadership_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(ThoughLeadership_StepDefinition.class.getName(), currentDomain);
@@ -53,11 +70,11 @@ public class ThoughLeadership_StepDefinition extends ThoughLeadership_page {
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"thought-leadership"})
-	public void defaultElementVisibilityCheck(String url) {
-		skipNonExistingComponent(url);
-
-			
+	@Test(priority = 1, enabled = true)
+	public void defaultElementVisibilityCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			List<WebElement> titles = mydriver.findElements(By.xpath(subsectionTitles));
 			List<WebElement> descriptions = mydriver.findElements(By.xpath(subsectionDescription));
@@ -77,14 +94,14 @@ public class ThoughLeadership_StepDefinition extends ThoughLeadership_page {
 				i++;
 			}
 
-
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"thought-leadership"})
-	public void imageVisiblityCheck(String url) {
-		skipNonExistingComponent(url);
-
-			
+	@Test(priority = 2, enabled = true)
+	public void imageVisiblityCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			List<WebElement> images = mydriver.findElements(By.xpath(subsectionWithImages));
 			for(WebElement image: images) {
@@ -92,14 +109,14 @@ public class ThoughLeadership_StepDefinition extends ThoughLeadership_page {
 				hardAssert.assertTrue(verifyElementExists(logger, image, "image field"));
 			}
 			
-
+		}
 	}
 	
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"thought-leadership"})
-	public void buttonVisibilityAndRedirectionCheck(String url) {
-		skipNonExistingComponent(url);
-
-			
+	@Test(priority = 3, enabled = true)
+	public void buttonVisibilityAndRedirectionCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			List<WebElement> buttons = mydriver.findElements(By.xpath(subsectionButtons));
 			int i = getRandomInteger(buttons.size(), 0);
@@ -112,20 +129,20 @@ public class ThoughLeadership_StepDefinition extends ThoughLeadership_page {
 			pleaseWait(5, logger);
 			assertRedirection(mydriver, logger, getDomainName(url), expUrl, handle);
 			
-
+		}
 	}
 
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"thought-leadership"})
-	public void blankButtonLabelCheck(String url) {
-		skipNonExistingComponent(url);
-
-			
+	@Test(priority = 4, enabled = true)
+	public void blankButtonLabelCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			List<WebElement> buttons = mydriver.findElements(By.xpath(subsectionButtons));
 			for(WebElement label: buttons) {
 				scrollToElement(mydriver, label, logger);
 				hardAssert.assertFalse(label.getAttribute("innerText").isEmpty());
 			}
-
+		}
 	}
 }

@@ -3,10 +3,6 @@ package utils;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * @author amohan31
- *
- */
 public class BrokenLinks {
 
 public static int isBroken(String linkUrl) {
@@ -29,7 +25,7 @@ public static int isBroken(String linkUrl) {
 	break;
 	  }  
 	} catch(Exception e) { 
-	System.out.println("CODE STUCK SOMEWHERE or" + linkUrl + " is malformed"); 
+	System.out.println("CODE STUCK SOMEWHERE or" + linkUrl + " is malformer"); 
 	e.printStackTrace(); 
 	}
 	return status;

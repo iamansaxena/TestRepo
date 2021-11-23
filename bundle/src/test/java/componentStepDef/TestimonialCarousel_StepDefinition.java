@@ -15,14 +15,13 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.TestimonialCarousel_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
 public class TestimonialCarousel_StepDefinition extends TestimonialCarousel_page {
 	private String author = "Aman Saxena";
 	private static Logger logger;
-	//private static ArrayList<String> urls = new ArrayList<>();
+	private static ArrayList<String> urls = new ArrayList<>();
 	private static String currentDomain = "=>";
 
 	@BeforeClass
@@ -32,8 +31,30 @@ public class TestimonialCarousel_StepDefinition extends TestimonialCarousel_page
 		mydriver = LATEST_DRIVER_POOL.get(TestimonialCarousel_StepDefinition.class.getName());
 		new TestimonialCarousel_page();
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+<<<<<<< Updated upstream
+=======
+		if (fetchUrl("testimonial-carousel") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				urls.add("http://apsrs5642:8080/content/medexpressautomationdirectory/testimonial-carousel.html");
+
+			} else if (Environment.equalsIgnoreCase("test")) {
+				urls.add("http://apvrt31468:4503/content/medexpressautomationdirectory/testimonial-carousel.html");
+			}
+
+		} else {
+			String[] scannedUrls = fetchUrl("testimonial-carousel").split(",");
+			for (String link : scannedUrls) {
+				urls.add(link);
+			}
+		}
+
+>>>>>>> Stashed changes
 		ExtentTestManager.startTest(TestimonialCarousel_StepDefinition.class.getName());
-		setTagForTestClass("Testimonial Carousel", author, TestimonialCarousel_StepDefinition.class.getName());
+		for (String url : urls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("Testimonial Carousel", author, currentDomain,
+				TestimonialCarousel_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(TestimonialCarousel_StepDefinition.class);
 		logger.info("Urls for '" + TestimonialCarousel_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(TestimonialCarousel_StepDefinition.class.getName(), currentDomain);
@@ -55,11 +76,11 @@ public class TestimonialCarousel_StepDefinition extends TestimonialCarousel_page
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"testimonial-carousel"})
-	public void slideSwitchingButtonFunctionalityCheck(String url) {
-		skipNonExistingComponent(url);
-		
-			
+	@Test(priority = 1, enabled = true)
+	public void slideSwitchingButtonFunctionalityCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			scrollToElement(mydriver, testimonialSection, logger);
 			try {
@@ -79,14 +100,14 @@ public class TestimonialCarousel_StepDefinition extends TestimonialCarousel_page
 			newSlide = mydriver.findElement(By.xpath(activeSlide)).getAttribute("data-slide-index");
 			customTestLogs.get().add("Checking if prev button functionality working: " +!(newSlide.equals(currentSlide)));
 			hardAssert.assertNotEquals(newSlide, currentSlide);
-
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"testimonial-carousel"})
-	public void slideSwitchingPagerFunctionalityCheck(String url) {
-		skipNonExistingComponent(url);
-		
-			
+	@Test(priority = 2, enabled = true)
+	public void slideSwitchingPagerFunctionalityCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			scrollToElement(mydriver, testimonialSection, logger);
 			try {
@@ -106,14 +127,14 @@ public class TestimonialCarousel_StepDefinition extends TestimonialCarousel_page
 			newSlide = mydriver.findElement(By.xpath(activeSlide)).getAttribute("data-slide-index");
 			customTestLogs.get().add("Checking if prev pager functionality working: " + !(newSlide.equals(currentSlide)));
 			hardAssert.assertNotEquals(newSlide, currentSlide);
-
+		}
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"testimonial-carousel"})
-	public void sliderAndSocialCopyFieldCheck(String url) {
-		skipNonExistingComponent(url);
-		
-			
+	@Test(priority = 3, enabled = true)
+	public void sliderAndSocialCopyFieldCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			scrollToElement(mydriver, testimonialSection, logger);
 			int i = 1;
@@ -149,15 +170,15 @@ public class TestimonialCarousel_StepDefinition extends TestimonialCarousel_page
 					i++;
 				}
 			}
-
+		}
 	}
 
 
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"testimonial-carousel"})
-	public void videoSlideModalOpenFunctionalityCheck(String url) {
-		skipNonExistingComponent(url);
-		
-			
+	@Test(priority = 4, enabled = true)
+	public void videoSlideModalOpenFunctionalityCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			scrollToElement(mydriver, testimonialSection, logger);
 			
@@ -175,14 +196,14 @@ public class TestimonialCarousel_StepDefinition extends TestimonialCarousel_page
 			customTestLogs.get().add("Checking if video modal opens on clicking the slide: "+verifyElementExists(logger, videoModal, "Video Modal"));
 			hardAssert.assertTrue(verifyElementExists(logger, videoModal, "Video Modal"));
 			
-
+		}
 	}
 
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"testimonial-carousel"})
-	public void socialLinkRedirectionCheck(String url) {
-			skipNonExistingComponent(url);
-			
-				
+	@Test(priority = 5, enabled = true)
+	public void socialLinkRedirectionCheck() {
+			skipNonExistingComponent(urls);
+			for (String url : urls) {
+				urlUnderTest.get().add(url);
 				mydriver.get(url);
 				scrollToElement(mydriver, testimonialSection, logger);
 				try {
@@ -214,5 +235,5 @@ public class TestimonialCarousel_StepDefinition extends TestimonialCarousel_page
 				assertRedirection(mydriver, logger, getDomainName(url), expLink, handle);
 			
 			}
-
+		}
 }

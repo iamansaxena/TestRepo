@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.LeadersHub_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -23,7 +22,7 @@ public class LeadersHub_StepDefinition extends LeadersHub_page {
 
 	private String author = "Aman Saxena";
 	private static String currentDomain = "=>";
-	
+	private static ArrayList<String> cardUrls = new ArrayList<>();
 	private static Logger logger;
 
 	@BeforeClass
@@ -32,8 +31,25 @@ public class LeadersHub_StepDefinition extends LeadersHub_page {
 		fetchSession(LeadersHub_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(LeadersHub_StepDefinition.class.getName());
 		new LeadersHub_page();
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("leadership-card-container") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				cardUrls.add("http://apsrs5642:8080/content/AutomationDirectory/leadershipHub.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				cardUrls.add("http://apvrt31468:4503/content/AutomationDirectory/leadershipHub.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("leadership-card-container").split(",");
+			for (String link : scannedUrls) {
+				cardUrls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(LeadersHub_StepDefinition.class.getName());
-		setTagForTestClass("Resource Library Sidebar", author, LeadersHub_StepDefinition.class.getName());
+		for (String url : cardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("Resource Library Sidebar", author, currentDomain,
+				LeadersHub_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(LeadersHub_StepDefinition.class);
 		logger.info("Urls for '" + LeadersHub_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(LeadersHub_StepDefinition.class.getName(), currentDomain);
@@ -54,10 +70,12 @@ public class LeadersHub_StepDefinition extends LeadersHub_page {
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"leadership-hub"})
-	public void elementVisibilityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
-			 mydriver.get(cardUrl);
+	@Test(priority = 1, enabled = true)
+	public void elementVisibilityCheck() {
+		skipNonExistingComponent(cardUrls);
+
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			List<WebElement> leaders = mydriver.findElements(By.xpath(leaderCard));
 			List<WebElement> leaderNames = mydriver.findElements(By.xpath(leaderName));
 			List<WebElement> leaderTitles = mydriver.findElements(By.xpath(leaderTitle));
@@ -73,12 +91,15 @@ public class LeadersHub_StepDefinition extends LeadersHub_page {
 			softAssert.assertEquals(leaderImages.size(), leaders.size());
 			softAssert.assertEquals(viewBioLinks.size(), leaders.size());
 			softAssert.assertAll();
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"leadership-hub"})
-	public void viewBioRedirectionCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
-			 mydriver.get(cardUrl);
+	@Test(priority = 2, enabled = true)
+	public void viewBioRedirectionCheck() {
+		skipNonExistingComponent(cardUrls);
+
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			List<WebElement> viewBioLinks = mydriver.findElements(By.xpath(viewBio));
 			List<WebElement> leaderNames = mydriver.findElements(By.xpath(leaderName));
 			int i = getRandomInteger(viewBioLinks.size() - 1, 0);
@@ -96,6 +117,8 @@ public class LeadersHub_StepDefinition extends LeadersHub_page {
 			if (found == false) {
 				fail("URL was expected to include '" + leaderName + "'" + "But actual url was '" + expectedURL + "'");
 			}
+
+		}
 	}
 // Disabling this as only functional Testing is in our scope
 //	@Test(priority = 3, enabled = true)

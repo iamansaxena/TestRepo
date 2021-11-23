@@ -2,6 +2,7 @@ package componentStepDef;
 
 import static org.testng.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -16,7 +17,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.FeaturedArticle_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -25,16 +25,38 @@ public class FeaturedArticle_StepDefinition extends FeaturedArticle_page {
 
 	private static String currentDomain = "=>";
 
+	private static ArrayList<String> cardUrls = new ArrayList<>();
 	private static Logger logger;
 
 	@BeforeClass
 	public void setup() {
 		fetchSession(FeaturedArticle_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(FeaturedArticle_StepDefinition.class.getName());
+<<<<<<< Updated upstream
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+=======
+>>>>>>> Stashed changes
 		new FeaturedArticle_page();
+
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		if (fetchUrl("featured-articles") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				cardUrls.add("http://apsrs5642:8080/content/AutomationDirectory/featured-article.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				cardUrls.add("http://apvrt31468:4503/content/AutomationDirectory/featured-article.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("featured-articles").split(",");
+			for (String link : scannedUrls) {
+				cardUrls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(FeaturedArticle_StepDefinition.class.getName());
-		setTagForTestClass("FeaturedArticle", author, FeaturedArticle_StepDefinition.class.getName());
+		for (String url : cardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("FeaturedArticle", author, currentDomain, FeaturedArticle_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(FeaturedArticle_StepDefinition.class);
 		logger.info("Urls for '" + FeaturedArticle_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(FeaturedArticle_StepDefinition.class.getName(), currentDomain);
@@ -56,14 +78,14 @@ public class FeaturedArticle_StepDefinition extends FeaturedArticle_page {
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
-			"featured-articles" })
-	public void elementVisibilityCheck(String url) {
+	@Test(priority = 1, enabled = true)
+	public void elementVisibilityCheck() {
 
-		skipNonExistingComponent(url);
-
-		
-		mydriver.get(url);
+		skipNonExistingComponent(cardUrls);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
+			mydriver.get(cardUrl);
+		}
 		List<WebElement> cards = mydriver.findElements(By.xpath(FeaturedArticle_page.cards));
 		int i = 0;
 		for (WebElement card : cards) {
@@ -86,13 +108,12 @@ public class FeaturedArticle_StepDefinition extends FeaturedArticle_page {
 			i++;
 
 		}
+
 	}
 
 	// DISABLING AS CONTENT IS NOT IN SCOPE
 	/*
-	 * @Test(priority = 2, enabled = true,dataProvider = "data-provider",
-	 * dataProviderClass = CustomDataProvider.class, parameters =
-	 * {"featured-articles"}) public void brokenImageCheck(String url) {
+	 * @Test(priority = 2, enabled = true) public void brokenImageCheck() {
 	 * skipNonExistingComponent(cardUrls); for (String cardUrl : cardUrls) {
 	 * customLogsPool.get().add(cardUrl); mydriver.get(cardUrl); List<WebElement>
 	 * images = mydriver.findElements(By.xpath(FeaturedArticle_page.cardimage)); int
@@ -103,66 +124,65 @@ public class FeaturedArticle_StepDefinition extends FeaturedArticle_page {
 	 * (mydriver.getTitle().contains("404")) { fail("Broken Image Found"); } } }
 	 */
 
-	@Test(priority = 3, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
-			"featured-articles" })
-	public void titleVisibilityCheck(String url) {
-		skipNonExistingComponent(url);
+	@Test(priority = 3, enabled = true)
+	public void titleVisibilityCheck() {
+		skipNonExistingComponent(cardUrls);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
+			mydriver.get(cardUrl);
+			getVisibility(mydriver, title, 10);
+			softAssert.assertTrue(verifyElementExists(logger, title, "Featured Article Title"));
+			softAssert.assertAll();
 
-		
-		mydriver.get(url);
-		getVisibility(mydriver, title, 10);
-		softAssert.assertTrue(verifyElementExists(logger, title, "Featured Article Title"));
-		softAssert.assertAll();
-
+		}
 	}
 
-	@Test(priority = 4, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
-			"featured-articles" })
-	public void cardredirectionAvailabilityCheck(String url) {
-		skipNonExistingComponent(url);
-
-		
-		mydriver.get(url);
-		List<WebElement> cards = mydriver.findElements(By.xpath(FeaturedArticle_page.cards));
-		int i = 1;
-		for (WebElement card : cards) {
-			scrollToElement(mydriver, card, logger);
-			WebElement cardLink = mydriver
-					.findElement(By.xpath("(//*[@class=\"featured-article js-HubItemCard\"]/a)[" + i + "]"));
-			if (cardLink.getAttribute("href").isEmpty()) {
-				fail("Card Hyperlink is Empty");
-			} else {
-				logger.info("Redirection Link ==> " + cardLink.getAttribute("href"));
+	@Test(priority = 4, enabled = true)
+	public void cardredirectionAvailabilityCheck() {
+		skipNonExistingComponent(cardUrls);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
+			mydriver.get(cardUrl);
+			List<WebElement> cards = mydriver.findElements(By.xpath(FeaturedArticle_page.cards));
+			int i = 1;
+			for (WebElement card : cards) {
+				scrollToElement(mydriver, card, logger);
+				WebElement cardLink = mydriver
+						.findElement(By.xpath("(//*[@class=\"featured-article js-HubItemCard\"]/a)[" + i + "]"));
+				if (cardLink.getAttribute("href").isEmpty()) {
+					fail("Card Hyperlink is Empty");
+				} else {
+					logger.info("Redirection Link ==> " + cardLink.getAttribute("href"));
+				}
+				i++;
 			}
-			i++;
-		}
-
-	}
-
-	@Test(priority = 5, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
-			"featured-articles" })
-	public void cardLinkRedirectionCheck(String url) {
-		skipNonExistingComponent(url);
-
-		
-		mydriver.get(url);
-		List<WebElement> links;
-
-		try {
-			mydriver.findElement(By.xpath("//*[@class=\"featured-article js-HubItemCard\"]/a")).isDisplayed();
-			links = mydriver.findElements(By.xpath("//*[@class=\"featured-article js-HubItemCard\"]/a"));
-
-		} catch (Exception e) {
-			throw new SkipException("No Card Found with link");
 
 		}
-		int i = getRandomInteger(links.size(), 0);
-		scrollToElement(mydriver, mydriver.findElements(By.xpath(cards)).get(i), logger);
-		String myTab = mydriver.getWindowHandle();
-		String linkUrl = links.get(i).getAttribute("href");
-		links.get(i).click();
-		pleaseWait(5, logger);
-		assertRedirection(mydriver, logger, getDomainName(url), linkUrl, myTab);
 	}
 
+	@Test(priority = 5, enabled = true)
+	public void cardLinkRedirectionCheck() {
+		skipNonExistingComponent(cardUrls);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
+			mydriver.get(cardUrl);
+			List<WebElement> links;
+
+			try {
+				mydriver.findElement(By.xpath("//*[@class=\"featured-article js-HubItemCard\"]/a")).isDisplayed();
+				links = mydriver.findElements(By.xpath("//*[@class=\"featured-article js-HubItemCard\"]/a"));
+
+			} catch (Exception e) {
+				throw new SkipException("No Card Found with link");
+
+			}
+			int i = getRandomInteger(links.size(), 0);
+			scrollToElement(mydriver, mydriver.findElements(By.xpath(cards)).get(i), logger);
+			String myTab = mydriver.getWindowHandle();
+			String linkUrl = links.get(i).getAttribute("href");
+			links.get(i).click();
+			pleaseWait(5, logger);
+			assertRedirection(mydriver, logger, getDomainName(cardUrl), linkUrl, myTab);
+		}
+	}
 }

@@ -14,6 +14,7 @@ import org.openqa.selenium.support.PageFactory;
 import core.Base;
 
 public class QmeHub_page extends Base {
+	Base obj = new Base();
 	protected static HashMap<String, List<WebElement>> results = new HashMap<>();
 	protected static HashMap<String, String> resultsSubSet = new HashMap<>();
 	protected static WebDriver mydriver;
@@ -82,7 +83,7 @@ public class QmeHub_page extends Base {
 	protected HashMap<String, List<WebElement>> getResults(Logger logger) {
 		
 		new QmeHub_page(logger);
-		scrollToElement(mydriver, accountTypeSectionLabel, logger);
+		obj.scrollToElement(mydriver, accountTypeSectionLabel, logger);
 		if(accountTypeSectionLabel.getAttribute("aria-expanded").equals("false")) {
 			accountTypeSectionLabel.click();
 		}
@@ -106,7 +107,7 @@ public class QmeHub_page extends Base {
 		
 		
 		resultsSubSet=new  HashMap<>();
-		scrollToElement(mydriver, accountTypeFilter2, logger);
+		obj.scrollToElement(mydriver, accountTypeFilter2, logger);
 		accountTypeFilter2.click();
 		logger.info("Getting data for Account-Type : " + accountTypeFilter2.getText());
 
@@ -126,7 +127,7 @@ public class QmeHub_page extends Base {
 		
 		
 		resultsSubSet=new  HashMap<>();
-		scrollToElement(mydriver, accountTypeFilter3, logger);
+		obj.scrollToElement(mydriver, accountTypeFilter3, logger);
 		accountTypeFilter3.click();
 		logger.info("Getting data for Account-Type : " + accountTypeFilter3.getText());
 
@@ -146,7 +147,7 @@ logger.info("There're '"+resultLabels.size()+"' elements available under account
 
 
 	resultsSubSet=new  HashMap<>();
-	scrollToElement(mydriver, accountTypeFilter4, logger);
+	obj.scrollToElement(mydriver, accountTypeFilter4, logger);
 		accountTypeFilter4.click();
 		logger.info("Getting data for Account-Type : " + accountTypeFilter4.getText());
 

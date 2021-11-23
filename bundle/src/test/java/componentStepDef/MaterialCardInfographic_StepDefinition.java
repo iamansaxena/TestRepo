@@ -18,7 +18,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.MaterialCardInfographic_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -27,7 +26,7 @@ public class MaterialCardInfographic_StepDefinition extends MaterialCardInfograp
 
 	private static String currentDomain = "=>";
 
-//	private static ArrayList<String> cardUrls= new ArrayList<>();
+	private static ArrayList<String> cardUrls= new ArrayList<>();
 	private static Logger logger;
 
 	@BeforeClass
@@ -35,8 +34,25 @@ public class MaterialCardInfographic_StepDefinition extends MaterialCardInfograp
 		fetchSession(MaterialCardInfographic_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MaterialCardInfographic_StepDefinition.class.getName());
 		new MaterialCardInfographic_page();
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("material-card-infographic") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				cardUrls.add("http://apsrs5642:8080/content/AutomationDirectory/material-card-infographic.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+			cardUrls.add("http://apvrt31468:4503/content/AutomationDirectory/material-card-infographic.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("material-card-infographic").split(",");
+			for (String link : scannedUrls) {
+				cardUrls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(MaterialCardInfographic_StepDefinition.class.getName());
-		setTagForTestClass("MaterialCardInfographic", author, MaterialCardInfographic_StepDefinition.class.getName());
+		for (String url : cardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("MaterialCardInfographic", author, currentDomain,
+				MaterialCardInfographic_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(MaterialCardInfographic_StepDefinition.class);
 		logger.info("Urls for '" + MaterialCardInfographic_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(MaterialCardInfographic_StepDefinition.class.getName(), currentDomain);
@@ -59,12 +75,12 @@ public class MaterialCardInfographic_StepDefinition extends MaterialCardInfograp
 //		mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-info-graphic"})
-	public void elementVisibilityCheck(String cardUrl) {
+	@Test(priority = 1, enabled = true)
+	public void elementVisibilityCheck() {
 
-		skipNonExistingComponent(cardUrl);
-
-			 mydriver.get(cardUrl);
+		skipNonExistingComponent(cardUrls);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 
 			List<WebElement> cards = mydriver.findElements(By.xpath(MaterialCardInfographic_page.cards));
 			int i = 0;
@@ -89,7 +105,7 @@ public class MaterialCardInfographic_StepDefinition extends MaterialCardInfograp
 				i++;
 			}
 
-
+		}
 	}
 
 //	Disabling this as we are not covering the content 
@@ -111,11 +127,11 @@ public class MaterialCardInfographic_StepDefinition extends MaterialCardInfograp
 		}
 	}*/
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-info-graphic"})
-	public void redirectionLinkUnavailabilityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
-
-			 mydriver.get(cardUrl);
+	@Test(priority = 3, enabled = true)
+	public void redirectionLinkUnavailabilityCheck() {
+		skipNonExistingComponent(cardUrls);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			List<WebElement> cards = mydriver.findElements(By.xpath(MaterialCardInfographic_page.cards));
 			int i = 1;
 			for (WebElement card : cards) {
@@ -136,14 +152,14 @@ public class MaterialCardInfographic_StepDefinition extends MaterialCardInfograp
 				}
 				i++;
 			}
-
+		}
 	}
 
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-info-graphic"})
-	public void redirectionButtonAvailabilityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
-
-			 mydriver.get(cardUrl);
+	@Test(priority = 4, enabled = true)
+	public void redirectionButtonAvailabilityCheck() {
+		skipNonExistingComponent(cardUrls);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			List<WebElement> cards = mydriver.findElements(By.xpath(MaterialCardInfographic_page.cards));
 			int i = 1;
 			for (WebElement card : cards) {
@@ -155,14 +171,14 @@ public class MaterialCardInfographic_StepDefinition extends MaterialCardInfograp
 					fail("Card Hyperlink is Empty");
 				}
 			}
-
+		}
 	}
 
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"material-card-info-graphic"})
-	public void cardLinkRedirectionCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
-
-			 mydriver.get(cardUrl);
+	@Test(priority = 5, enabled = true)
+	public void cardLinkRedirectionCheck() {
+		skipNonExistingComponent(cardUrls);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			List<WebElement> links;
 
 			try {
@@ -193,6 +209,6 @@ public class MaterialCardInfographic_StepDefinition extends MaterialCardInfograp
 
 			}
 		}
-//	}
+	}
 }
 // }

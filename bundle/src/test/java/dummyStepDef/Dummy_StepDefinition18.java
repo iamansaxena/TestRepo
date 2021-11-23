@@ -43,7 +43,7 @@ public class Dummy_StepDefinition18 extends Base{
 		for (String url : urls) {
 			currentDomain = currentDomain + "[" + url + "]";
 		}
-		setTagForTestClass("Dummy Test", author, Dummy_StepDefinition18.class.getName());
+		setTagForTestClass("Dummy Test", author, currentDomain, Dummy_StepDefinition18.class.getName());
 
 		logger = LoggerLog4j.startTestCase(Dummy_StepDefinition18.class);
 		logger.info("Urls for '" + Dummy_StepDefinition18.class.getName() + "' => " + currentDomain);
@@ -70,7 +70,7 @@ public class Dummy_StepDefinition18 extends Base{
 	public void DummyTest() {
 		skipNonExistingComponent(urls);
 		for (String url : urls) {
-			 mydriver.get("https://google.com");
+			urlUnderTest.get().add(url); mydriver.get("https://google.com");
 
 			System.out.println("completed");
 	
@@ -80,7 +80,7 @@ public class Dummy_StepDefinition18 extends Base{
 	public void DummyTest2() {
 		skipNonExistingComponent(urls);
 		for (String url : urls) {
-			 mydriver.get("https://google.com");
+			urlUnderTest.get().add(url); mydriver.get("https://google.com");
 
 			System.out.println("completed");
 	
@@ -90,7 +90,7 @@ public class Dummy_StepDefinition18 extends Base{
 	public void DummyTest3() {
 		skipNonExistingComponent(urls);
 		for (String url : urls) {
-			 mydriver.get("https://google.com");
+			urlUnderTest.get().add(url); mydriver.get("https://google.com");
 
 			System.out.println("completed");
 	
@@ -100,7 +100,7 @@ public class Dummy_StepDefinition18 extends Base{
 	public void DummyTest4() {
 		skipNonExistingComponent(urls);
 		for (String url : urls) {
-			 mydriver.get("https://google.com");
+			urlUnderTest.get().add(url); mydriver.get("https://google.com");
 
 			System.out.println("completed");
 	
@@ -110,7 +110,7 @@ public class Dummy_StepDefinition18 extends Base{
 	public void DummyTest5() {
 		skipNonExistingComponent(urls);
 		for (String url : urls) {
-			 mydriver.get("https://google.com");
+			urlUnderTest.get().add(url); mydriver.get("https://google.com");
 
 			System.out.println("completed");
 	
@@ -120,7 +120,7 @@ public class Dummy_StepDefinition18 extends Base{
 	public void DummyTest6() {
 		skipNonExistingComponent(urls);
 		for (String url : urls) {
-			 mydriver.get("https://google.com");
+			urlUnderTest.get().add(url); mydriver.get("https://google.com");
 			
 			System.out.println("completed");
 	
@@ -130,7 +130,7 @@ public class Dummy_StepDefinition18 extends Base{
 	public void DummyTest7() {
 		skipNonExistingComponent(urls);
 		for (String url : urls) {
-			 mydriver.get("https://google.com");
+			urlUnderTest.get().add(url); mydriver.get("https://google.com");
 
 			System.out.println("completed");
 	

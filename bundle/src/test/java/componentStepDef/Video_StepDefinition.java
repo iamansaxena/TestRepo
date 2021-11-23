@@ -20,7 +20,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.Video_page;
-import core.CustomDataProvider;
 import runner.Retry;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
@@ -29,7 +28,7 @@ public class Video_StepDefinition extends Video_page {
 
 	private String author = "Aman Saxena";
 	private static Logger logger;
-	//private static ArrayList<String> urls = new ArrayList<>();
+	private static ArrayList<String> urls = new ArrayList<>();
 	private static String currentDomain = "=>";
 
 	@BeforeClass
@@ -41,8 +40,27 @@ public class Video_StepDefinition extends Video_page {
 		new Video_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+<<<<<<< Updated upstream
+=======
+		if (fetchUrl("video-comp") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				urls.add("http://apsrs5642:8080/content/AutomationDirectory/video-component.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				urls.add("http://apvrt31468:4503/content/AutomationDirectory/video-component.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("video-comp").split(",");
+			for (String link : scannedUrls) {
+				urls.add(link);
+			}
+		}
+
+>>>>>>> Stashed changes
 		ExtentTestManager.startTest(Video_StepDefinition.class.getName());
-		setTagForTestClass("VideoComponent", author, Video_StepDefinition.class.getName());
+		for (String url : urls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("VideoComponent", author, currentDomain, Video_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(Video_StepDefinition.class);
 		logger.info("Urls for '" + Video_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(Video_StepDefinition.class.getName(), currentDomain);
@@ -64,11 +82,11 @@ public class Video_StepDefinition extends Video_page {
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true, retryAnalyzer=Retry.class,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"videoComponent"})
-	public void playPauseBigButtonControls(String url) {
-		skipNonExistingComponent(url);
-
-			 
+	@Test(priority = 1, enabled = true, retryAnalyzer=Retry.class)
+	public void playPauseBigButtonControls() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); 
 			mydriver.get(url);
 			
 			scrollToElement(mydriver, videoContainer, logger);
@@ -82,14 +100,14 @@ public class Video_StepDefinition extends Video_page {
 			videoContainer.click();
 			pleaseWait(4, logger);
 			hardAssert.assertTrue(verifyElementExists(logger, footerPlayButton, "Video Paused"));
-
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"videoComponent"})
-	public void playPauseFooterControls(String url) {
-		skipNonExistingComponent(url);
-
-			 mydriver.get(url);
+	@Test(priority = 2, enabled = true)
+	public void playPauseFooterControls() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			scrollToElement(mydriver, videoContainer, logger);
 			bigPlayButton.click();
 			pleaseWait(4, logger);
@@ -116,16 +134,16 @@ public class Video_StepDefinition extends Video_page {
 			pleaseWait(2, logger);
 			hardAssert.assertTrue(videoContainerStatus.getAttribute("class").contains("vjs-paused"));
 			
-
+		}
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"videoComponent"})
-	public void captionFileAndSubTitlesFunctionality(String url) {
-		skipNonExistingComponent(url);
+	@Test(priority = 3, enabled = true)
+	public void captionFileAndSubTitlesFunctionality() {
+		skipNonExistingComponent(urls);
 		if(browserName.toLowerCase().equalsIgnoreCase("firefox")) {
 			throw new SkipException("Can't test on firefox");
-		}
-			 mydriver.get(url);
+		}for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			JavascriptExecutor jse = (JavascriptExecutor)mydriver;
 			scrollToElement(mydriver, videoContainer, logger);
 			jse.executeScript("arguments[0].click()", bigPlayButton);
@@ -154,14 +172,14 @@ public class Video_StepDefinition extends Video_page {
 				hardAssert.assertFalse(captionField.getAttribute("src").isEmpty());
 			}
 
-
+		}
 	}
 
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"videoComponent"})
-	public void transcriptFileAndSubTitlesFunctionality(String url) {
-		skipNonExistingComponent(url);
-
-			 mydriver.get(url);
+	@Test(priority = 4, enabled = true)
+	public void transcriptFileAndSubTitlesFunctionality() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			bigPlayButton.click();
 			pleaseWait(5, logger);
 			try {
@@ -174,14 +192,14 @@ public class Video_StepDefinition extends Video_page {
 			scrollToElement(mydriver, transcriptTitle, logger);
 			hardAssert.assertTrue(verifyElementExists(logger, transcriptTitle, "Transcript Title"));
 //			hardAssert.assertFalse(transcriptTitle.getAttribute("innerText").isEmpty());
-
+		}
 	}
 
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"videoComponent"})
-	public void remainingTimeFunctionality(String url) {
-		skipNonExistingComponent(url);
-
-			 mydriver.get(url);
+	@Test(priority = 5, enabled = true)
+	public void remainingTimeFunctionality() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			logger.info("Total Time : " + remainingTime.getAttribute("innerText").split("-")[1]);
 			String totalLength = remainingTime.getAttribute("innerText").split("-")[1];
 
@@ -197,14 +215,14 @@ public class Video_StepDefinition extends Video_page {
 					- (Integer.parseInt(currentTime.split(":")[1]) + Integer.parseInt(remaining.split(":")[1])) <= 1)) {
 				fail("Difference between actual and expected 'remaining time' is more than 1 ");
 			}
-
+		}
 	}
 
-	@Test(priority = 6, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"videoComponent"})
-	public void videoQualitySwitchingFunctionality(String url) {
-		skipNonExistingComponent(url);
-
-			 mydriver.get(url);
+	@Test(priority = 6, enabled = true)
+	public void videoQualitySwitchingFunctionality() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			bigPlayButton.click();
 			pleaseWait(5, logger);
 
@@ -240,14 +258,14 @@ public class Video_StepDefinition extends Video_page {
 			logger.info("User have selected the quality: " + qualtiyOptions.get(j).getAttribute("innerText"));
 			hardAssert.assertTrue(qualtiyOptions.get(j).getAttribute("class").contains("selected"));
 
-
+		}
 	}
 
-	@Test(priority = 7, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"videoComponent"})
-	public void fullscreenFunctionality(String url) {
-		skipNonExistingComponent(url);
-
-			 mydriver.get(url);
+	@Test(priority = 7, enabled = true)
+	public void fullscreenFunctionality() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			bigPlayButton.click();
 			pleaseWait(5, logger);
 			scrollToElement(mydriver, videoContainer, logger);
@@ -276,17 +294,17 @@ public class Video_StepDefinition extends Video_page {
 
 			}
 
-
+		}
 	}
 
-	@Test(priority = 8, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"videoComponent"})
-	public void timelineHoppingFunctionality(String url) {
-		skipNonExistingComponent(url);
+	@Test(priority = 8, enabled = true)
+	public void timelineHoppingFunctionality() {
+		skipNonExistingComponent(urls);
 		if(browserName.toLowerCase().equalsIgnoreCase("firefox")) {
 			throw new SkipException("Can't test on firefox");
 		}
-
-			 mydriver.get(url);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			scrollToElement(mydriver, bigPlayButton, logger);
 			bigPlayButton.click();
 			pleaseWait(5, logger);
@@ -301,7 +319,7 @@ public class Video_StepDefinition extends Video_page {
 			pleaseWait(10, logger);
 			hardAssert.assertNotEquals(currentProgressTime.getAttribute("aria-valuetext"), remaining);
 
-
+		}
 	}
 
 }

@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.WaitTime_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -22,6 +21,7 @@ public class WaitTime_StepDefinition extends WaitTime_page {
 
 	private String author = "Aman Saxena";
 	private static String currentDomain = "=>";
+	private static ArrayList<String> expCardUrls = new ArrayList<>();
 	private static Logger logger;
 
 	@BeforeClass
@@ -30,8 +30,25 @@ public class WaitTime_StepDefinition extends WaitTime_page {
 		fetchSession(WaitTime_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(WaitTime_StepDefinition.class.getName());
 		new WaitTime_page();
+
+		if (fetchUrl("wait-time") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				expCardUrls.add("https://stg-www.optum.com/content/sma/en.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				expCardUrls.add("http://apvrt31468:4503/content/sma/en.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("wait-time").split(",");
+			for (String link : scannedUrls) {
+				expCardUrls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(WaitTime_StepDefinition.class.getName());
-		setTagForTestClass("Wait Time", author, WaitTime_StepDefinition.class.getName());
+		for (String url : expCardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("Wait Time", author, currentDomain, WaitTime_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(WaitTime_StepDefinition.class);
 		logger.info("Urls for '" + WaitTime_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(WaitTime_StepDefinition.class.getName(), currentDomain);
@@ -52,27 +69,27 @@ public class WaitTime_StepDefinition extends WaitTime_page {
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"wait-time"})
-	public void clockIconVisiblityCheck(String expCardUrl) {
-		skipNonExistingComponent(expCardUrl);
+	@Test(priority = 1, enabled = true)
+	public void clockIconVisiblityCheck() {
+		skipNonExistingComponent(expCardUrls);
 
-		
+		for (String expCardUrl : expCardUrls) {
 
-			
+			urlUnderTest.get().add(expCardUrl);
 			mydriver.get(expCardUrl);
 			scrollToElement(mydriver, clockIcon, logger);
 			hardAssert.assertTrue(verifyElementExists(logger, clockIcon, "Clock Icon"));
-
+		}
 		
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"wait-time"})
-	public void urgentCareCenterDetailsCheck(String expCardUrl) {
-		skipNonExistingComponent(expCardUrl);
+	@Test(priority = 2, enabled = true)
+	public void urgentCareCenterDetailsCheck() {
+		skipNonExistingComponent(expCardUrls);
 
-		
+		for (String expCardUrl : expCardUrls) {
 
-			
+			urlUnderTest.get().add(expCardUrl);
 			mydriver.get(expCardUrl);
 			List<WebElement> urgentCareCenter = mydriver.findElements(By.xpath(urgentCareCenters));
 			int i = 0;
@@ -84,15 +101,15 @@ public class WaitTime_StepDefinition extends WaitTime_page {
 				softAssert.assertFalse(mydriver.findElements(By.xpath(urgentCareCenterAddress)).get(i).getAttribute("innerText").isEmpty());
 				softAssert.assertAll();
 			i++;}
-
 		}
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"wait-time"})
-	public void convenientCareCenterDetailsCheck(String expCardUrl) {
-		skipNonExistingComponent(expCardUrl);
+		}
+	@Test(priority = 3, enabled = true)
+	public void convenientCareCenterDetailsCheck() {
+		skipNonExistingComponent(expCardUrls);
 
-		
+		for (String expCardUrl : expCardUrls) {
 
-			
+			urlUnderTest.get().add(expCardUrl);
 			mydriver.get(expCardUrl);
 			List<WebElement> convenientCareCenter = mydriver.findElements(By.xpath(convenientCareCenters));
 			int i = 0;
@@ -104,16 +121,16 @@ public class WaitTime_StepDefinition extends WaitTime_page {
 				softAssert.assertFalse(mydriver.findElements(By.xpath(convenientCareCenterAddress)).get(i).getAttribute("innerText").isEmpty());
 				softAssert.assertAll();
 			i++;}
-
+		}
 		}
 
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"wait-time"})
-	public void convenientCareSectionHeaderAndDescCheck(String expCardUrl) {
-		skipNonExistingComponent(expCardUrl);
+	@Test(priority = 4, enabled = true)
+	public void convenientCareSectionHeaderAndDescCheck() {
+		skipNonExistingComponent(expCardUrls);
 
-		
+		for (String expCardUrl : expCardUrls) {
 
-			
+			urlUnderTest.get().add(expCardUrl);
 			mydriver.get(expCardUrl);
 			boolean title = false;
 			boolean description = false;
@@ -137,16 +154,16 @@ public class WaitTime_StepDefinition extends WaitTime_page {
 			hardAssert.assertFalse(convenientCareDesc.getAttribute("innerText").isEmpty());
 		}
 		
-
+		}
 	}
 
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"wait-time"})
-	public void urgentCareSectionHeaderAndDescCheck(String expCardUrl) {
-		skipNonExistingComponent(expCardUrl);
+	@Test(priority = 5, enabled = true)
+	public void urgentCareSectionHeaderAndDescCheck() {
+		skipNonExistingComponent(expCardUrls);
 
-		
+		for (String expCardUrl : expCardUrls) {
 
-			
+			urlUnderTest.get().add(expCardUrl);
 			mydriver.get(expCardUrl);
 			boolean title = false;
 			boolean description = false;
@@ -170,16 +187,16 @@ public class WaitTime_StepDefinition extends WaitTime_page {
 			hardAssert.assertFalse(urgentCareDesc.getAttribute("innerText").isEmpty());
 		}
 		
-
+		}
 	}
 	
-	@Test(priority = 6, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"wait-time"})
-	public void componentMainHeaderAndDescCheck(String expCardUrl) {
-		skipNonExistingComponent(expCardUrl);
+	@Test(priority = 6, enabled = true)
+	public void componentMainHeaderAndDescCheck() {
+		skipNonExistingComponent(expCardUrls);
 
-		
+		for (String expCardUrl : expCardUrls) {
 
-			
+			urlUnderTest.get().add(expCardUrl);
 			mydriver.get(expCardUrl);
 			
 			try {
@@ -190,6 +207,6 @@ public class WaitTime_StepDefinition extends WaitTime_page {
 		
 			scrollToElement(mydriver, componentTitle, logger);
 			hardAssert.assertFalse(componentTitle.getAttribute("innerText").isEmpty());
-
+		}
 	}
 }

@@ -1,59 +1,46 @@
 package core;
 
-import java.net.MalformedURLException;
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.PageLoadStrategy;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.Proxy.ProxyType;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.ie.ElementScrollBehavior;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariOptions;
-import org.testng.asserts.Assertion;
-import org.testng.asserts.SoftAssert;
 
-import utils.LoggerLog4j;
-
-/**
- * @author amohan31
- *
- */
 public class DriverSessionHandler extends Base implements Runnable {
 	int count = 5;
 	String className;
 	WebDriver driver;
-	static ThreadLocal<String> sessionName = new ThreadLocal<>();
-	static DesiredCapabilities tCaps = new DesiredCapabilities();
 	static DesiredCapabilities capabilities = new DesiredCapabilities();
-	public DriverSessionHandler(@SuppressWarnings("rawtypes") Class className) {
-		synchronized (className) {
-			
-			this.className = className.getName();
-		}
+
+	public DriverSessionHandler(Class className) {
+		this.className = className.getName();
 	}
 
-	
 	@Override
 	public void run() {
+<<<<<<< Updated upstream
 		
 		LATEST_DRIVER_POOL.put(Thread.currentThread().getName(), getWebdriverInstance(Thread.currentThread().getName()));
+=======
+
+		LATEST_DRIVER_POOL.put(className, getWebdriverInstance(className));
+>>>>>>> Stashed changes
 
 	}
 
-	/**
-	 * This method is used to set the browser specific desired capabilities as per
-	 * the browser selected by the user
-	 * 
-	 * @return
-	 */
+	// Visit random website with multiple session
+
+	static ThreadLocal<String> sessionName = new ThreadLocal<>();
+//	static String browsername;
+	static DesiredCapabilities tCaps = new DesiredCapabilities();
+
 	public static DesiredCapabilities getCapabilities() {
 		if (remoteExecution.equalsIgnoreCase("true")) {
 			browserName = remoteBrowser;
@@ -61,17 +48,24 @@ public class DriverSessionHandler extends Base implements Runnable {
 			browserName = localBrowser;
 		}
 		if (!browserName.equals("-s")) {
-			tCaps.setCapability("idleTimeout", SAUCE_SESSION_TIMEOUT);
-			tCaps.setCapability("maxDuration", MAX_DURATION);
-			tCaps.setCapability("parentTunnel", parentTunnel);
-			tCaps.setCapability("tunnelIdentifier", tunnelIdentifier);
-			tCaps.setCapability("seleniumVersion", "3.141.59");
-			tCaps.setCapability("capturePerformance", "true");
-			tCaps.setCapability("extendedDebugging", "true");
-			tCaps.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.ACCEPT);
+//		tCaps.setAcceptInsecureCerts(true);
+		tCaps.setCapability("idleTimeout", SAUCE_SESSION_TIMEOUT);
+//		tCaps.setCapability(CapabilityType.SUPPORTS_APPLICATION_CACHE, "true");
+		tCaps.setCapability("maxDuration", MAX_DURATION);
+		tCaps.setCapability("parentTunnel", parentTunnel);
+		tCaps.setCapability("tunnelIdentifier", tunnelIdentifier);
+//		tCaps.setCapability("acceptInsecureCerts", true);
+		tCaps.setCapability("seleniumVersion", "3.141.59");
+		tCaps.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.ACCEPT);
+//		tCaps.setCapability(CapabilityType.PAGE_LOAD_STRATEGY, PageLoadStrategy.EAGER);
+		// tCaps.setCapability("extendedDebugging", "true");
+		// tCaps.setCapability("capturePerformance", "true");
+		// tCaps.setCapability("name", sessionName.get());
+
+		
 			tCaps.setCapability("screenResolution", "1920x1200");
 		}
-		tCaps.setCapability("commandTimeout", 600);
+		tCaps.setCapability("commandTimeout", 400);
 
 		if (browserName.equals("-c")) {
 			browserName = "Chrome";
@@ -90,6 +84,7 @@ public class DriverSessionHandler extends Base implements Runnable {
 			tCaps.setCapability("maxDuration", MAX_DURATION);
 			tCaps.setCapability("parentTunnel", parentTunnel);
 			tCaps.setCapability("tunnelIdentifier", tunnelIdentifier);
+			tCaps.setCapability("acceptInsecureCerts", "true");
 			tCaps.setCapability("seleniumVersion", "3.141.59");
 			tCaps.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.ACCEPT);
 			tCaps.setCapability(CapabilityType.PAGE_LOAD_STRATEGY, PageLoadStrategy.EAGER);
@@ -103,6 +98,7 @@ public class DriverSessionHandler extends Base implements Runnable {
 		return tCaps;
 	}
 
+<<<<<<< Updated upstream
 	/**
 	 * This method is used to setup custom remote Chrome options
 	 * 
@@ -361,3 +357,6 @@ public class DriverSessionHandler extends Base implements Runnable {
 		}
 	}
 }
+=======
+}
+>>>>>>> Stashed changes

@@ -1,6 +1,7 @@
-package componentStepDef;import java.util.ArrayList;
+package componentStepDef;import java.util.concurrent.TimeUnit;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -13,13 +14,13 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.SiteMap_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
 public class SiteMap_StepDefinition extends SiteMap_page {
 	private String author = "Aman Saxena";
 	private static Logger logger;
+	private static ArrayList<String> urls = new ArrayList<>();
 	private static String currentDomain = "=>";
 
 	@BeforeClass
@@ -30,8 +31,27 @@ public class SiteMap_StepDefinition extends SiteMap_page {
 		new SiteMap_page();
 
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+<<<<<<< Updated upstream
+=======
+		if (fetchUrl("sitemap") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				urls.add("http://apsrs5642:8080/content/AutomationDirectory/sitemap.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				urls.add("http://apvrt31468:4503/content/AutomationDirectory/sitemap.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("sitemap").split(",");
+			for (String link : scannedUrls) {
+				urls.add(link);
+			}
+		}
+
+>>>>>>> Stashed changes
 		ExtentTestManager.startTest(SiteMap_StepDefinition.class.getName());
-		setTagForTestClass("SiteMap", author, SiteMap_StepDefinition.class.getName());
+		for (String url : urls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("SiteMap", author, currentDomain, SiteMap_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(SiteMap_StepDefinition.class);
 		logger.info("Urls for '" + SiteMap_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(SiteMap_StepDefinition.class.getName(), currentDomain);
@@ -53,12 +73,12 @@ public class SiteMap_StepDefinition extends SiteMap_page {
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"sitemap"})
-	public void textFiledsVisibilityAndEmptyFieldCheck(String url) {
-		skipNonExistingComponent(url);
-		
+	@Test(priority = 1, enabled = true)
+	public void textFiledsVisibilityAndEmptyFieldCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
 
-			
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			scrollToElement(mydriver, siteMapSection, logger);
 			try {
@@ -73,5 +93,7 @@ public class SiteMap_StepDefinition extends SiteMap_page {
 			hyperlinks.get(i).click();
 			pleaseWait(5, logger);
 			assertRedirection(mydriver, logger, getDomainName(url), expLink, handle);
+
+		}
 	}
 }

@@ -11,19 +11,17 @@ import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.MiddleImageMedex_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
 public class MiddleImageMedex_StepDefinition extends MiddleImageMedex_page {
 	private String author = "Aman Saxena";
 	private static String currentDomain = "=>";
+	private static ArrayList<String> cardUrls = new ArrayList<>();
 	private static Logger logger;
 
 	@BeforeClass
@@ -33,8 +31,28 @@ public class MiddleImageMedex_StepDefinition extends MiddleImageMedex_page {
 		mydriver = LATEST_DRIVER_POOL.get(MiddleImageMedex_StepDefinition.class.getName());
 		new MiddleImageMedex_page();
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+<<<<<<< Updated upstream
+=======
+		if (fetchUrl("middle-image") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				cardUrls.add("http://apsrs5642:8080/content/medexpressautomationdirectory/middle-image.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				cardUrls.add("http://apvrt31468:4503/content/medexpressautomationdirectory/middle-image.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("middle-image").split(",");
+			for (String link : scannedUrls) {
+				cardUrls.add(link);
+			}
+		}
+
+>>>>>>> Stashed changes
 		ExtentTestManager.startTest(MiddleImageMedex_StepDefinition.class.getName());
-		setTagForTestClass("Middle Image [Medex]", author, MiddleImageMedex_StepDefinition.class.getName());
+		for (String url : cardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("Middle Image [Medex]", author, currentDomain,
+				MiddleImageMedex_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(MiddleImageMedex_StepDefinition.class);
 		logger.info("Urls for '" + MiddleImageMedex_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(MiddleImageMedex_StepDefinition.class.getName(), currentDomain);
@@ -54,14 +72,12 @@ public class MiddleImageMedex_StepDefinition extends MiddleImageMedex_page {
 		softAssert = new SoftAssert();
 	}
 
-	
-	@Parameters({"middle-image"})
-	@Test(priority = 1, enabled = true,  dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"middle-image"})
-	public void elementVisibilityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 1, enabled = true)
+	public void elementVisibilityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			scrollToElement(mydriver, middleImageSection, logger);
 			for (int i = 0; i <= 3; i++) {
@@ -72,16 +88,16 @@ public class MiddleImageMedex_StepDefinition extends MiddleImageMedex_page {
 								mydriver.findElements(By.xpath(graphicCirles)).get(i), "Graphic Circle '" + j + "'"));
 				hardAssert.assertTrue(verifyElementExists(logger, mydriver.findElements(By.xpath(graphicCirles)).get(i),
 						"Graphic Circle '" + j + "'"));
-			
+			}
 		}
 	}
 
-	@Test(priority = 2, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"middle-image"})
-	public void mainSectionTitleAvailabilityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 2, enabled = true)
+	public void mainSectionTitleAvailabilityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			scrollToElement(mydriver, middleImageSection, logger);
 			try {
@@ -94,15 +110,15 @@ public class MiddleImageMedex_StepDefinition extends MiddleImageMedex_page {
 			customTestLogs.get().add("Main section title field: " + middleImageSectionTitle.getAttribute("innerText"));
 			hardAssert.assertFalse(middleImageSectionTitle.getAttribute("innerText").isEmpty());
 			hardAssert.assertTrue(verifyElementExists(logger, middleImageSectionTitle, "Title field"));
-		
+		}
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"middle-image"})
-	public void subSectionTitleAvailabilityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 3, enabled = true)
+	public void subSectionTitleAvailabilityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			scrollToElement(mydriver, middleImageSection, logger);
 			List<WebElement> titles = mydriver.findElements(By.xpath(imageSectionTitles));
@@ -125,15 +141,15 @@ public class MiddleImageMedex_StepDefinition extends MiddleImageMedex_page {
 				i++;
 			}
 
-		
+		}
 	}
 
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"middle-image"})
-	public void subSectionCopyAvailabilityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 4, enabled = true)
+	public void subSectionCopyAvailabilityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			scrollToElement(mydriver, middleImageSection, logger);
 			List<WebElement> copies = mydriver.findElements(By.xpath(imageSectionCopies));
@@ -155,13 +171,16 @@ public class MiddleImageMedex_StepDefinition extends MiddleImageMedex_page {
 				hardAssert.assertFalse(copy.getAttribute("innerText").isEmpty());
 				i++;
 			}
-		
+		}
 
 	}
 
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"middle-image"})
-	public void subSectionExpandContractFunctionalityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 5, enabled = true)
+	public void subSectionExpandContractFunctionalityCheck() {
+		skipNonExistingComponent(cardUrls);
+
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			scrollToElement(mydriver, middleImageSection, logger);
 			List<WebElement> expButtons = mydriver.findElements(By.xpath(imageSectionExpandButtons));
@@ -173,10 +192,9 @@ public class MiddleImageMedex_StepDefinition extends MiddleImageMedex_page {
 				throw new SkipException("There no service copy field available");
 			}
 			int i = getRandomInteger(expButtons.size(), 0);
-			scrolltillvisibilityMedex(mydriver, middleImageSection, logger);
-			pleaseWait(4, logger);
-			hardAssert.assertFalse(closeButtons.get(i).isDisplayed());
-			scrollToElement(mydriver, mydriver.findElements(By.xpath(graphicCirles)).get(i), logger);
+			scrollToElement(mydriver, mydriver.findElements(By.xpath(imageSectionServiceCopies)).get(i), logger);
+
+			hardAssert.assertFalse(verifyElementExists(logger, closeButtons.get(i), "Close button '" + i + "'"));
 			expButtons.get(i).click();
 			customTestLogs.get().add("Section expanded after click? : "
 					+ verifyElementExists(logger, closeButtons.get(i), "Expand button '" + i + "'"));
@@ -185,15 +203,15 @@ public class MiddleImageMedex_StepDefinition extends MiddleImageMedex_page {
 			closeButtons.get(i).click();
 			customTestLogs.get().add("Section contracted after click? : "+ verifyElementExists(logger, expButtons.get(i), "Expand button '" + i + "'"));
 			hardAssert.assertTrue(verifyElementExists(logger, expButtons.get(i), "Close button '" + i + "'"));
-		
+		}
 	}
 
-	@Test(priority = 6, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"middle-image"})
-	public void subSectionServiceCopyVisibilityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 6, enabled = true)
+	public void subSectionServiceCopyVisibilityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			scrollToElement(mydriver, middleImageSection, logger);
 			List<WebElement> serviceCopy = mydriver.findElements(By.xpath(imageSectionServiceCopies));
@@ -206,8 +224,8 @@ public class MiddleImageMedex_StepDefinition extends MiddleImageMedex_page {
 				throw new SkipException("There no service copy field available");
 			}
 			int i = getRandomInteger(serviceCopy.size(), 0);
-			scrolltillvisibilityMedex(mydriver, middleImageSection, logger);
-			pleaseWait(4, logger);
+			scrollToElement(mydriver, mydriver.findElements(By.xpath(imageSectionServiceCopies)).get(i), logger);
+
 			hardAssert.assertFalse(verifyElementExists(logger, closeButtons.get(i), "Expand button '" + i + "'"));
 			expButtons.get(i).click();
 			customTestLogs.get().add("Service Copy section expanded after click? : "
@@ -218,7 +236,7 @@ public class MiddleImageMedex_StepDefinition extends MiddleImageMedex_page {
 			customTestLogs.get().add("Service Copy section contracted after click? : "
 					+ !(verifyElementExists(logger, serviceCopy.get(i), "Service Copy '" + i + "'")));
 			hardAssert.assertFalse(verifyElementExists(logger, serviceCopy.get(i), "Service Copy '" + i + "'"));
-		
+		}
 	}
 
 }

@@ -24,8 +24,8 @@ import utils.LoggerLog4j;
  */
 public class CrawlerService extends Base implements Runnable {
 	static final int CONNECTION_TIMEOUT = 120000;
-	static final int MAX_LIMIT_FOR_HYPERLINKS = 3500; // TO set the Depth of the crawling
-
+	static final int MAX_LIMIT_FOR_HYPERLINKS = 2000;
+	
 	static ConcurrentHashMap<String, String> WUT = new ConcurrentHashMap<>();
 	Thread t = null;
 	static ThreadLocal<Boolean> CONNECTION_STATUS = new ThreadLocal<>();
@@ -41,20 +41,14 @@ public class CrawlerService extends Base implements Runnable {
 	static ThreadLocal<ConcurrentSkipListSet<String>> visitedLinksPool = new ThreadLocal<>();
 	static ThreadLocal<Integer> iteratorCount = new ThreadLocal<>();
 	static ThreadLocal<String> pageUrlForFetchingComponentPool = new ThreadLocal<>();
-	public static ThreadLocal<Integer> connectionRetry = new ThreadLocal<>();
-	public static ArrayList<Thread> threadPool = new ArrayList<>();
 
 	/**
-	 * This method is used to visit each page fetched found for the website and
-	 * search for the required AEM component
-	 * 
 	 * @param website
 	 *            to be scanned or crawled
 	 */
 	public void crawl(String website) {
 		componentPool.set(new ConcurrentSkipListSet<>());
 		iteratorCount.set(0);
-		connectionRetry.set(0);
 		pageUnderScanPool.set(website);
 		domainPool.set(getDomainName(website));
 		hyperlinkPool.set(new ArrayList<String>());
@@ -73,8 +67,8 @@ public class CrawlerService extends Base implements Runnable {
 
 			connect(hyperlinkPool.get().get(iteratorCount.get()));
 
-			domPool.get().getElementsByAttribute("class").forEach(component -> {
-				componentPool.get().add(component.attr("class"));
+			domPool.get().getElementsByAttribute(qaHandleAttribute).forEach(component -> {
+				componentPool.get().add(component.attr(qaHandleAttribute));
 			});
 			fetchComponentName(hyperlinkPool.get().get(iteratorCount.get()));
 			if (hyperlinkPool.get().size() < MAX_LIMIT_FOR_HYPERLINKS) {
@@ -93,10 +87,6 @@ public class CrawlerService extends Base implements Runnable {
 	}
 
 	/**
-	 * This method is used to prepare the test data having the key-value pairs where
-	 * 'key' is the component name/Qa handle/Class attribute value and the 'value'
-	 * will be the urls found for this component
-	 * 
 	 * @param to
 	 *            which url components needed to be mapped
 	 */
@@ -142,8 +132,6 @@ public class CrawlerService extends Base implements Runnable {
 	}
 
 	/**
-	 * This method is to find all the unique hyperlinks available on a webpage on
-	 * the basis of certain conditions and return that list for further processing
 	 * Finds all the unique hyperlinks within the current page based on few
 	 * conditions
 	 */
@@ -159,8 +147,7 @@ public class CrawlerService extends Base implements Runnable {
 						&& !link.absUrl("href").trim().toLowerCase().endsWith(".crdownload")
 						&& !link.absUrl("href").trim().toLowerCase().endsWith(".jpg")) {
 
-					if (domainPool.get()
-							.equals(getDomainName(link.absUrl("href").split("#")[0].trim().split("\\?")[0]))) {
+					if (domainPool.get().equals(getDomainName(link.absUrl("href").split("#")[0].trim()))) {
 						if (!hyperlinkPool.get().contains(link.absUrl("href").trim())) {
 							hyperlinkPool.get().add(link.absUrl("href").trim());
 						}
@@ -175,11 +162,9 @@ public class CrawlerService extends Base implements Runnable {
 	}
 
 	/**
-	 * This method is used to make a connection the the given URL
-	 * 
 	 * @param url
 	 *            to which connection to be made
-	 * @return DOM of the connected URL
+	 * @return DOM of the connected url
 	 */
 	public static Document connect(String url) {
 
@@ -187,46 +172,41 @@ public class CrawlerService extends Base implements Runnable {
 			pageUnderScanPool.set(url);
 		}
 
-		while (CONNECTION_STATUS.get() == false && connectionRetry.get() < 5) {
+		while (CONNECTION_STATUS.get() == false) {
 			try {
-				domPool.set(Jsoup.connect(pageUnderScanPool.get().trim()).followRedirects(true)
-						.timeout(CONNECTION_TIMEOUT).ignoreContentType(true).maxBodySize(48000000).get());
+				domPool.set(Jsoup.connect(pageUnderScanPool.get().trim()).followRedirects(true).timeout(CONNECTION_TIMEOUT)
+						.ignoreContentType(true).maxBodySize(48000000).get());
 				CONNECTION_STATUS.set(true);
 
 			} catch (ConnectException e) {
-				connectionRetry.set(connectionRetry.get() + 1);
 				loggerPool.get().fatal("Connection Timeout ==> " + pageUnderScanPool.get());
 			} catch (SocketTimeoutException e) {
-				connectionRetry.set(connectionRetry.get() + 1);
 				loggerPool.get().fatal("Socket Timeout ==> " + pageUnderScanPool.get());
 			} catch (SSLException e) {
-				connectionRetry.set(connectionRetry.get() + 1);
 				loggerPool.get().fatal("SSL Exception==> " + pageUnderScanPool.get());
 				linksWithSslException.get().add(pageUnderScanPool.get());
 				break;
 			} catch (HttpStatusException e) {
-				connectionRetry.set(connectionRetry.get() + 1);
 				loggerPool.get().error("Page not found: " + pageUnderScanPool.get());
 				nonWorkingLinksPool.get().add(pageUnderScanPool.get());
 				break;
 			} catch (UnknownHostException e) {
-				connectionRetry.set(connectionRetry.get() + 1);
 				loggerPool.get().fatal("IO Exception==> " + pageUnderScanPool.get());
 				unknownHostLinks.get().add(pageUnderScanPool.get());
 				break;
 			} catch (IOException e) {
-				connectionRetry.set(connectionRetry.get() + 1);
 				loggerPool.get().fatal("IO Exception==> " + pageUnderScanPool.get());
 				loggerPool.get().fatal(ExceptionUtil.getStackTrace(e));
 				break;
 			}
 		}
-		connectionRetry.set(0);
 		CONNECTION_STATUS.set(false);
 
 		return domPool.get();
 
 	}
+
+	public static ArrayList<Thread> threadPool = new ArrayList<>();
 
 	public CrawlerService(String url) {
 		synchronized (url) {

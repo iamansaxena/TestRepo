@@ -1,13 +1,6 @@
 package utils;
 
-import core.Base;
-
-/**
- * @author amohan31
- *
- */
-public class Logo extends Base {
-	static int logoCount = 0;
+public class Logo {
 public Logo() {
 	System.out.println();
 	System.out.println();
@@ -40,14 +33,5 @@ public Logo() {
 	System.out.println("______________________________________________________________________________________________________________________________________________________________");
 	System.out.println("Automation Test Project - OPTUM CARE AND CORE");
 	System.out.println("______________________________________________________________________________________________________________________________________________________________ \n\n");
-}
-
-public static void init() {
-	if (logoCount == 0) {
-		new Logo();
-		logger.info("\n\n\n\n \t\t\t\t\tFresh Suite Execution");
-		logoCount++;
-	}
-	
 }
 }

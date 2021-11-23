@@ -17,13 +17,13 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.Text_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
 public class Text_StepDefinition extends Text_page{
 	private String author = "Aman Saxena";
 	private static Logger logger;
+	private static ArrayList<String> urls= new ArrayList<>();
 	private static String currentDomain = "=>";
 
 	@BeforeClass
@@ -32,8 +32,26 @@ public class Text_StepDefinition extends Text_page{
 		fetchSession(Text_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Text_StepDefinition.class.getName());
 		new Text_page();
+		
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("text-component") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				urls.add("http://apsrs5642:8080/content/AutomationDirectory/text.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				urls.add("http://apvrt31468:4503/content/AutomationDirectory/text.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("text-component").split(",");
+			for (String link : scannedUrls) {
+				urls.add(link);
+			}
+		}
+
+		
 		ExtentTestManager.startTest(Text_StepDefinition.class.getName());
-		setTagForTestClass("Text Component", author, Text_StepDefinition.class.getName());
+		for (String url : urls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("Text Component", author, currentDomain, Text_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(Text_StepDefinition.class);
 		logger.info("Urls for '" + Text_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(Text_StepDefinition.class.getName(), currentDomain);
@@ -55,12 +73,12 @@ public class Text_StepDefinition extends Text_page{
 //		mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"text"})
-	public void textFiledsVisibilityAndEmptyFieldCheck(String url) {
-		skipNonExistingComponent(url);
+	@Test(priority = 1, enabled = true)
+	public void textFiledsVisibilityAndEmptyFieldCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
 
-
-			 mydriver.get(url);
+			urlUnderTest.get().add(url); mydriver.get(url);
 			try {
 				scrollToElement(mydriver, mydriver.findElement(By.xpath(textField)), logger);
 			} catch (Exception e) {
@@ -74,13 +92,13 @@ public class Text_StepDefinition extends Text_page{
 			i++;
 			}
 			
-
+		}
 	}
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"text"})
-	public void paraSpacingCheck(String url) {
-		skipNonExistingComponent(url);
-
-			 mydriver.get(url);
+	@Test(priority = 2, enabled = true)
+	public void paraSpacingCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			try {
 				scrollToElement(mydriver, mydriver.findElement(By.xpath(textField)), logger);
 			} catch (Exception e) {
@@ -96,13 +114,13 @@ public class Text_StepDefinition extends Text_page{
 					fail("P tag can not be blank!!");
 				}
 			}
-
+		}
 	}
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"text"})
-	public void buttonFunctionalityCheck(String url) {
-		skipNonExistingComponent(url);
-
-			 mydriver.get(url);
+	@Test(priority = 3, enabled = true)
+	public void buttonFunctionalityCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			try {
 				scrollToElement(mydriver, mydriver.findElement(By.xpath(buttons)), logger);
 			} catch (Exception e) {
@@ -119,7 +137,7 @@ public class Text_StepDefinition extends Text_page{
 			buttonsWithLink.get(i).click();
 			pleaseWait(5, logger);
 			assertRedirection(mydriver, logger, getDomainName(url), expLink, handle);
-
+		}
 	}
 	
 		

@@ -1,5 +1,7 @@
 package componentStepDef;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
@@ -12,27 +14,50 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.Campaign_page;
-import core.CustomDataProvider;
+import compontentPages.CareerSearch_page;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
-public class Campaign_StepDefinition extends Campaign_page {
-
+public class Campaign_StepDefinition extends Campaign_page{
+	
 	private String author = "Sreevidhya";
 	private static String currentDomain = "=>";
+	private static ArrayList<String> cardUrls = new ArrayList<>();
 	private static Logger logger;
-	private String FName = "Asiq";
-	private String LName = "John";
-	private String Email = "Test@gmail.com";
+	private String FName ="Asiq";
+	private String LName ="John";
+	private String Email="Test@gmail.com";
 
 	@BeforeClass
 	public void setup() {
 		fetchSession(Campaign_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Campaign_StepDefinition.class.getName());
+<<<<<<< Updated upstream
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+=======
+>>>>>>> Stashed changes
 		new Campaign_page();
+
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("campaign") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				cardUrls.add("http://apsrs5642:8080/content/medexpressautomationdirectory/campaign.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				cardUrls.add("http://apvrt31468:4503/content/medexpressautomationdirectory/campaign.html");
+			}
+
+		} else {
+			String[] scannedUrls = fetchUrl("campaign").split(",");
+			for (String link : scannedUrls) {
+				cardUrls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(Campaign_StepDefinition.class.getName());
-		setTagForTestClass("campaign", author, Campaign_StepDefinition.class.getName());
+		for (String url : cardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("campaign", author, currentDomain,
+				Campaign_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(Campaign_StepDefinition.class);
 		logger.info("Urls for '" + Campaign_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(Campaign_StepDefinition.class.getName(), currentDomain);
@@ -50,17 +75,18 @@ public class Campaign_StepDefinition extends Campaign_page {
 	@AfterMethod
 	public void checkPage() {
 		softAssert = new SoftAssert();
-
+		
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"campaign"})
-	public void CampaignVisibilityCheck(String url) {
-		 skipNonExistingComponent(url);
+	
+	@Test(priority = 1, enabled = true)
+	public void CampaignVisibilityCheck() {
+		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrls);
 
-		
-			
-			mydriver.get(url);
-			WebDriverWait wait = new WebDriverWait(mydriver, 30);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
+			mydriver.get(cardUrl);
+			WebDriverWait wait = new WebDriverWait(mydriver,30);			
 			wait.until(ExpectedConditions.visibilityOf(Firstname));
 			scrollToElement(mydriver, Campaignsection, logger);
 			boolean abc = false;
@@ -68,37 +94,38 @@ public class Campaign_StepDefinition extends Campaign_page {
 			softAssert.assertTrue(Firstname.isDisplayed());
 			softAssert.assertTrue(Lastname.isDisplayed());
 			softAssert.assertTrue(E_mail.isDisplayed());
-			softAssert.assertTrue(Submitbtn.isDisplayed());
-			softAssert.assertTrue(Heading.isDisplayed());
+			softAssert.assertTrue(Submitbtn.isDisplayed());		
+			softAssert.assertTrue(Heading.isDisplayed());	
 			softAssert.assertAll();
-			if (abc != (Heading.isDisplayed() && Firstname.isDisplayed() && Lastname.isDisplayed()
-					&& E_mail.isDisplayed() && Submitbtn.isDisplayed())) {
+			if (abc != (Heading.isDisplayed() && Firstname.isDisplayed() && Lastname.isDisplayed() && E_mail.isDisplayed() && Submitbtn.isDisplayed() ))
+			{
 				abc = true;
 			}
-
-			customTestLogs.get().add("Verifing the elememt is displayed: " + abc);
-
-		}
-	
-
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"campaign"})
-	public void Campaignsubmision(String url) {
-		 skipNonExistingComponent(url);
-
-		
 			
-			mydriver.get(url);
-			WebDriverWait wait = new WebDriverWait(mydriver, 30);
-			wait.until(ExpectedConditions.visibilityOf(Firstname));
+			
+			customTestLogs.get().add("Verifing the elememt is displayed: "+abc);
+			
+		}
+	}
+	
+	@Test(priority = 2, enabled = true)
+	public void Campaignsubmision() {
+		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrls);
 
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
+			mydriver.get(cardUrl);
+			WebDriverWait wait = new WebDriverWait(mydriver,30);			
+			wait.until(ExpectedConditions.visibilityOf(Firstname));
+			
 			boolean xyz = false;
 			scrollToElement(mydriver, Campaignsection, logger);
 			Firstname.sendKeys(FName);
 			Lastname.sendKeys(LName);
 			E_mail.sendKeys(Email);
-			Submitbtn.click();
-			pleaseWait(6, logger);
-			hardAssert.assertTrue(Success_msg.isDisplayed());
+			Submitbtn.click();			
+			pleaseWait(6,logger);			
+			hardAssert.assertTrue(Success_msg.isDisplayed());	
 			hardAssert.assertTrue(Heading.isDisplayed());
 			softAssert.assertFalse(Firstname.isDisplayed());
 			softAssert.assertFalse(Lastname.isDisplayed());
@@ -106,73 +133,79 @@ public class Campaign_StepDefinition extends Campaign_page {
 			softAssert.assertFalse(Submitbtn.isDisplayed());
 			softAssert.assertAll();
 
-			if (xyz == (Firstname.isDisplayed() && Lastname.isDisplayed() && E_mail.isDisplayed()
-					&& Submitbtn.isDisplayed())) {
+			if (xyz == (Firstname.isDisplayed() && Lastname.isDisplayed() && E_mail.isDisplayed() && Submitbtn.isDisplayed()) )
+			{
 				xyz = true;
-
+				
+				
 			}
-
-			customTestLogs.get().add("Verifing the Capaign form submission: " + xyz);
-
-		}
-	
-
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"campaign"})
-	public void Mandatorymsg(String url) {
-		 skipNonExistingComponent(url);
-
-		
 			
-			mydriver.get(url);
-			WebDriverWait wait = new WebDriverWait(mydriver, 30);
+			
+			customTestLogs.get().add("Verifing the Capaign form submission: "+xyz);
+			
+			
+		}
+	}
+	
+	@Test(priority = 3, enabled = true)
+	public void Mandatorymsg() {
+		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrls);
+
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
+			mydriver.get(cardUrl);
+			WebDriverWait wait = new WebDriverWait(mydriver,30);			
 			wait.until(ExpectedConditions.visibilityOf(Firstname));
 			boolean abc = false;
-			Submitbtn.click();
-			pleaseWait(6, logger);
+			Submitbtn.click();	
+			pleaseWait(6,logger);	
 			softAssert.assertTrue(Firstname_Error.isDisplayed());
 			softAssert.assertTrue(Lastname_Error.isDisplayed());
 			softAssert.assertTrue(E_mail_Error.isDisplayed());
 			softAssert.assertAll();
-
-			if (abc != (Firstname_Error.isDisplayed() && Lastname_Error.isDisplayed() && E_mail_Error.isDisplayed())) {
+			
+			if (abc !=( Firstname_Error.isDisplayed() && Lastname_Error.isDisplayed() && E_mail_Error.isDisplayed()))
+			{
 				abc = true;
 			}
-
-			customTestLogs.get().add("Verifing the mandatory error message: " + abc);
-
-		}
-	
-
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"campaign"})
-	public void EmailfieldCheck(String url) {
-		 skipNonExistingComponent(url);
-
-		
 			
-			mydriver.get(url);
-			WebDriverWait wait = new WebDriverWait(mydriver, 30);
+			
+			customTestLogs.get().add("Verifing the mandatory error message: "+abc);
+			
+		}
+	}
+	
+	@Test(priority = 4, enabled = true)
+	public void EmailfieldCheck() {
+		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrls);
+
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
+			mydriver.get(cardUrl);
+			WebDriverWait wait = new WebDriverWait(mydriver,30);
 			wait.until(ExpectedConditions.visibilityOf(Campaignsection));
 			scrollToElement(mydriver, Campaignsection, logger);
 			E_mail.sendKeys("test@gmail.com");
 			Firstname.click();
 			softAssert.assertFalse(E_mail_Error.isDisplayed());
-			customTestLogs.get().add("Verifing the Error message is not displayed: " + E_mail_Error.isDisplayed());
+			customTestLogs.get().add("Verifing the Error message is not displayed: "+E_mail_Error.isDisplayed());
 			E_mail.clear();
 			E_mail.sendKeys("test@gmail.");
 			Firstname.click();
 			softAssert.assertTrue(E_mail_Error.isDisplayed());
-			customTestLogs.get().add("Verifing the Error message is displayed: " + E_mail_Error.isDisplayed());
+			customTestLogs.get().add("Verifing the Error message is displayed: "+E_mail_Error.isDisplayed());
 			E_mail.clear();
 			E_mail.sendKeys("test@");
 			Firstname.click();
 			softAssert.assertTrue(E_mail_Error.isDisplayed());
-			customTestLogs.get().add("Verifing the Error message is displayed: " + E_mail_Error.isDisplayed());
+			customTestLogs.get().add("Verifing the Error message is displayed: "+E_mail_Error.isDisplayed());
 			E_mail.clear();
 			E_mail.sendKeys("!@#.#$%.@#$");
 			Firstname.click();
 			softAssert.assertTrue(E_mail_Error.isDisplayed());
-			customTestLogs.get().add("Verifing the Error message is displayed: " + E_mail_Error.isDisplayed());
+			customTestLogs.get().add("Verifing the Error message is displayed: "+E_mail_Error.isDisplayed());
 			softAssert.assertAll();
 		}
-	
+	}
+
 }

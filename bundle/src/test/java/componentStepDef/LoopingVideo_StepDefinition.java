@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.LoopingVideo_page;
-import core.CustomDataProvider;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
@@ -25,7 +24,7 @@ import utils.LoggerLog4j;
 public class LoopingVideo_StepDefinition extends LoopingVideo_page {
 	private String author = "Aman Saxena";
 	private static Logger logger;
-	//private static ArrayList<String> urls = new ArrayList<>();
+	private static ArrayList<String> urls = new ArrayList<>();
 	private static String currentDomain = "=>";
 
 	@BeforeClass
@@ -33,9 +32,26 @@ public class LoopingVideo_StepDefinition extends LoopingVideo_page {
 		fetchSession(LoopingVideo_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(LoopingVideo_StepDefinition.class.getName());
 		new LoopingVideo_page();
+		
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("looping-video") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				urls.add("http://apsrs5642:8080/content/AutomationDirectory/loopingvideocontainer.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				urls.add("http://apvrt31468:4503/content/AutomationDirectory/loopingvideocontainer.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("looping-video").split(",");
+			for (String link : scannedUrls) {
+				urls.add(link);
+			}
+		}
 
 		ExtentTestManager.startTest(LoopingVideo_StepDefinition.class.getName());
-		setTagForTestClass("Looping Video Container", author, LoopingVideo_StepDefinition.class.getName());
+		for (String url : urls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("Looping Video Container", author, currentDomain,
+				LoopingVideo_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(LoopingVideo_StepDefinition.class);
 		logger.info("Urls for '" + LoopingVideo_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(LoopingVideo_StepDefinition.class.getName(), currentDomain);
@@ -57,11 +73,11 @@ public class LoopingVideo_StepDefinition extends LoopingVideo_page {
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"looping-video-container"})
-	public void isVideoPlaying(String url) {
-		skipNonExistingComponent(url);
-
-			 mydriver.get(url);
+	@Test(priority = 1, enabled = true)
+	public void isVideoPlaying() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			scrollToElement(mydriver, videoFrame, logger);
 			jsWaitForPageToLoad(30, mydriver, logger);
 			AShot ashot = new AShot();
@@ -72,30 +88,30 @@ public class LoopingVideo_StepDefinition extends LoopingVideo_page {
 			ImageDiff flag = imgUtil.makeDiff(img1.getImage(), img2.getImage());
 			hardAssert.assertTrue(flag.hasDiff());
 
-
+		}
 	}
 
 
 	
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"looping-video-container"})
-	public void blankTextCheck(String url) {
-		skipNonExistingComponent(url);
-
-			 mydriver.get(url);
+	@Test(priority = 3, enabled = true)
+	public void blankTextCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			scrollToElement(mydriver, videoFrame, logger);
 			List<WebElement> textFields = mydriver.findElements(By.xpath(text));
 			for(WebElement e : textFields) {
 				hardAssert.assertFalse(e.getText().isEmpty());
 			}
-
+		}
 	}
 	
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"looping-video-container"})
-	public void videoPlayFunctionalityCheck(String url) {
-		skipNonExistingComponent(url);
-
-			 mydriver.get(url);
+	@Test(priority = 4, enabled = true)
+	public void videoPlayFunctionalityCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			scrollToElement(mydriver, videoFrame, logger);
 			jsWaitForPageToLoad(30, mydriver, logger);
 			if(playPauseButton.getAttribute("aria-label").equals("play")) {
@@ -109,7 +125,7 @@ public class LoopingVideo_StepDefinition extends LoopingVideo_page {
 			Screenshot img2 = ashot.takeScreenshot(mydriver, videoFrame);
 			ImageDiff flag = imgUtil.makeDiff(img1.getImage(), img2.getImage());
 			hardAssert.assertTrue(flag.hasDiff());
-
+		}
 	}
 	
 }

@@ -18,7 +18,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.SubHeroBanner_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -26,6 +25,8 @@ public class SubHeroBanner_StepDefinition extends SubHeroBanner_page {
 	private String author = "Aman Saxena";
 
 	private static Logger logger;
+
+	private static ArrayList<String> urls = new ArrayList<>();
 	private static String currentDomain = "=>";
 
 	@BeforeClass
@@ -33,8 +34,25 @@ public class SubHeroBanner_StepDefinition extends SubHeroBanner_page {
 		fetchSession(SubHeroBanner_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(SubHeroBanner_StepDefinition.class.getName());
 		new SubHeroBanner_page();
+		
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("sub-hero-banner") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				urls.add("http://apsrs5642:8080/content/AutomationDirectory/sub-hero-banner.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				urls.add("http://apvrt31468:4503/content/AutomationDirectory/sub-hero-banner.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("sub-hero-banner").split(",");
+			for (String link : scannedUrls) {
+				urls.add(link);
+			}
+		}
+
 		ExtentTestManager.startTest(SubHeroBanner_StepDefinition.class.getName());
-		setTagForTestClass("SubHeroBanner", author, SubHeroBanner_StepDefinition.class.getName());
+		for (String url : urls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("SubHeroBanner", author, currentDomain, SubHeroBanner_StepDefinition.class.getName());
 
 		logger = LoggerLog4j.startTestCase(SubHeroBanner_StepDefinition.class);
 		logger.info("Urls for '" + SubHeroBanner_StepDefinition.class.getName() + "' => " + currentDomain);
@@ -57,11 +75,11 @@ public class SubHeroBanner_StepDefinition extends SubHeroBanner_page {
 		// mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"sub-banner"})
-	public void elementVisibilityCheck(String url) {
-		skipNonExistingComponent(url);
-		
-			 mydriver.get(url);
+	@Test(priority = 1, enabled = true)
+	public void elementVisibilityCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 
 			List<WebElement> banners = mydriver.findElements(By.xpath(SubHeroBanner_page.banners));
 			int i = 0;
@@ -72,14 +90,14 @@ public class SubHeroBanner_StepDefinition extends SubHeroBanner_page {
 				i++;
 			}
 
-
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"sub-banner"})
-	public void blankBannerImageCheck(String url) throws MalformedURLException {
-		skipNonExistingComponent(url);
-		
-			 mydriver.get(url);
+	@Test(priority = 2, enabled = true)
+	public void blankBannerImageCheck() throws MalformedURLException {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 
 			List<WebElement> banners = mydriver.findElements(By.xpath(SubHeroBanner_page.banners));
 			int i = 0;
@@ -95,14 +113,14 @@ public class SubHeroBanner_StepDefinition extends SubHeroBanner_page {
 				i++;
 			}
 
-
+		}
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"sub-banner"})
-	public void buttonLabelCheck(String url) {
-		skipNonExistingComponent(url);
-		
-			 mydriver.get(url);
+	@Test(priority = 3, enabled = true)
+	public void buttonLabelCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 
 			List<WebElement> buttons;
 			try {
@@ -125,14 +143,14 @@ public class SubHeroBanner_StepDefinition extends SubHeroBanner_page {
 					logger.info("Button label found=> " + button.getText());
 				}
 			}
-
+		}
 	}
 
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"sub-banner"})
-	public void buttonBlankHyperlinkCheck(String url) {
-		skipNonExistingComponent(url);
-		
-			 mydriver.get(url);
+	@Test(priority = 4, enabled = true)
+	public void buttonBlankHyperlinkCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			List<WebElement> buttons;
 			boolean isVideo = false;
 			try {
@@ -168,15 +186,15 @@ public class SubHeroBanner_StepDefinition extends SubHeroBanner_page {
 					}
 				}
 			}
-
+		}
 	}
 
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"sub-banner"})
-	public void videoModalCheck(String url) {
-		skipNonExistingComponent(url);
-		
+	@Test(priority = 5, enabled = true)
+	public void videoModalCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
 			List<WebElement> buttons;
-			 mydriver.get(url);
+			urlUnderTest.get().add(url); mydriver.get(url);
 			try {
 				mydriver.findElement(By.xpath(videoButtons)).isDisplayed();
 				buttons = mydriver.findElements(By.xpath(videoButtons));
@@ -194,15 +212,15 @@ public class SubHeroBanner_StepDefinition extends SubHeroBanner_page {
 				fail("Modal is not getting open on clicking the video button");
 			}
 
-
+		}
 	}
 
-	@Test(priority = 6, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"sub-banner"})
-	public void videoModalCloseCheck(String url) {
-		skipNonExistingComponent(url);
-		
+	@Test(priority = 6, enabled = true)
+	public void videoModalCloseCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
 			List<WebElement> buttons;
-			 mydriver.get(url);
+			urlUnderTest.get().add(url); mydriver.get(url);
 			try {
 				mydriver.findElement(By.xpath(videoButtons)).isDisplayed();
 				buttons = mydriver.findElements(By.xpath(videoButtons));
@@ -227,15 +245,15 @@ public class SubHeroBanner_StepDefinition extends SubHeroBanner_page {
 
 			}
 
-
+		}
 	}
 
-	@Test(priority = 7, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"sub-banner"})
-	public void videoModalFunctionalCheck(String url) {
-		skipNonExistingComponent(url);
-		
+	@Test(priority = 7, enabled = true)
+	public void videoModalFunctionalCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
 			List<WebElement> buttons;
-			 mydriver.get(url);
+			urlUnderTest.get().add(url); mydriver.get(url);
 			try {
 				mydriver.findElement(By.xpath(videoButtons)).isDisplayed();
 				buttons = mydriver.findElements(By.xpath(videoButtons));
@@ -269,15 +287,15 @@ public class SubHeroBanner_StepDefinition extends SubHeroBanner_page {
 			} catch (Exception e) {
 
 			}
-
+		}
 	}
 
-	@Test(priority = 8, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"sub-banner"})
-	public void linkButtonRedirectionCheck(String url) {
-		skipNonExistingComponent(url);
-		
+	@Test(priority = 8, enabled = true)
+	public void linkButtonRedirectionCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
 			List<WebElement> buttons;
-			 mydriver.get(url);
+			urlUnderTest.get().add(url); mydriver.get(url);
 			try {
 				scrollToElement(mydriver, mydriver.findElement(By.xpath(linkButtons)), logger);
 			} catch (NoSuchElementException f) {
@@ -299,18 +317,18 @@ public class SubHeroBanner_StepDefinition extends SubHeroBanner_page {
 					i++;
 				}
 			}
-
+		}
 
 	}
 
 	
 	
-	@Test(priority = 9, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"sub-banner"})
-	public void bannerContentCheck(String url) {
-		skipNonExistingComponent(url);
-		
+	@Test(priority = 9, enabled = true)
+	public void bannerContentCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
 			List<WebElement> contents = null;
-			 mydriver.get(url);
+			urlUnderTest.get().add(url); mydriver.get(url);
 
 			try {
 				contents = mydriver.findElements(By.xpath(descriptions));
@@ -330,17 +348,17 @@ public class SubHeroBanner_StepDefinition extends SubHeroBanner_page {
 				}
 			}
 
-
+		}
 	}
 
-	@Test(priority = 10, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"sub-banner"})
-	public void bannerTopSecondCheck(String url) {
-		skipNonExistingComponent(url);
-		
+	@Test(priority = 10, enabled = true)
+	public void bannerTopSecondCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
 			List<WebElement> topLines = null;
 			List<WebElement> banners;
 			List<WebElement> secondLines = null;
-			 mydriver.get(url);
+			urlUnderTest.get().add(url); mydriver.get(url);
 			try {
 				topLines = mydriver.findElements(By.xpath(SubHeroBanner_page.topLines));
 			} catch (Exception e) {
@@ -374,7 +392,7 @@ public class SubHeroBanner_StepDefinition extends SubHeroBanner_page {
 				i++;
 			}
 
-
+		}
 	}
 
 }

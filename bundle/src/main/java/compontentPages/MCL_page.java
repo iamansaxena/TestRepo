@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import core.Base;
 
 public class MCL_page extends Base {
+	Base obj = new Base();
 	protected static WebDriver mydriver = null;
 	@FindBy(xpath = "//*[@class=\"mcl-pills__copy-btn\"]")
 	protected static WebElement copyLinkButton;
@@ -80,7 +81,7 @@ public class MCL_page extends Base {
 
 	@FindBy(xpath = "//*[@class=\"av-meta av-meta-technical\"]")
 	protected static WebElement technicalDetailSection;
-
+	
 	@FindBy(xpath = "//*[@class=\"milli owneremail\"]/*[@data-owneremail]")
 	protected static WebElement assetOwnerEmail;
 
@@ -89,13 +90,12 @@ public class MCL_page extends Base {
 
 	protected static String assetTechInfoKeys = "//*[@class=\"av-meta av-meta-technical\"]/*[@class=\"row\"]/div[1]";
 	protected static String assetTechInfoValues = "//*[@class=\"av-meta av-meta-technical\"]/*[@class=\"row\"]/div[2]";
-	// Main Navigation Section//
-
+//Main Navigation Section//
+	
 	@FindBy(xpath = "//*[@class=\"main-nav__list--main-item\" and @lpos=\"main navigation : your assets\"]")
 	protected static WebElement myAssetDropDown;
 	@FindBy(xpath = "//*[@class=\"subnav_item\"]/a[@href=\"/favorites.html\"]")
 	protected static WebElement myFavoritesSubNav;
-
 	protected static List<WebElement> getFiltersUnderCategory(int indexOfFilterCategory) {
 		String a = "(//*[@class=\"mcl-tray\"]/div[@class=\"mcl-filter\"])[" + indexOfFilterCategory + "]//ul/li/label";
 		List<WebElement> elementList = mydriver.findElements(By.xpath(a));
@@ -106,21 +106,19 @@ public class MCL_page extends Base {
 	public MCL_page() {
 		PageFactory.initElements(mydriver, this);
 	}
-
-	protected void unFavAllAsset() {
-		scrollToElement(mydriver, myAssetDropDown, logger);
+	
+	protected  void unFavAllAsset(){
+		obj.scrollToElement(mydriver, myAssetDropDown, logger);
 		myAssetDropDown.click();
 		myFavoritesSubNav.click();
-		pleaseWait(2, logger);
-		List<WebElement> assets = mydriver
-				.findElements(By.xpath("//*[@class=\"asset-item__detail--desc js-HubItemTitle\"]"));
+		obj.pleaseWait(2, logger);
+		List<WebElement> assets = mydriver.findElements(By.xpath("//*[@class=\"asset-item__detail--desc js-HubItemTitle\"]"));
 		for (WebElement asset : assets) {
-			scrollToElement(mydriver, asset, logger);
+			scrollToElement(mydriver,asset, logger);
 			scrollToElement(mydriver, asset.findElement(By.xpath("(parent::div/following-sibling::div/div)")), logger);
 			asset.findElement(By.xpath("(parent::div/following-sibling::div/div)")).click();
 		}
 	}
-
 	protected static void visitMainSearchPage(String url) {
 		mydriver.get(url);
 		WebDriverWait wait = new WebDriverWait(mydriver, 60);
@@ -128,9 +126,8 @@ public class MCL_page extends Base {
 		wait.until(ExpectedConditions.attributeToBeNotEmpty(
 				mydriver.findElement(By.xpath("//*[@class=\"assets-share--loading-bar\" ]")), "style"));
 	}
-
-	protected void clearFilters() {
-		scrollToElement(mydriver, clearFilterButton, logger);
+	protected  void clearFilters() {
+		obj.scrollToElement(mydriver, clearFilterButton, logger);
 		clearFilterButton.click();
 	}
-}
+	}

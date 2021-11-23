@@ -18,7 +18,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.InteractiveMap_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 @SuppressWarnings("unused")
@@ -31,17 +30,38 @@ public class InteractiveMap_StepDefinition extends InteractiveMap_page {
 	private static String currentDomain = "=>";
 	private static ArrayList<String> cardUrls = new ArrayList<>();
 	private static Logger logger;
+	// private static HashMap<String, ArrayList<String>> results;
 
 	@BeforeClass
 	public void setup() {
 		fetchSession(InteractiveMap_StepDefinition.class);
+<<<<<<< Updated upstream
 		//mydriver = LATEST_DRIVER_POOL.get(InteractiveMap_StepDefinition.class.getName());
+=======
+		mydriver = LATEST_DRIVER_POOL.get(InteractiveMap_StepDefinition.class.getName());
+>>>>>>> Stashed changes
 		new InteractiveMap_page();
 		
-				
-		ExtentTestManager.startTest(InteractiveMap_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("interactive-map") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				cardUrls.add("https://stg-www.optum.com/content/optumcare3/en/about/about/growing-presence.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				cardUrls.add("http://apvrt31468:4503/content/optumcare3/en/about/about/growing-presence.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("interactive-map").split(",");
+			for (String link : scannedUrls) {
+				cardUrls.add(link);
+				System.out.println(link);
+			}
+		}
+
 		
-		setTagForTestClass("Interactive Map", author, InteractiveMap_StepDefinition.class.getName());
+		ExtentTestManager.startTest(InteractiveMap_StepDefinition.class.getName());
+		for (String url : cardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("Interactive Map", author, currentDomain, InteractiveMap_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(InteractiveMap_StepDefinition.class);
 		logger.info("Urls for '" + InteractiveMap_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(InteractiveMap_StepDefinition.class.getName(), currentDomain);
@@ -62,12 +82,12 @@ public class InteractiveMap_StepDefinition extends InteractiveMap_page {
 		softAssert = new SoftAssert();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"interactive-map"})
-	public void categoryFilterAvailabilityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 1, enabled = true)
+	public void categoryFilterAvailabilityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			int i = 0;
 			List<WebElement> filters = mydriver.findElements(By.xpath(categoryLabel));
 			List<WebElement> filterIcons = mydriver.findElements(By.xpath(categoryIcon));
@@ -83,15 +103,15 @@ public class InteractiveMap_StepDefinition extends InteractiveMap_page {
 			iconUrgent = filterIcons.get(1).getAttribute("src");
 			iconSurgical = filterIcons.get(2).getAttribute("src");
 
-
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"interactive-map"})
-	public void categoryFilterationCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 2, enabled = true)
+	public void categoryFilterationCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 
 			scrollToElement(mydriver, mydriver.findElements(By.xpath(categoryIcon)).get(0), logger);
 			mydriver.findElements(By.xpath(categoryIcon)).get(0).click();
@@ -112,42 +132,42 @@ public class InteractiveMap_StepDefinition extends InteractiveMap_page {
 				logger.error("Category Filters are not working fine");
 			}
 			mydriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-
+		}
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"interactive-map"})
-	public void mapButtonVisiblityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 3, enabled = true)
+	public void mapButtonVisiblityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			scrollToElement(mydriver, mapHomeButton, logger);
 			hardAssert.assertTrue(verifyElementExists(logger, mapHomeButton, "Map Home Button"));
 			hardAssert.assertTrue(verifyElementExists(logger, mapZoomInButton, "Map Zoom-in Button"));
 			hardAssert.assertTrue(verifyElementExists(logger, mapZoomOutButton, "Map Zoom-out Button"));
 
-
+		}
 	}
 
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"interactive-map"})
-	public void mapButtonFunctionalityCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 4, enabled = true)
+	public void mapButtonFunctionalityCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			scrollToElement(mydriver, mapHomeButton, logger);
 			mapHomeButton.click();
 			mapZoomInButton.click();
 			mapZoomOutButton.click();
-
+		}
 	}
 
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"interactive-map"})
-	public void resultFilterFunctionality(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 5, enabled = true)
+	public void resultFilterFunctionality() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			scrollToElement(mydriver, gridView, logger);
 			gridView.click();
 			hardAssert.assertTrue(
@@ -155,15 +175,15 @@ public class InteractiveMap_StepDefinition extends InteractiveMap_page {
 			listView.click();
 			hardAssert.assertTrue(
 					verifyElementExists(logger, mydriver.findElement(By.xpath(columnHeader)), "List View Results"));
-
+		}
 	}
 
-	@Test(priority = 6, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"interactive-map"})
-	public void sideInformationPanelFunctionality(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 6, enabled = true)
+	public void sideInformationPanelFunctionality() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			String cdoName;
 			List<WebElement> cdoButton = mydriver.findElements(By.xpath(cdoButtons));
 			try {
@@ -193,15 +213,15 @@ public class InteractiveMap_StepDefinition extends InteractiveMap_page {
 				logger.info("Side Panel Closed!!");
 			}
 			softAssert.assertAll();
-
+		}
 	}
 
-	@Test(priority = 7, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"interactive-map"})
-	public void cdoButtonFunctionalityForMap(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 7, enabled = true)
+	public void cdoButtonFunctionalityForMap() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 
 			List<WebElement> cdoButton = mydriver.findElements(By.xpath(cdoButtons));
 			pleaseWait(10, logger);
@@ -214,15 +234,15 @@ public class InteractiveMap_StepDefinition extends InteractiveMap_page {
 			if (!verifyElementExists(logger, mydriver.findElements(By.xpath(mapLegends)).get(0), "CDO Legends")) {
 				fail("CDO Legends are not visible to the user");
 			}
-
+		}
 	}
 
-	@Test(priority = 8, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"interactive-map"})
-	public void gridDescriptionFieldCheck(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 8, enabled = true)
+	public void gridDescriptionFieldCheck() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			try {
 				scrollToElement(mydriver, gridDescription, logger);
 			} catch (Exception e) {
@@ -233,15 +253,15 @@ public class InteractiveMap_StepDefinition extends InteractiveMap_page {
 			} else {
 				logger.info("Grid Description => " + gridDescription.getText());
 			}
-
+		}
 	}
 
-	@Test(priority = 9, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"interactive-map"})
-	public void listViewDataSegregation(String cardUrl) {
-		skipNonExistingComponent(cardUrl);
+	@Test(priority = 9, enabled = true)
+	public void listViewDataSegregation() {
+		skipNonExistingComponent(cardUrls);
 
-		
-			 mydriver.get(cardUrl);
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl); mydriver.get(cardUrl);
 			scrollToElement(mydriver, listView, logger);
 			listView.click();
 			hardAssert.assertEquals(mydriver.findElements(By.xpath(columnHeader)).size(), 3);
@@ -249,6 +269,6 @@ public class InteractiveMap_StepDefinition extends InteractiveMap_page {
 					+ mydriver.findElements(By.xpath(columnHeader)).get(0).getText() + "\n"
 					+ mydriver.findElements(By.xpath(columnHeader)).get(1).getText() + "\n"
 					+ mydriver.findElements(By.xpath(columnHeader)).get(2).getText());
-
+		}
 	}
 }

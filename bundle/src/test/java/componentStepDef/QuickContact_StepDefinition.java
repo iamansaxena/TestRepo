@@ -20,7 +20,6 @@ import org.testng.asserts.SoftAssert;
 
 import compontentPages.CareerSearch_page;
 import compontentPages.QuickContact_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -28,7 +27,7 @@ public class QuickContact_StepDefinition extends QuickContact_page {
 
 	private String author = "Sreevidhya";
 	private static String currentDomain = "=>";
-	//private static ArrayList<String> cardUrls = new ArrayList<>();
+	private static ArrayList<String> cardUrls = new ArrayList<>();
 	private static Logger logger;
 	private String numofemploye ="250-499";
 	private String FName ="Asiq";
@@ -41,8 +40,29 @@ public class QuickContact_StepDefinition extends QuickContact_page {
 		new QuickContact_page();
 		
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+<<<<<<< Updated upstream
+=======
+		if (fetchUrl("quick-contact") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				cardUrls.add("http://apsrs5642:8080/content/medexpressautomationdirectory/quick-contact.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				cardUrls.add("http://apvrt31468:4503/content/medexpressautomationdirectory/quick-contact.html");
+			}
+
+		} else {
+			String[] scannedUrls = fetchUrl("quick-contact").split(",");
+			for (String link : scannedUrls) {
+				cardUrls.add(link);
+			}
+		}
+
+>>>>>>> Stashed changes
 		ExtentTestManager.startTest(QuickContact_StepDefinition.class.getName());
-		setTagForTestClass("QuickContact", author, QuickContact_StepDefinition.class.getName());
+		for (String url : cardUrls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("QuickContact", author, currentDomain,
+				QuickContact_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(QuickContact_StepDefinition.class);
 		logger.info("Urls for '" + QuickContact_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(QuickContact_StepDefinition.class.getName(), currentDomain);
@@ -64,12 +84,12 @@ public class QuickContact_StepDefinition extends QuickContact_page {
 	}
 
 	
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"quick-contact-sf"})
-	public void QuickContactVisibilityCheck(String cardUrl) {
-		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrl);
+	@Test(priority = 1, enabled = true)
+	public void QuickContactVisibilityCheck() {
+		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrls);
 
-
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			WebDriverWait wait = new WebDriverWait(mydriver,30);
 			wait.until(ExpectedConditions.visibilityOf(quickapplysection));
@@ -96,15 +116,15 @@ public class QuickContact_StepDefinition extends QuickContact_page {
 				customTestLogs.get().add("Verifing the elememt is displayed: "+abc);
 			
 			
-
+		}
 	}
 	
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"quick-contact-sf"})
-	public void QuickContactCheck(String cardUrl) {
-		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrl);
+	@Test(priority = 2, enabled = true)
+	public void QuickContactCheck() {
+		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrls);
 
-
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			WebDriverWait wait = new WebDriverWait(mydriver,30);
 			wait.until(ExpectedConditions.visibilityOf(quickapplysection));
@@ -137,15 +157,15 @@ public class QuickContact_StepDefinition extends QuickContact_page {
 			System.out.println(Thankyou.getText());
 			softAssert.assertAll();
 			
-
+		}
 	}
 	
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"quick-contact-sf"})
-	public void QuickContactmadatoryCheck(String cardUrl) {
-		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrl);
+	@Test(priority = 3, enabled = true)
+	public void QuickContactmadatoryCheck() {
+		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrls);
 
-
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			WebDriverWait wait = new WebDriverWait(mydriver,30);
 			wait.until(ExpectedConditions.visibilityOf(quickapplysection));
@@ -180,14 +200,14 @@ public class QuickContact_StepDefinition extends QuickContact_page {
 			softAssert.assertFalse(description_error.isDisplayed());
 			customTestLogs.get().add("Verifing the Error message is not displayed : "+description_error.isDisplayed());
 			softAssert.assertAll();
-
+		}
 	}
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"quick-contact-sf"})
-	public void EmailfieldCheck(String cardUrl) {
-		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrl);
+	@Test(priority = 4, enabled = true)
+	public void EmailfieldCheck() {
+		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrls);
 
-
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			WebDriverWait wait = new WebDriverWait(mydriver,30);
 			wait.until(ExpectedConditions.visibilityOf(quickapplysection));
@@ -212,14 +232,14 @@ public class QuickContact_StepDefinition extends QuickContact_page {
 			softAssert.assertTrue(email_error.isDisplayed());
 			customTestLogs.get().add("Verifing the Error message is displayed: "+email_error.isDisplayed());
 			softAssert.assertAll();
-
+		}
 	}
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"quick-contact-sf"})
-	public void PhonefieldCheck(String cardUrl) {
-		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrl);
+	@Test(priority = 5, enabled = true)
+	public void PhonefieldCheck() {
+		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrls);
 
-
-			
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			WebDriverWait wait = new WebDriverWait(mydriver,30);
 			wait.until(ExpectedConditions.visibilityOf(quickapplysection));
@@ -250,11 +270,14 @@ public class QuickContact_StepDefinition extends QuickContact_page {
 			customTestLogs.get().add("Verifing the Error message is displayed: "+phone_error.isDisplayed());
 			softAssert.assertAll();
 			
-
+		}
 	}
-	@Test(priority = 6, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"quick-contact-sf"})
-	public void NamefieldCheck(String cardUrl) {
-		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrl);		
+	@Test(priority = 6, enabled = true)
+	public void NamefieldCheck() {
+		HashMap<String, Boolean> assertConditionMap = skipNonExistingComponent(cardUrls);
+
+		for (String cardUrl : cardUrls) {
+			urlUnderTest.get().add(cardUrl);
 			mydriver.get(cardUrl);
 			WebDriverWait wait = new WebDriverWait(mydriver,30);
 			wait.until(ExpectedConditions.visibilityOf(quickapplysection));
@@ -278,7 +301,7 @@ public class QuickContact_StepDefinition extends QuickContact_page {
 			softAssert.assertFalse(lastname_error.isDisplayed());
 			customTestLogs.get().add("Verifing the Error message is not displayed : "+lastname_error.isDisplayed());
 			softAssert.assertAll();
-
+		}
 	}
 	
 }

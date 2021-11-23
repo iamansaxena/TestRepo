@@ -1,6 +1,7 @@
 package compontentPages;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,6 +14,7 @@ public class Hscc_page extends Base {
 	protected static WebDriver mydriver = null;
 	@FindBy(xpath = "//*[@class=\"hsa-box-content\"]/img")
 	protected static WebElement boxImage;
+	Base obj = new Base();
 	@FindBy(xpath = "//*[@class=\"hsa-box-content\"]/*[@class=\"hsa-box-content-heading\"]")
 	protected static WebElement firstPageTitle;
 	@FindBy(xpath = "//*[@class=\"hsa-box-content\"]/*[@class=\"hsa-box-content-description\"]/following-sibling::p[1]")
@@ -271,27 +273,27 @@ public class Hscc_page extends Base {
 	}
 
 	protected void inputValidDataP1(Logger logger, boolean moveToNextPage) {
-		pleaseWait(15, logger);
-		scrollToElement(mydriver, inputIndividualAgeFilterLabel, logger);
+		obj.pleaseWait(15, logger);
+		obj.scrollToElement(mydriver, inputIndividualAgeFilterLabel, logger);
 		scrollToElement(mydriver, inputIndividualAgeFilterLabel, logger).sendKeys("19");
 		individualFemaleFilterLabel.click();
 		individualRetiredYes.click();
 		termsAgreed.click();
 		if (moveToNextPage == true) {
-			getVisibility(mydriver, nextButton, 2);
+			obj.getVisibility(mydriver, nextButton, 2);
 			nextButton.click();
-			scrollToElement(mydriver, navigationTabList, logger);
-			getVisibility(mydriver, userDetailAgeP2, 5);
+			obj.scrollToElement(mydriver, navigationTabList, logger);
+			obj.getVisibility(mydriver, userDetailAgeP2, 5);
 			logger.info("User landed on page 2");
 		}
 
-		pleaseWait(1, logger);
+		obj.pleaseWait(1, logger);
 
 	}
 
 	protected void inputValidDataP2(Logger logger, boolean moveToNextPage) {
 		;
-		scrollToElement(mydriver, navigationTabList, logger);
+		obj.scrollToElement(mydriver, navigationTabList, logger);
 		inputHeightFt.sendKeys("5");
 		inputHeightInch.sendKeys("10");
 		try {
@@ -312,10 +314,17 @@ public class Hscc_page extends Base {
 
 	protected void inputValidDataP3(Logger logger) {
 
-		scrollToElement(mydriver, navigationTabList, logger);
-		scrollToElement(mydriver, nextButton, logger);
+		obj.scrollToElement(mydriver, navigationTabList, logger);
+		obj.scrollToElement(mydriver, nextButton, logger);
 		nextButton.click();
 		logger.info("User landed on page 4");
 		scrollToElement(mydriver, navigationTabList, logger);
 	}
+	/*
+	 * public static void scrollToElementWithoutWait(WebDriver mydriver, WebElement
+	 * element) { ((JavascriptExecutor)
+	 * mydriver).executeScript("arguments[0].scrollIntoView(true);", element);
+	 * 
+	 * focusElement(mydriver, element); }
+	 */
 }

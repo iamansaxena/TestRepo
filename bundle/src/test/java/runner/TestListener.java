@@ -20,13 +20,14 @@ public class TestListener extends Base implements ITestListener {
 	public static String stackTrace;
 	public static String className;
 	public static ThreadLocal<ConcurrentHashMap<String, ExtentTest>> reportLogger = new ThreadLocal<>();
-	public static ThreadLocal<ITestResult> skipResultPool = new ThreadLocal<>();
-	public static ThreadLocal<ITestResult> failResultPool = new ThreadLocal<>();
-	public static ThreadLocal<ITestResult> passResultPool = new ThreadLocal<>();
-
 	int count = 0;
 	{
-		Base.initialize();
+		try {
+			Base.initialize();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 	}
 
@@ -39,6 +40,7 @@ public class TestListener extends Base implements ITestListener {
 		try {
 			ExtentTestManager.setExecutionTime();
 		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		loggerInstance.get(Base.class.getName()).info("All done, just making some finishing checks!! ");
@@ -54,6 +56,7 @@ public class TestListener extends Base implements ITestListener {
 
 	public void onTestStart(ITestResult result) {
 		synchronized (result) {
+			urlUnderTest.set(new ArrayList<String>());
 			reportLogger.set(new ConcurrentHashMap<String, ExtentTest>());
 			customTestLogs.set(new ArrayList<>());
 			reportLogger.get().put(result.getMethod().getTestClass().getName() + result.getMethod().getMethodName(),
@@ -72,90 +75,92 @@ public class TestListener extends Base implements ITestListener {
 	}
 
 	public void onTestSuccess(ITestResult result) {
-		synchronized (result) {
-			passResultPool.set(result);
-		}
-		loggerInstance.get(passResultPool.get().getMethod().getTestClass().getName())
-				.info("*** Executed " + passResultPool.get().getMethod().getMethodName() + " test successfully...");
-		reportLogger.get()
-				.get(passResultPool.get().getMethod().getTestClass().getName()
-						+ passResultPool.get().getMethod().getMethodName())
-				.info("Test URLs: " + testURLS.get(passResultPool.get().getMethod().getTestClass().getName()));
+		loggerInstance.get(result.getMethod().getTestClass().getName())
+				.info("*** Executed " + result.getMethod().getMethodName() + " test successfully...");
+		reportLogger.get().get(result.getMethod().getTestClass().getName() + result.getMethod().getMethodName())
+				.info("Test URLs: " + testURLS.get(result.getMethod().getTestClass().getName()));
+		urlUnderTest.get().stream().forEach(a -> {
+			reportLogger.get().get(result.getMethod().getTestClass().getName() + result.getMethod().getMethodName())
+					.info("Last  Tested On: " + a);
+		});
 		try {
 			customTestLogs.get().stream().forEach(a -> {
-				reportLogger.get().get(passResultPool.get().getMethod().getTestClass().getName()
-						+ passResultPool.get().getMethod().getMethodName()).info(a);
+				reportLogger.get().get(result.getMethod().getTestClass().getName() + result.getMethod().getMethodName())
+						.info(a);
 			});
 		} catch (NullPointerException e) {
 
 		}
 	}
 
+<<<<<<< Updated upstream
 	public void onTestFailure(ITestResult result) {
 		synchronized (result) {
 			failResultPool.set(result);
+=======
+	public  void onTestFailure(ITestResult result) {
+		loggerInstance.get(result.getMethod().getTestClass().getName())
+				.error("*** Test execution " + result.getMethod().getMethodName() + " failed...");
+		try {
+			reportLogger.get().get(result.getMethod().getTestClass().getName() + result.getMethod().getMethodName())
+					.log(Status.FAIL,
+							"<a href='"
+									+ ExtentTestManager.reportScreenshot(result.getMethod().getMethodName(),
+											result.getMethod().getTestClass().getName().split("\\.")[1])
+									+ "'>Failed Screenshot" + count + "</a>");
+		} catch (NullPointerException e) {
+			loggerInstance.get(result.getMethod().getTestClass().getName())
+					.fatal("Unable to fetch screenshot for failure at " + result.getMethod().getMethodName());
+>>>>>>> Stashed changes
 		}
-		loggerInstance.get(failResultPool.get().getMethod().getTestClass().getName())
-				.error("*** Test execution " + failResultPool.get().getMethod().getMethodName() + " failed...");
-		// try {
-		reportLogger.get()
-				.get(failResultPool.get().getMethod().getTestClass().getName()
-						+ failResultPool.get().getMethod().getMethodName())
-				.log(Status.FAIL,
-						"<a href='"
-								+ ExtentTestManager.reportScreenshot(failResultPool.get().getMethod().getMethodName(),
-										failResultPool.get().getMethod().getTestClass().getName().split("\\.")[1])
-								+ "'>Failed Screenshot" + count + "</a>");
-		// } catch (NullPointerException e) {
-		// loggerInstance.get(failResultPool.get().getMethod().getTestClass().getName()).fatal(
-		// "Unable to fetch screenshot for failure at "
-		// +failResultPool.get().getTestClass().getName()+" ==> "+
-		// failResultPool.get().getMethod().getMethodName());
-		// }
 		count++;
+		urlUnderTest.get().stream().forEach(a -> {
+			reportLogger.get().get(result.getMethod().getTestClass().getName() + result.getMethod().getMethodName())
+					.info("Last  Tested On: " + a);
+		});
 
-		reportLogger.get()
-				.get(failResultPool.get().getMethod().getTestClass().getName()
-						+ failResultPool.get().getMethod().getMethodName())
-				.createNode("Exception under method: " + failResultPool.get().getMethod().getMethodName())
-				.fail(failResultPool.get().getThrowable());
+		reportLogger.get().get(result.getMethod().getTestClass().getName() + result.getMethod().getMethodName())
+				.createNode("Exception under method: " + result.getMethod().getMethodName())
+				.fail(result.getThrowable());
 		try {
 			customTestLogs.get().stream().forEach(a -> {
-				reportLogger.get().get(failResultPool.get().getMethod().getTestClass().getName()
-						+ failResultPool.get().getMethod().getMethodName()).info(a);
+				reportLogger.get().get(result.getMethod().getTestClass().getName() + result.getMethod().getMethodName())
+						.info(a);
 			});
 		} catch (NullPointerException e) {
 
 		}
-		loggerInstance.get(failResultPool.get().getMethod().getTestClass().getName())
-				.error(failResultPool.get().getThrowable());
+		loggerInstance.get(result.getMethod().getTestClass().getName()).error(result.getThrowable());
 
 	}
 
+<<<<<<< Updated upstream
 	public void onTestSkipped(ITestResult result) {
 		synchronized (result) {
 			skipResultPool.set(result);
-		}
-		// try {
+=======
+	public  void onTestSkipped(ITestResult result) {
+		try {
 
-		reportLogger.get()
-				.get(skipResultPool.get().getMethod().getTestClass().getName()
-						+ skipResultPool.get().getMethod().getMethodName())
-				.log(Status.SKIP,
-						"<a href='"
-								+ ExtentTestManager.reportScreenshot(skipResultPool.get().getMethod().getMethodName(),
-										skipResultPool.get().getMethod().getTestClass().getName().split("\\.")[1])
-								+ "'>Skipped Screenshot" + count + "</a>");
-		// } catch (NullPointerException e) {
-		// loggerInstance.get(skipResultPool.get().getMethod().getTestClass().getName()).fatal(
-		// "Unable to fetch screenshot for Skip at " +
-		// skipResultPool.get().getTestClass().getName()+" ==>
-		// "+skipResultPool.get().getMethod().getMethodName());
-		// }
+			reportLogger.get().get(result.getMethod().getTestClass().getName() + result.getMethod().getMethodName())
+					.log(Status.SKIP,
+							"<a href='"
+									+ ExtentTestManager.reportScreenshot(result.getMethod().getMethodName(),
+											result.getMethod().getTestClass().getName().split("\\.")[1])
+									+ "'>Skipped Screenshot" + count + "</a>");
+		} catch (NullPointerException e) {
+			loggerInstance.get(result.getMethod().getTestClass().getName())
+					.fatal("Unable to fetch screenshot for failure at " + result.getMethod().getMethodName());
+>>>>>>> Stashed changes
+		}
+		urlUnderTest.get().stream().forEach(a -> {
+			reportLogger.get().get(result.getMethod().getTestClass().getName() + result.getMethod().getMethodName())
+					.info("Last  Tested On: " + a);
+		});
 		try {
 			customTestLogs.get().stream().forEach(a -> {
-				reportLogger.get().get(skipResultPool.get().getMethod().getTestClass().getName()
-						+ skipResultPool.get().getMethod().getMethodName()).info(a);
+				reportLogger.get().get(result.getMethod().getTestClass().getName() + result.getMethod().getMethodName())
+						.info(a);
 			});
 		} catch (NullPointerException e) {
 
@@ -163,15 +168,11 @@ public class TestListener extends Base implements ITestListener {
 
 		count++;
 
-		reportLogger.get()
-				.get(skipResultPool.get().getMethod().getTestClass().getName()
-						+ skipResultPool.get().getMethod().getMethodName())
-				.createNode("Skip Exception under method: " + skipResultPool.get().getMethod().getMethodName())
-				.skip(skipResultPool.get().getThrowable());
-
-		loggerInstance.get(skipResultPool.get().getMethod().getTestClass().getName())
-				.info("*** Test: " + skipResultPool.get().getMethod().getMethodName() + " [ " + className + " ] "
-						+ " has been Skipped...");
+		reportLogger.get().get(result.getMethod().getTestClass().getName() + result.getMethod().getMethodName())
+				.createNode("Skip Exception under method: " + result.getMethod().getMethodName())
+				.skip(result.getThrowable());
+		loggerInstance.get(result.getMethod().getTestClass().getName()).info(
+				"*** Test: " + result.getMethod().getMethodName() + " [ " + className + " ] " + " has been Skipped...");
 
 	}
 

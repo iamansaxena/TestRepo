@@ -15,14 +15,13 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.SocialModule_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
 public class SocialModule_StepDefinition extends SocialModule_page {
 	private String author = "Aman Saxena";
 	private static Logger logger;
-	//private static ArrayList<String> urls = new ArrayList<>();
+	private static ArrayList<String> urls = new ArrayList<>();
 	private static String currentDomain = "=>";
 
 	@BeforeClass
@@ -32,8 +31,30 @@ public class SocialModule_StepDefinition extends SocialModule_page {
 		mydriver = LATEST_DRIVER_POOL.get(SocialModule_StepDefinition.class.getName());
 		new SocialModule_page();
 		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+<<<<<<< Updated upstream
+=======
+		if (fetchUrl("social-module") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				urls.add("http://apsrs5642:8080/content/medexpressautomationdirectory/social-module.html");
+
+			} else if (Environment.equalsIgnoreCase("test")) {
+				urls.add("http://apvrt31468:4503/content/medexpressautomationdirectory/social-module.html");
+			}
+
+		} else {
+			String[] scannedUrls = fetchUrl("social-module").split(",");
+			for (String link : scannedUrls) {
+				urls.add(link);
+			}
+		}
+
+>>>>>>> Stashed changes
 		ExtentTestManager.startTest(SocialModule_StepDefinition.class.getName());
-		setTagForTestClass("Social Module [MEDEX]", author, SocialModule_StepDefinition.class.getName());
+		for (String url : urls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("Social Module [MEDEX]", author, currentDomain,
+				SocialModule_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(SocialModule_StepDefinition.class);
 		logger.info("Urls for '" + SocialModule_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(SocialModule_StepDefinition.class.getName(), currentDomain);
@@ -54,11 +75,11 @@ public class SocialModule_StepDefinition extends SocialModule_page {
 		softAssert = new SoftAssert();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"social-module"})
-	public void mandatoryFieldsVisibilityCheck(String url) {
-		skipNonExistingComponent(url);
-//		skipNonExistingComponent(cardUrl);
-			
+	@Test(priority = 1, enabled = true)
+	public void mandatoryFieldsVisibilityCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			scrollToElement(mydriver, moduleSection, logger);
 			customTestLogs.get().add("Is main section title available: " +verifyElementExists(logger, mainSectionHeader, "Main Title"));
@@ -81,15 +102,15 @@ public class SocialModule_StepDefinition extends SocialModule_page {
 			
 			
 			softAssert.assertAll();
-//			}
+			}
 	}
 
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"social-module"})
-	public void mandatorySocialCardFieldsFieldsVisibilityCheck(String url) {
-		skipNonExistingComponent(url);
-//		skipNonExistingComponent(cardUrl);
-			
+	@Test(priority = 2, enabled = true)
+	public void mandatorySocialCardFieldsFieldsVisibilityCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			scrollToElement(mydriver, moduleSection, logger);
 			int i = 1; 
@@ -118,16 +139,16 @@ public class SocialModule_StepDefinition extends SocialModule_page {
 			
 			softAssert.assertAll();
 			
-
+		}
 	}
 
 
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"social-module"})
-	public void socialCardDescriptionCheck(String url) {
-		skipNonExistingComponent(url);
-//		skipNonExistingComponent(cardUrl);
-			
+	@Test(priority = 3, enabled = true)
+	public void socialCardDescriptionCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			scrollToElement(mydriver, moduleSection, logger);
 			
@@ -147,16 +168,16 @@ public class SocialModule_StepDefinition extends SocialModule_page {
 				i++;
 				}
 			
-
+		}
 		softAssert.assertAll();
 	}
 
 
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"social-module"})
-	public void socialCardIconCheck(String url) {
-		skipNonExistingComponent(url);
-//		skipNonExistingComponent(cardUrl);
-			
+	@Test(priority = 4, enabled = true)
+	public void socialCardIconCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			scrollToElement(mydriver, moduleSection, logger);
 			
@@ -167,16 +188,16 @@ public class SocialModule_StepDefinition extends SocialModule_page {
 				softAssert.assertTrue(verifyElementExists(logger, icon, "Card '"+i+"' icon"));
 				i++;
 				}
-
+		}
 	}
 
 
 
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"social-module"})
-	public void mainSectionSocialIconRedirectionCheck(String url) {
-		skipNonExistingComponent(url);
-//		skipNonExistingComponent(cardUrl);
-			
+	@Test(priority = 5, enabled = true)
+	public void mainSectionSocialIconRedirectionCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			scrollToElement(mydriver, moduleSection, logger);
 			List<WebElement> links = mydriver.findElements(By.xpath(mainSocialIconLinks));			
@@ -190,18 +211,18 @@ public class SocialModule_StepDefinition extends SocialModule_page {
 				links.get(i).click();
 				switchToNextTab(mydriver, logger, handle);
 				assertRedirection(mydriver, logger, getDomainName(url), expLink, handle);
-				switchToPreviousTab(mydriver, logger, handle);
+				switchToPreviousTab(mydriver, logger);
 				
-
+		}
 	}
 
 
 
-	@Test(priority = 6, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"social-module"})
-	public void socialCardHyperRedirectionCheck(String url) {
-		skipNonExistingComponent(url);
-//		skipNonExistingComponent(cardUrl);
-			
+	@Test(priority = 6, enabled = true)
+	public void socialCardHyperRedirectionCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			scrollToElement(mydriver, moduleSection, logger);
 			try {
@@ -220,16 +241,16 @@ public class SocialModule_StepDefinition extends SocialModule_page {
 				links.get(i).click();
 				switchToNextTab(mydriver, logger, handle);
 				assertRedirection(mydriver, logger, getDomainName(url), expLink, handle);
-				switchToPreviousTab(mydriver, logger, handle);
+				switchToPreviousTab(mydriver, logger);
 				
-
+		}
 	}
 
-	@Test(priority = 7, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"social-module"})
-	public void socialCardRedirectionCheck(String url) {
-		skipNonExistingComponent(url);
-//		skipNonExistingComponent(cardUrl);
-			
+	@Test(priority = 7, enabled = true)
+	public void socialCardRedirectionCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url);
 			mydriver.get(url);
 			int j = 1; 
 			scrollToElement(mydriver, moduleSection, logger);
@@ -250,9 +271,9 @@ public class SocialModule_StepDefinition extends SocialModule_page {
 				cards.get(i).click();
 				switchToNextTab(mydriver, logger, handle);
 				assertRedirection(mydriver, logger, getDomainName(url), expLink, handle);
-				switchToPreviousTab(mydriver, logger, handle);
+				switchToPreviousTab(mydriver, logger);
 				
-
+		}
 	}
 
 }

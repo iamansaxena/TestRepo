@@ -17,7 +17,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import compontentPages.MainHeroBanner_page;
-import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -25,6 +24,7 @@ public class MainHeroBanner_StepDefinition extends MainHeroBanner_page {
 
 	private String author = "Aman Saxena";
 	private static Logger logger;
+	private static ArrayList<String> urls= new ArrayList<>();
 	private static String currentDomain = "=>";
 
 	@BeforeClass
@@ -33,8 +33,26 @@ public class MainHeroBanner_StepDefinition extends MainHeroBanner_page {
 		fetchSession(MainHeroBanner_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MainHeroBanner_StepDefinition.class.getName());
 		new MainHeroBanner_page();
+		
+		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("main-hero-banner") == null) {
+			if (Environment.equalsIgnoreCase("stage")) {
+				urls.add("http://apsrs5642:8080/content/AutomationDirectory/main-hero-banner.html");
+			} else if (Environment.equalsIgnoreCase("test")) {
+				urls.add("http://apvrt31468:4503/content/AutomationDirectory/main-hero-banner.html");
+			}
+		} else {
+			String[] scannedUrls = fetchUrl("main-hero-banner").split(",");
+			for (String link : scannedUrls) {
+				urls.add(link);
+			}
+		}
+
+		
 		ExtentTestManager.startTest(MainHeroBanner_StepDefinition.class.getName());
-		setTagForTestClass("MainHeroBanner", author, MainHeroBanner_StepDefinition.class.getName());
+		for (String url : urls) {
+			currentDomain = currentDomain + "[" + url + "]";
+		}
+		setTagForTestClass("MainHeroBanner", author, currentDomain, MainHeroBanner_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(MainHeroBanner_StepDefinition.class);
 		logger.info("Urls for '" + MainHeroBanner_StepDefinition.class.getName() + "' => " + currentDomain);
 		testURLS.put(MainHeroBanner_StepDefinition.class.getName(), currentDomain);
@@ -56,12 +74,12 @@ public class MainHeroBanner_StepDefinition extends MainHeroBanner_page {
 //		mydriver.manage().deleteAllCookies();
 	}
 
-	@Test(priority = 1, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"main-hero-banner"})
-	public void elementVisibilityCheck(String url) {
-		skipNonExistingComponent(url);
-		//for (String url : urls) {
+	@Test(priority = 1, enabled = true)
+	public void elementVisibilityCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
 
-			 mydriver.get(url);
+			urlUnderTest.get().add(url); mydriver.get(url);
 
 			List<WebElement> banners = mydriver.findElements(By.xpath(MainHeroBanner_page.banners));
 			int i = 0;
@@ -78,14 +96,14 @@ public class MainHeroBanner_StepDefinition extends MainHeroBanner_page {
 				i++;
 			}
 
-		//}
+		}
 	}
 
-	@Test(priority = 2, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"main-hero-banner"})
-	public void blankMandatoryFieldCheck(String url) {
-		skipNonExistingComponent(url);
-		//for (String url : urls) {
-			 mydriver.get(url);
+	@Test(priority = 2, enabled = true)
+	public void blankMandatoryFieldCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			List<WebElement> banners = mydriver.findElements(By.xpath(MainHeroBanner_page.banners));
 			int i = 0;
 			for (WebElement banner : banners) {
@@ -106,14 +124,14 @@ public class MainHeroBanner_StepDefinition extends MainHeroBanner_page {
 				i++;
 			}
 
-		//}
+		}
 	}
 
-	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"main-hero-banner"})
-	public void buttonLabelCheck(String url) {
-		skipNonExistingComponent(url);
-
-			 mydriver.get(url);
+	@Test(priority = 3, enabled = true)
+	public void buttonLabelCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			List<WebElement> buttons;
 			try {
 				buttons = mydriver.findElements(By.xpath(MainHeroBanner_page.linkButtons));
@@ -135,14 +153,14 @@ public class MainHeroBanner_StepDefinition extends MainHeroBanner_page {
 					logger.info("Button label found=> " + button.getText());
 				}
 			}
-		//}
+		}
 	}
 
-	@Test(priority = 4, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"main-hero-banner"})
-	public void buttonBlankHyperlinkCheck(String url) {
-		skipNonExistingComponent(url);
-
-			 mydriver.get(url);
+	@Test(priority = 4, enabled = true)
+	public void buttonBlankHyperlinkCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
+			urlUnderTest.get().add(url); mydriver.get(url);
 			List<WebElement> buttons;
 			boolean isVideo = false;
 			try {
@@ -180,15 +198,15 @@ public class MainHeroBanner_StepDefinition extends MainHeroBanner_page {
 					}
 				}
 			}
-
+		}
 	}
 
-	@Test(priority = 5, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"main-hero-banner"})
-	public void videoModalCheck(String url) {
-		skipNonExistingComponent(url);
-
+	@Test(priority = 5, enabled = true)
+	public void videoModalCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
 			List<WebElement> buttons;
-			 mydriver.get(url);
+			urlUnderTest.get().add(url); mydriver.get(url);
 			try {
 				scrollToElement(mydriver, mydriver.findElement(By.xpath(videoButtons)), logger);
 				buttons = mydriver.findElements(By.xpath(videoButtons));
@@ -204,15 +222,15 @@ public class MainHeroBanner_StepDefinition extends MainHeroBanner_page {
 				fail("Modal is not getting open on clicking the video button");
 			}
 
-
+		}
 	}
 
-	@Test(priority = 6, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"main-hero-banner"})
-	public void videoModalCloseCheck(String url) {
-		skipNonExistingComponent(url);
-
+	@Test(priority = 6, enabled = true)
+	public void videoModalCloseCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
 			List<WebElement> buttons;
-			 mydriver.get(url);
+			urlUnderTest.get().add(url); mydriver.get(url);
 			try {
 				scrollToElement(mydriver, mydriver.findElement(By.xpath(videoButtons)), logger);
 				buttons = mydriver.findElements(By.xpath(videoButtons));
@@ -234,15 +252,15 @@ public class MainHeroBanner_StepDefinition extends MainHeroBanner_page {
 
 			}
 
-
+		}
 	}
 
-	@Test(priority = 7, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"main-hero-banner"})
-	public void videoModalFunctionalCheck(String url) {
-		skipNonExistingComponent(url);
-
+	@Test(priority = 7, enabled = true)
+	public void videoModalFunctionalCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
 			List<WebElement> buttons;
-			 mydriver.get(url);
+			urlUnderTest.get().add(url); mydriver.get(url);
 			try {
 				scrollToElement(mydriver, mydriver.findElement(By.xpath(videoButtons)), logger);
 				buttons = mydriver.findElements(By.xpath(videoButtons));
@@ -273,15 +291,15 @@ public class MainHeroBanner_StepDefinition extends MainHeroBanner_page {
 			} catch (Exception e) {
 
 			}
-
+		}
 	}
 
-	@Test(priority = 8, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {"main-hero-banner"})
-	public void linkButtonRedirectionCheck(String url) {
-		skipNonExistingComponent(url);
-
+	@Test(priority = 8, enabled = true)
+	public void linkButtonRedirectionCheck() {
+		skipNonExistingComponent(urls);
+		for (String url : urls) {
 			List<WebElement> buttons;
-			 mydriver.get(url);
+			urlUnderTest.get().add(url); mydriver.get(url);
 			try {
 				scrollToElement(mydriver, mydriver.findElement(By.xpath(linkButtons)), logger);
 				buttons = mydriver.findElements(By.xpath(linkButtons));
@@ -304,5 +322,5 @@ public class MainHeroBanner_StepDefinition extends MainHeroBanner_page {
 			}
 		}
 
-
+	}
 }
