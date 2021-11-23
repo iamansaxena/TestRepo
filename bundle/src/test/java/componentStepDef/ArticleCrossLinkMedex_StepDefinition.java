@@ -24,7 +24,7 @@ public class ArticleCrossLinkMedex_StepDefinition extends ArticleCrossLinkMedex_
 
 		fetchSession(ArticleCrossLinkMedex_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ArticleCrossLinkMedex_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new ArticleCrossLinkMedex_page();
 		ExtentTestManager.startTest(ArticleCrossLinkMedex_StepDefinition.class.getName());
 		setTagForTestClass("Article Xlink [Medex]", author, ArticleCrossLinkMedex_StepDefinition.class.getName());

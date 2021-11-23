@@ -32,7 +32,7 @@ public class MiddleImageMedex_StepDefinition extends MiddleImageMedex_page {
 		fetchSession(MiddleImageMedex_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MiddleImageMedex_StepDefinition.class.getName());
 		new MiddleImageMedex_page();
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(MiddleImageMedex_StepDefinition.class.getName());
 		setTagForTestClass("Middle Image [Medex]", author, MiddleImageMedex_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(MiddleImageMedex_StepDefinition.class);

@@ -30,6 +30,7 @@ public class QmeHub_StepDefinition extends QmeHub_page {
 	public void setup() {
 		fetchSession(QmeHub_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(QmeHub_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new QmeHub_page();
 		ExtentTestManager.startTest(QmeHub_StepDefinition.class.getName());
 		setTagForTestClass("QmeHub", author, QmeHub_StepDefinition.class.getName());

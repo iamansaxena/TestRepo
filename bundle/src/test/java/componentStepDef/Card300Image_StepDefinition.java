@@ -31,7 +31,7 @@ public class Card300Image_StepDefinition extends Card300Image_page {
 	public void setup() {
 		fetchSession(Card300Image_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Card300Image_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new Card300Image_page();
 		ExtentTestManager.startTest(Card300Image_StepDefinition.class.getName());
 		setTagForTestClass("MaterialCard300", author, Card300Image_StepDefinition.class.getName());

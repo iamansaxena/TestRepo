@@ -29,7 +29,7 @@ public class Campaign_StepDefinition extends Campaign_page {
 	public void setup() {
 		fetchSession(Campaign_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Campaign_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new Campaign_page();
 		ExtentTestManager.startTest(Campaign_StepDefinition.class.getName());
 		setTagForTestClass("campaign", author, Campaign_StepDefinition.class.getName());

@@ -31,6 +31,7 @@ public class LeadersHub_StepDefinition extends LeadersHub_page {
 
 		fetchSession(LeadersHub_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(LeadersHub_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new LeadersHub_page();
 		ExtentTestManager.startTest(LeadersHub_StepDefinition.class.getName());
 		setTagForTestClass("Resource Library Sidebar", author, LeadersHub_StepDefinition.class.getName());

@@ -40,7 +40,7 @@ public class QuickContact_StepDefinition extends QuickContact_page {
 		mydriver = LATEST_DRIVER_POOL.get(QuickContact_StepDefinition.class.getName());
 		new QuickContact_page();
 		
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(QuickContact_StepDefinition.class.getName());
 		setTagForTestClass("QuickContact", author, QuickContact_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(QuickContact_StepDefinition.class);

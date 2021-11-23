@@ -32,7 +32,7 @@ public class ColorBlock_StepDefinition extends ColorBlock_page {
 	public void setup() {
 		fetchSession(ColorBlock_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ColorBlock_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new ColorBlock_page();
 		ExtentTestManager.startTest(ColorBlock_StepDefinition.class.getName());
 		setTagForTestClass("ColorBlock", author, ColorBlock_StepDefinition.class.getName());

@@ -27,7 +27,7 @@ public class CentersCards_StepDefinition extends Centerscards_page {
 
 		fetchSession(CentersCards_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(CentersCards_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new Centerscards_page();
 		ExtentTestManager.startTest(CentersCards_StepDefinition.class.getName());
 		setTagForTestClass("Centerscards", author, CentersCards_StepDefinition.class.getName());
@@ -56,7 +56,6 @@ public class CentersCards_StepDefinition extends Centerscards_page {
 	public void elementVisibilityCheck(String url) {
 		skipNonExistingComponent(url);
 
-		
 		mydriver.get(url);
 		jsWaitForPageToLoad(50, mydriver, logger);
 		scrollToElement(mydriver, centersCardsSection, logger);
@@ -72,14 +71,8 @@ public class CentersCards_StepDefinition extends Centerscards_page {
 			"centers-cards" })
 	public void findCenterUsingCityName(String url) {
 		skipNonExistingComponent(url);
-
-		
 		mydriver.get(url);
 		jsWaitForPageToLoad(50, mydriver, logger);
-		scrollToElement(mydriver, centerList.get(0), logger);
-		WebDriverWait wait = new WebDriverWait(mydriver, 50);
-		wait.until(ExpectedConditions.visibilityOf(centerList.get(0)));
-
 		hardAssert.assertEquals(findCenter(mydriver, "Eden Prairie,MN", logger), true);
 	}
 
@@ -87,13 +80,8 @@ public class CentersCards_StepDefinition extends Centerscards_page {
 			"centers-cards" })
 	public void findCenterUsingZip(String url) {
 		skipNonExistingComponent(url);
-
-		
 		mydriver.get(url);
 		jsWaitForPageToLoad(50, mydriver, logger);
-		scrollToElement(mydriver, centerList.get(0), logger);
-		WebDriverWait wait = new WebDriverWait(mydriver, 50);
-		wait.until(ExpectedConditions.visibilityOf(centerList.get(0)));
 		hardAssert.assertEquals(findCenter(mydriver, "55346", logger), true);
 	}
 
@@ -101,13 +89,8 @@ public class CentersCards_StepDefinition extends Centerscards_page {
 			"centers-cards" })
 	public void findCenterUsingInvalidString(String url) {
 		skipNonExistingComponent(url);
-
-		
 		mydriver.get(url);
 		jsWaitForPageToLoad(50, mydriver, logger);
-		scrollToElement(mydriver, centerList.get(0), logger);
-		WebDriverWait wait = new WebDriverWait(mydriver, 50);
-		wait.until(ExpectedConditions.visibilityOf(centerList.get(0)));
 		hardAssert.assertNotEquals(findCenter(mydriver, "He$$o", logger), true);
 	}
 

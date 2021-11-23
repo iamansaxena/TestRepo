@@ -24,7 +24,7 @@ public class InfographicHtml5_StepDefinition extends InfographicHtml5_page {
 
 		fetchSession(InfographicHtml5_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(InfographicHtml5_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new InfographicHtml5_page();
 		ExtentTestManager.startTest(InfographicHtml5_StepDefinition.class.getName());
 		setTagForTestClass("Infographic html5", author, InfographicHtml5_StepDefinition.class.getName());

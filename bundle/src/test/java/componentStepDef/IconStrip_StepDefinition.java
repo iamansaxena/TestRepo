@@ -31,7 +31,7 @@ public class IconStrip_StepDefinition extends IconStrip_page {
 	public void setup() {
 		fetchSession(IconStrip_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(IconStrip_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new IconStrip_page();
 		ExtentTestManager.startTest(IconStrip_StepDefinition.class.getName());
 		setTagForTestClass("IconStrip", author, IconStrip_StepDefinition.class.getName());

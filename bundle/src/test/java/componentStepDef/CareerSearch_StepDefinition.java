@@ -26,7 +26,7 @@ public class CareerSearch_StepDefinition extends CareerSearch_page {
 	public void setup() {
 		fetchSession(CareerSearch_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(CareerSearch_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new CareerSearch_page();
 		ExtentTestManager.startTest(CareerSearch_StepDefinition.class.getName());
 		setTagForTestClass("CareerSearch", author, CareerSearch_StepDefinition.class.getName());

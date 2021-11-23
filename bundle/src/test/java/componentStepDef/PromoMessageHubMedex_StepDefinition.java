@@ -30,7 +30,7 @@ public class PromoMessageHubMedex_StepDefinition extends PromoMessageHubMedex_Pa
 		mydriver = LATEST_DRIVER_POOL.get(PromoMessageHubMedex_StepDefinition.class.getName());
 		new PromoMessageHubMedex_Page();
 
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(PromoMessageHubMedex_StepDefinition.class.getName());
 		setTagForTestClass("Promo Message Hub [Medex]", author, PromoMessageHubMedex_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(PromoMessageHubMedex_StepDefinition.class);

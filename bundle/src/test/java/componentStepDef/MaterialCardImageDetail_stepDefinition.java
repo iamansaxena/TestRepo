@@ -35,6 +35,7 @@ public class MaterialCardImageDetail_stepDefinition extends MaterialCardImageDet
 	public void setup() {
 		fetchSession(MaterialCardImageDetail_page.class);
 		mydriver = LATEST_DRIVER_POOL.get(MaterialCardImageDetail_page.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new MaterialCardImageDetail_page();
 		setTagForTestClass("MaterialCardImageDetail", author, MaterialCardImageDetail_stepDefinition.class.getName());
 		ExtentTestManager.startTest(MaterialCardImageDetail_stepDefinition.class.getName());

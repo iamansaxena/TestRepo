@@ -28,7 +28,7 @@ public class MiddleImagePlusMedex_StepDefinition extends MiddleImagePlusMedex_pa
 		mydriver = LATEST_DRIVER_POOL.get(MiddleImagePlusMedex_StepDefinition.class.getName());
 		new MiddleImagePlusMedex_page();
 
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(MiddleImagePlusMedex_StepDefinition.class.getName());
 		setTagForTestClass("Middle Image Plus [Medex]", author, MiddleImagePlusMedex_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(MiddleImagePlusMedex_StepDefinition.class);

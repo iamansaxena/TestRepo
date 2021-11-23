@@ -34,6 +34,7 @@ public class MaterialCardInfographic_StepDefinition extends MaterialCardInfograp
 	public void setup() {
 		fetchSession(MaterialCardInfographic_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MaterialCardInfographic_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new MaterialCardInfographic_page();
 		ExtentTestManager.startTest(MaterialCardInfographic_StepDefinition.class.getName());
 		setTagForTestClass("MaterialCardInfographic", author, MaterialCardInfographic_StepDefinition.class.getName());

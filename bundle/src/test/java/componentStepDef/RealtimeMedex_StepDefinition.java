@@ -28,7 +28,7 @@ public class RealtimeMedex_StepDefinition extends RealtimeMedex_page{
 		mydriver = LATEST_DRIVER_POOL.get(RealtimeMedex_StepDefinition.class.getName());
 		new RealtimeMedex_page();
 
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(RealtimeMedex_StepDefinition.class.getName());
 		for (String url : urls) {
 			currentDomain = currentDomain + "[" + url + "]";

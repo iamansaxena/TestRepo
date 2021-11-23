@@ -27,7 +27,7 @@ public class AdaptiveImage_StepDefinition extends AdaptiveImage_page {
 
 		fetchSession(AdaptiveImage_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(AdaptiveImage_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new AdaptiveImage_page();
 		ExtentTestManager.startTest(AdaptiveImage_StepDefinition.class.getName());
 		setTagForTestClass("Adaptive Image", author, AdaptiveImage_StepDefinition.class.getName());

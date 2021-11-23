@@ -32,6 +32,7 @@ public class LoopingVideo_StepDefinition extends LoopingVideo_page {
 	public void setup() {
 		fetchSession(LoopingVideo_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(LoopingVideo_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new LoopingVideo_page();
 
 		ExtentTestManager.startTest(LoopingVideo_StepDefinition.class.getName());

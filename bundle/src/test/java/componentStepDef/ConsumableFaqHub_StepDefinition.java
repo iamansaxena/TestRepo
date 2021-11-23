@@ -31,7 +31,7 @@ public class ConsumableFaqHub_StepDefinition extends ConsumableFaqHub_page {
 
 		fetchSession(ConsumableFaqHub_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ConsumableFaqHub_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new ConsumableFaqHub_page();
 		ExtentTestManager.startTest(ConsumableFaqHub_StepDefinition.class.getName());
 		setTagForTestClass("BlogFeed", author, ConsumableFaqHub_StepDefinition.class.getName());

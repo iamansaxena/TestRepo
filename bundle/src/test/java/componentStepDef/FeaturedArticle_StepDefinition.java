@@ -31,7 +31,7 @@ public class FeaturedArticle_StepDefinition extends FeaturedArticle_page {
 	public void setup() {
 		fetchSession(FeaturedArticle_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(FeaturedArticle_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new FeaturedArticle_page();
 		ExtentTestManager.startTest(FeaturedArticle_StepDefinition.class.getName());
 		setTagForTestClass("FeaturedArticle", author, FeaturedArticle_StepDefinition.class.getName());

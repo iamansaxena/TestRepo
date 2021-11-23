@@ -29,7 +29,7 @@ public class CrossPromoAread_StepDefinition extends CrossPromoAread_page {
 	public void setup() {
 		fetchSession(CrossPromoAread_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(CrossPromoAread_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new CrossPromoAread_page();
 		ExtentTestManager.startTest(CrossPromoAread_StepDefinition.class.getName());
 		setTagForTestClass("CrossPromo", author, CrossPromoAread_StepDefinition.class.getName());

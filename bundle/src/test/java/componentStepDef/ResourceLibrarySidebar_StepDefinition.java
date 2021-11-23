@@ -31,6 +31,7 @@ public class ResourceLibrarySidebar_StepDefinition extends ResourceLibrarySideba
 
 		fetchSession(ResourceLibrarySidebar_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ResourceLibrarySidebar_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new ResourceLibrarySidebar_page();
 		ExtentTestManager.startTest(ResourceLibrarySidebar_StepDefinition.class.getName());
 		setTagForTestClass("Resource Library Sidebar", author, ResourceLibrarySidebar_StepDefinition.class.getName());

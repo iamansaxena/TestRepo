@@ -27,7 +27,7 @@ public class IconPickerNew_StepDefinition extends IconPickerNew_page {
 	public void setup() {
 		fetchSession(IconPickerNew_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(IconPickerNew_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new IconPickerNew_page();
 		ExtentTestManager.startTest(IconPickerNew_StepDefinition.class.getName());
 		setTagForTestClass("IconPickerNew", author, IconPickerNew_StepDefinition.class.getName());

@@ -34,6 +34,7 @@ public class MutualFundsTable_StepDefinition extends MutualFundTable_page {
 
 		fetchSession(MutualFundsTable_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MutualFundsTable_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new MutualFundTable_page();
 		ExtentTestManager.startTest(MutualFundsTable_StepDefinition.class.getName());
 		setTagForTestClass("BioCard", author, MutualFundsTable_StepDefinition.class.getName());

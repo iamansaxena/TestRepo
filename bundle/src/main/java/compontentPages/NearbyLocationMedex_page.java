@@ -14,7 +14,7 @@ public class NearbyLocationMedex_page extends Base {
 	protected static WebDriver mydriver;
 
 	@FindBy(xpath = "//*[@class=\"near-location section\"]")
-	protected static List<WebElement> nearSection;
+	protected static WebElement nearSection;
 
 	@FindBy(xpath = "//*[@class=\"near-location section\"]//h2[@class='h3']")
 	protected static WebElement sectionHeader;

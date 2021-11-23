@@ -24,7 +24,7 @@ public class HorizontalRuleWithNoArrowDivider_StepDefinition extends HorizontalR
 
 		fetchSession(HorizontalRuleWithNoArrowDivider_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(HorizontalRuleWithNoArrowDivider_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new HorizontalRuleWithNoArrowDivider_page();
 		ExtentTestManager.startTest(HorizontalRuleWithNoArrowDivider_StepDefinition.class.getName());
 		setTagForTestClass("HorizontalRuleArrowDivider", author, HorizontalRuleWithNoArrowDivider_StepDefinition.class.getName());

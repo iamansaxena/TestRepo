@@ -76,7 +76,7 @@ public class Configurator extends Base {
 		} else {
 			sauceAccessKey = System.getProperty("sauceKey");
 		}
-		nasPath = System.getProperty("nasPath");
+		nasPath = property.getProperty("nasPath");
 		if (System.getProperty("upload") == null || !(System.getProperty("upload").trim().equalsIgnoreCase("true"))) {
 			upload = false;
 			

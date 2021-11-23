@@ -30,7 +30,7 @@ public class AboutUs_StepDefinition extends AboutUs_page {
 
 		fetchSession(AboutUs_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(AboutUs_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new AboutUs_page();
 		ExtentTestManager.startTest(AboutUs_StepDefinition.class.getName());
 		setTagForTestClass("About-Us", author, AboutUs_StepDefinition.class.getName());
@@ -93,7 +93,7 @@ public class AboutUs_StepDefinition extends AboutUs_page {
 
 	}
 
-	@Test(priority = 3, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
+	@Test(priority = 3, enabled = true,dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
 	"about-us" })
 	public void blankTabLabelCheck(String url) {
 		skipNonExistingComponent(url);

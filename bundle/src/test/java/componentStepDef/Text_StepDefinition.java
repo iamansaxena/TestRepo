@@ -31,6 +31,7 @@ public class Text_StepDefinition extends Text_page{
 
 		fetchSession(Text_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Text_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new Text_page();
 		ExtentTestManager.startTest(Text_StepDefinition.class.getName());
 		setTagForTestClass("Text Component", author, Text_StepDefinition.class.getName());

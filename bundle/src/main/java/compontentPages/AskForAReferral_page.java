@@ -12,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import core.Base;
 
@@ -69,7 +70,8 @@ public class AskForAReferral_page extends Base {
 		logger.info("Verifying elements visibility");
 		boolean flag = true;
 		try {
-			mydriver.switchTo().frame("aemFormFrame");
+//			mydriver.switchTo().frame("aemFormFrame");
+			switchToForm();
 			for (WebElement element : labelName) {
 				customTestLogs.get().add("Verify Label name: " + element.getText() + element.isDisplayed());
 			}
@@ -97,10 +99,11 @@ public class AskForAReferral_page extends Base {
 	 * @param logger
 	 * @return true if we enter valid input and able to submit the form
 	 */
-	public boolean enterValuesintheForm(String[] textValues, Logger logger) {
+	public boolean enterValuesintheForm(WebDriver mydriver, String[] textValues, Logger logger) {
 		logger.info("Verify entering appropriate values");
 		boolean flag = false;
-		mydriver.switchTo().frame("aemFormFrame");
+//		mydriver.switchTo().frame("aemFormFrame");
+		switchToForm();
 		logger.info("Entering appropriate values inside textbox");
 		for (int value = 0; value < TextBox.size(); value++) {
 			if (TextBox.get(value).getAttribute("aria-label").contains(labelName.get(value).getText())) {
@@ -124,7 +127,7 @@ public class AskForAReferral_page extends Base {
 			}
 		}
 		if (textArea.isDisplayed() && textArea.isEnabled()) {
-			logger.info("Entering appropriate values inside textbox");
+			logger.info("Entering appropriate values inside textarea");
 			textArea.click();
 			textArea.sendKeys(textValues[textValues.length - 1]);
 		}
@@ -135,10 +138,13 @@ public class AskForAReferral_page extends Base {
 			logger.info("Submitting the form by clicking button");
 			button.get(1).click();
 		}
-		mydriver.manage().timeouts().implicitlyWait(200, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		mydriver.switchTo().defaultContent(); // Getting stale element reference exception in chrome browser. 
+//		mydriver.switchTo().frame("aemFormFrame");//So going back to parent iframe and switching back to form frame. Just like refresh.
+		switchToForm();
 		logger.info("Verifying Success message");
 		if (successMessage.isDisplayed()) {
-			if (successMessage.getText().equalsIgnoreCase("Referral Request Submitted")) {
+			if ((successMessage.getText().equalsIgnoreCase("Referral Request Submitted"))||(successMessage.getText().equalsIgnoreCase("Refill Request Submitted"))) {
 				logger.info("Success message is displayed");
 				flag = true;
 			} else {
@@ -155,9 +161,11 @@ public class AskForAReferral_page extends Base {
 	 * @param logger
 	 * @return
 	 */
-	public boolean verifyErrorMessagebySubmittingEmptyFields(Logger logger) {
+	public boolean verifyErrorMessagebySubmittingEmptyFields(WebDriver mydriver,Logger logger) {
 		int errorMessageNotDisplayed=0;
-		mydriver.switchTo().frame("aemFormFrame");
+//		mydriver.switchTo().frame("aemFormFrame");
+		switchToForm();
+		
 		try {
 			if (button.get(1).isDisplayed()) {
 				logger.info("Submitting empty form");
@@ -168,6 +176,9 @@ public class AskForAReferral_page extends Base {
 				if(errorMessageList.get(value).isDisplayed()) {
 				customTestLogs.get().add("Verify error message for Label name: " + labelName.get(value).getText() + ":"
 						+ errorMessageList.get(value).getText());
+				}
+				else if(!labelName.get(value).getText().contains("*")) {
+					customTestLogs.get().add(labelName.get(value).getText() + "is not mandatory field. So error message is not showing.");
 				}
 				else {
 					errorMessageNotDisplayed++;
@@ -193,7 +204,7 @@ public class AskForAReferral_page extends Base {
 	 * @param logger
 	 * @return
 	 */
-	public boolean verifyFormat(String input, String label, String format, String message, Logger logger) {
+	public boolean verifyFormat(WebDriver mydriver,String input, String label, String format, String message, Logger logger) {
 		boolean flag = false;
 		try {
 			logger.info("Verifying error message if " + format + " format is wrong");
@@ -239,7 +250,7 @@ public class AskForAReferral_page extends Base {
 	 * @param logger
 	 * @return
 	 */
-	public boolean verifyDatePickerFormat(String labels, String date, Logger logger) {
+	public boolean verifyDatePickerFormat(WebDriver mydriver,String labels, String date, Logger logger) {
 		boolean flag = false;
 		int errorMessageDisplayed = 0;
 		String[] label = labels.split(",");
@@ -281,5 +292,9 @@ public class AskForAReferral_page extends Base {
 			flag = true;
 		}
 		return flag;
+	}
+	protected static void switchToForm() {
+		getWebDriverWait(mydriver, 60).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id("aemFormFrame")));
+//		mydriver.switchTo().frame("aemFormFrame");
 	}
 }

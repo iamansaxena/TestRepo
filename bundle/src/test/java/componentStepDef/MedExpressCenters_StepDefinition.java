@@ -27,9 +27,10 @@ public class MedExpressCenters_StepDefinition extends MedExpressCenters_page {
 
 		fetchSession(MedExpressCenters_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MedExpressCenters_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new MedExpressCenters_page();
 
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		
 		ExtentTestManager.startTest(MedExpressCenters_StepDefinition.class.getName());
 		setTagForTestClass("medexpress-centers", author, MedExpressCenters_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(MedExpressCenters_StepDefinition.class);

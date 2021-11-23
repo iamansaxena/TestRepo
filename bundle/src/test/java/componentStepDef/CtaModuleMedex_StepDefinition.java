@@ -26,7 +26,7 @@ public class CtaModuleMedex_StepDefinition extends CtaModuleMedex_page {
 
 		fetchSession(CtaModuleMedex_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(CtaModuleMedex_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new CtaModuleMedex_page();
 		ExtentTestManager.startTest(CtaModuleMedex_StepDefinition.class.getName());
 		setTagForTestClass("Cta Module [Medex]", author, CtaModuleMedex_StepDefinition.class.getName());

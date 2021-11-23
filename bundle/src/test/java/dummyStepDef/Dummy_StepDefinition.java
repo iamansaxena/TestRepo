@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import core.Base;
+import core.CustomDataProvider;
 import utils.ExtentTestManager;
 import utils.LoggerLog4j;
 
@@ -30,10 +31,10 @@ public class Dummy_StepDefinition extends Base{
 		fetchSession(Dummy_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Dummy_StepDefinition.class.getName());
 		
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);if (fetchUrl("Dummt") == null) {
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);if (fetchUrl("pluv2-intake", CustomDataProvider.depth) == null) {
 			urls.add("https://google.com");
 		} else {
-			String[] scannedUrls = fetchUrl("pluv2-intake").split(",");
+			String[] scannedUrls = fetchUrl("pluv2-intake", CustomDataProvider.depth).split(",");
 			for (String link : scannedUrls) {
 				urls.add(link);
 			}

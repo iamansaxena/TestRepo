@@ -33,7 +33,7 @@ public class ServicesSectionMedex_StepDefinition extends ServicesSectionMedex_pa
 		mydriver = LATEST_DRIVER_POOL.get(ServicesSectionMedex_StepDefinition.class.getName());
 		new ServicesSectionMedex_page();
 
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(ServicesSectionMedex_StepDefinition.class.getName());
 		setTagForTestClass("Services Section [Medex]", author, ServicesSectionMedex_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(ServicesSectionMedex_StepDefinition.class);

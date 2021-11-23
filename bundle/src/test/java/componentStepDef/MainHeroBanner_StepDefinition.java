@@ -32,6 +32,7 @@ public class MainHeroBanner_StepDefinition extends MainHeroBanner_page {
 
 		fetchSession(MainHeroBanner_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MainHeroBanner_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new MainHeroBanner_page();
 		ExtentTestManager.startTest(MainHeroBanner_StepDefinition.class.getName());
 		setTagForTestClass("MainHeroBanner", author, MainHeroBanner_StepDefinition.class.getName());

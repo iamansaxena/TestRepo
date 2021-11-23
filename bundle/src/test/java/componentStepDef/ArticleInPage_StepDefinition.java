@@ -27,7 +27,7 @@ public class ArticleInPage_StepDefinition extends ArticleInPage_page {
 
 		fetchSession(ArticleInPage_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ArticleInPage_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new ArticleInPage_page();
 		ExtentTestManager.startTest(ArticleInPage_StepDefinition.class.getName());
 		setTagForTestClass("ArticleInPage", author, ArticleInPage_StepDefinition.class.getName());

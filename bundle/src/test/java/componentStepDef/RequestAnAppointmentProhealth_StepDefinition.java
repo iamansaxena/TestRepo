@@ -25,7 +25,7 @@ public class RequestAnAppointmentProhealth_StepDefinition extends RequestAnAppoi
 		fetchSession(RequestAnAppointmentProhealth_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(RequestAnAppointmentProhealth_StepDefinition.class.getName());
 		new RequestAnAppointmentProhealth_page();
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(RequestAnAppointmentProhealth_StepDefinition.class.getName());
 		setTagForTestClass("Request An Appointment [Prohealth]", author, RequestAnAppointmentProhealth_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(RequestAnAppointmentProhealth_StepDefinition.class);

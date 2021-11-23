@@ -26,7 +26,7 @@ public class ErServicesMedex_StepDefinition extends ErServicesMedex_page {
 
 		fetchSession(ErServicesMedex_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ErServicesMedex_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new ErServicesMedex_page();
 		ExtentTestManager.startTest(ErServicesMedex_StepDefinition.class.getName());
 		setTagForTestClass("Er Services [Medex]", author, ErServicesMedex_StepDefinition.class.getName());

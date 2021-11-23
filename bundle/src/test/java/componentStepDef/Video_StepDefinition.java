@@ -40,7 +40,7 @@ public class Video_StepDefinition extends Video_page {
 
 		new Video_page();
 
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(Video_StepDefinition.class.getName());
 		setTagForTestClass("VideoComponent", author, Video_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(Video_StepDefinition.class);

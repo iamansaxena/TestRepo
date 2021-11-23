@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -34,6 +36,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.SkipException;
@@ -41,7 +44,6 @@ import org.testng.asserts.Assertion;
 import org.testng.asserts.SoftAssert;
 
 import com.aventstack.extentreports.utils.ExceptionUtil;
-import com.google.common.base.Throwables;
 
 import utils.ExecutionTImeCalculator;
 import utils.FileUploader;
@@ -59,8 +61,8 @@ public class Base extends LoggerLog4j {
 	static String tunnelIdentifier = "Optum-Prd"; // "mytunnel";
 	protected static String dateName = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 	protected static String serverIP = "http://127.7.7.7:5353/";
-	protected static int MAX_DURATION = 9000;
-	protected static int SAUCE_SESSION_TIMEOUT = 1000;
+	protected static int MAX_DURATION = 10800;
+	protected static int SAUCE_SESSION_TIMEOUT = 5000;
 	protected static DesiredCapabilities capability;
 	protected static String browserName;
 	protected static final Properties componentProperties = new Properties();
@@ -168,9 +170,8 @@ public class Base extends LoggerLog4j {
 		// System.setProperty("scan", "true");
 		// System.setProperty("scanWith", "xpath");
 		// System.setProperty("upload", "true");
-		 System.setProperty("defaultExecution", "true");
-		// System.setProperty("regression", "true");
-
+		// System.setProperty("defaultExecution", "false");
+		// System.setProperty("regression","true");
 		startTime = ExecutionTImeCalculator.getCurrentTime();
 		authors = new ConcurrentHashMap<>();
 		tags = new ConcurrentHashMap<>();
@@ -355,7 +356,7 @@ public class Base extends LoggerLog4j {
 				statusPool.set(false);
 			}
 		} catch (Exception e) {
-			verifyElementLoggerPool.get().info(Throwables.getStackTraceAsString(e));
+			// verifyElementLoggerPool.get().info(Throwables.getStackTraceAsString(e));
 
 			verifyElementLoggerPool.get().error("Element " + elementNamePool.get() + " doesn't exists!");
 
@@ -754,7 +755,8 @@ public class Base extends LoggerLog4j {
 			urlsPool.get().add(urls);
 			skipConditionMapPool.set(new HashMap<>());
 		}
-		if (urlsPool.get().size() == 0 || urlsPool.get().toString().trim().isEmpty()) {
+		if (urlsPool.get().size() == 0
+				|| urlsPool.get().toString().trim().replace("[", "").replace("]", "").isEmpty()) {
 			skipConditionMapPool.set(null);
 			throw new SkipException("Can't find Component url");
 		} else {
@@ -1275,13 +1277,15 @@ public class Base extends LoggerLog4j {
 	 * @param componentName
 	 *            Value from either CmponentList.properties or XpathList.properties
 	 *            will be parsed by the script
+	 * @param depth
+	 *            how many URLs to be retrieve
 	 * @return An array of Script Test URLs
 	 */
 
-	protected synchronized static String fetchUrl(String componentName) {
+	protected synchronized static String fetchUrl(String componentName, int depth) {
 		if (System.getProperty("defaultExecution") == null
 				|| System.getProperty("defaultExecution").equalsIgnoreCase("false")) {
-
+			int count = 0;
 			String COMPONENT = null;
 			Iterator<String> it = componentData.keySet().iterator();
 			while (it.hasNext()) {
@@ -1291,7 +1295,7 @@ public class Base extends LoggerLog4j {
 					break;
 				}
 			}
-			if (COMPONENT == null) {
+			if (COMPONENT == null || !(componentData.get(COMPONENT).contains("http"))) {
 				// return "ERROR WHILE FETCHING URL FOR "+componentName;
 				return null;
 			} else {
@@ -1299,22 +1303,22 @@ public class Base extends LoggerLog4j {
 					String a = componentData.get(COMPONENT).replace("[", "").replace("]", "").replace("\"", "");
 					String[] urlSet = a.split(",");
 					String randomURLs = null;
-					if (a != null && !a.isEmpty()) {
-						int i = getRandomInteger(urlSet.length, 0);
-						int j = 0;
-						if (urlSet.length - 1 != 0) {
-							while (j == i) {
-								j = getRandomInteger(urlSet.length, 0);
-							}
-							randomURLs = urlSet[i] + "," + urlSet[j];
-						} else {
-							randomURLs = urlSet[i];
-						}
+					String temp = "";
+					int p = 0;
+					while (count != depth && p < urlSet.length && urlSet.length != 0) {
+						temp = temp + urlSet[p] + ",";
+						count++;
+						p++;
 
+					}
+
+					if (!(temp.isEmpty())) {
+						randomURLs = temp.substring(0, (temp.length() - 1));
 						return randomURLs;
 					} else {
 						return null;
 					}
+
 				} else {
 					return null;
 				}
@@ -1363,7 +1367,8 @@ public class Base extends LoggerLog4j {
 			}
 		}
 		scrollToElementWithoutWait(medexVisibilityDriverPool.get(), medexVisibilityComponentPool.get());
-		pleaseWait(2, medexVisibilityLoggerPool.get());
+		getWebDriverWait(medexVisibilityDriverPool.get(), 50)
+				.until(ExpectedConditions.visibilityOf(medexVisibilityComponentPool.get()));
 
 		try {
 			((JavascriptExecutor) medexVisibilityDriverPool.get())
@@ -1372,7 +1377,8 @@ public class Base extends LoggerLog4j {
 		}
 
 		scrollToElementWithoutWait(medexVisibilityDriverPool.get(), medexVisibilityComponentPool.get());
-		pleaseWait(2, medexVisibilityLoggerPool.get());
+		getWebDriverWait(medexVisibilityDriverPool.get(), 50)
+				.until(ExpectedConditions.visibilityOf(medexVisibilityComponentPool.get()));
 
 	}
 
@@ -1385,7 +1391,8 @@ public class Base extends LoggerLog4j {
 	 *            Max time interval for which the script need to wait
 	 * @return
 	 */
-	public synchronized static WebDriverWait getWebDriverWait(WebDriver mydriver, int timeout) {
+	public synchronized static FluentWait<WebDriver> getWebDriverWait(WebDriver mydriver, int timeout) {
+//		return new FluentWait<WebDriver>(mydriver).withTimeout(Duration.ofSeconds(timeout)).pollingEvery(Duration.ofMillis(300));
 		return new WebDriverWait(mydriver, timeout);
 	}
 

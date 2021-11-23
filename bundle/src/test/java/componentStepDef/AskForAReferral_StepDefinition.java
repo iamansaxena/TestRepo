@@ -3,6 +3,8 @@ package componentStepDef;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -24,7 +26,7 @@ public class AskForAReferral_StepDefinition extends AskForAReferral_page {
 
 		fetchSession(AskForAReferral_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(AskForAReferral_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new AskForAReferral_page();
 		ExtentTestManager.startTest(AskForAReferral_StepDefinition.class.getName());
 		setTagForTestClass("ask-for-referral", author, AskForAReferral_StepDefinition.class.getName());
@@ -62,7 +64,7 @@ public class AskForAReferral_StepDefinition extends AskForAReferral_page {
 		mydriver.get(url);
 		String[] values = { "Name1", "Name2", "1/9/1992", "987-654-3210", "hello@gmail.com", "hello@gmail.com",
 				"D'Esposito, Robert F., MD", "doctor", "Pulmonologist", "insurance", "current", "Sickness" };
-		hardAssert.assertEquals(enterValuesintheForm(values, logger), true);
+		hardAssert.assertEquals(enterValuesintheForm(mydriver,values, logger), true);
 	}
 
 	@Test(priority = 3, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
@@ -70,7 +72,7 @@ public class AskForAReferral_StepDefinition extends AskForAReferral_page {
 	public void verifyErrorMessage(String url) {
 		
 		mydriver.get(url);
-		hardAssert.assertEquals(verifyErrorMessagebySubmittingEmptyFields(logger), true);
+		hardAssert.assertEquals(verifyErrorMessagebySubmittingEmptyFields(mydriver,logger), true);
 	}
 
 	@Test(priority = 4, enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
@@ -78,16 +80,15 @@ public class AskForAReferral_StepDefinition extends AskForAReferral_page {
 	public void verifyFormat(String url) {
 		
 		mydriver.get(url);
-		mydriver.switchTo().frame("aemFormFrame");
-		hardAssert.assertEquals(verifyFormat("13/12/1991", "Birth Date (m/d/yyyy) *", "DOB",
+		getWebDriverWait(mydriver, 50).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//*[@id='aemFormFrame']")));
+		hardAssert.assertEquals(verifyFormat(mydriver,"13/12/1991", "Birth Date (m/d/yyyy) *", "DOB",
 				"Field not filled in expected format", logger), true);
-		hardAssert.assertEquals(verifyFormat("9876543210", "Phone Number (xxx-xxx-xxxx) *", "Phone Number",
+		hardAssert.assertEquals(verifyFormat(mydriver,"9876543210", "Phone Number (xxx-xxx-xxxx) *", "Phone Number",
 				"Phone Number format is invalid.", logger), true);
-		hardAssert.assertEquals(
-				verifyFormat("mail@mail", "Email Address *", "Email", "Email Address format is invalid", logger), true);
-		hardAssert.assertEquals(verifyFormat("mail@mail", "Re-enter Email Address *", "ReEnter Email",
+		hardAssert.assertEquals(verifyFormat(mydriver,"mail@mail", "Email Address *", "Email", "Email Address format is invalid", logger), true);
+		hardAssert.assertEquals(verifyFormat(mydriver,"mail@mail", "Re-enter Email Address *", "ReEnter Email",
 				"Re-enter Email Address format is invalid", logger), true);
-		hardAssert.assertEquals(verifyDatePickerFormat("Birth Date (m/d/yyyy) *,Appointment Date (m/d/yyyy) *",
+		hardAssert.assertEquals(verifyDatePickerFormat(mydriver,"Birth Date (m/d/yyyy) *,Appointment Date (m/d/yyyy) *",
 				"previous,future", logger), true);
 	}
 

@@ -27,7 +27,7 @@ public class FooterLegalBar_StepDefinition extends FooterLegalBar_page {
 
 		fetchSession(FooterLegalBar_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(FooterLegalBar_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new FooterLegalBar_page();
 		ExtentTestManager.startTest(FooterLegalBar_StepDefinition.class.getName());
 		setTagForTestClass("Footer Legal Bar", author, FooterLegalBar_StepDefinition.class.getName());

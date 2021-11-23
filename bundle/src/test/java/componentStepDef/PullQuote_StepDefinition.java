@@ -26,6 +26,7 @@ public class PullQuote_StepDefinition extends PullQuote_page {
 	public void setup() {
 		fetchSession(PullQuote_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(PullQuote_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new PullQuote_page();		
 		ExtentTestManager.startTest(PullQuote_StepDefinition.class.getName());
 		setTagForTestClass("PullQuote", author, PullQuote_StepDefinition.class.getName());

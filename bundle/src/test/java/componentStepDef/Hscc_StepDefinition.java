@@ -32,7 +32,7 @@ public class Hscc_StepDefinition extends Hscc_page {
 
 		fetchSession(Hscc_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Hscc_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new Hscc_page();
 		ExtentTestManager.startTest(Hscc_StepDefinition.class.getName());
 		setTagForTestClass("HSA Calculator", author, Hscc_StepDefinition.class.getName());

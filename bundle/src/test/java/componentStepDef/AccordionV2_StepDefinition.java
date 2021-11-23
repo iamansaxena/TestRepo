@@ -28,7 +28,7 @@ public class AccordionV2_StepDefinition extends AccordionV2_page {
 
 		fetchSession(AccordionV2_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(AccordionV2_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new AccordionV2_page();
 		ExtentTestManager.startTest(AccordionV2_StepDefinition.class.getName());
 		setTagForTestClass("Accordion v2", author, AccordionV2_StepDefinition.class.getName());

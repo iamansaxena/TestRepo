@@ -29,7 +29,7 @@ public class CenterAccordion_StepDefinition extends CenterAccordion_page {
 	public void setup() {
 		fetchSession(CenterAccordion_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(CenterAccordion_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new CenterAccordion_page();
 		ExtentTestManager.startTest(CenterAccordion_StepDefinition.class.getName());
 		setTagForTestClass("Center Accordion [Medex]", author, CenterAccordion_StepDefinition.class.getName());

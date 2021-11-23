@@ -29,6 +29,7 @@ public class MaterialCard_StepDefinition extends MaterialCard_page {
 
 		fetchSession(MaterialCard_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MaterialCard_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new MaterialCard_page();
 		ExtentTestManager.startTest(MaterialCard_StepDefinition.class.getName());
 		setTagForTestClass("Material Card", author, MaterialCard_StepDefinition.class.getName());

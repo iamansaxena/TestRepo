@@ -31,7 +31,7 @@ public class TestimonialCarousel_StepDefinition extends TestimonialCarousel_page
 		fetchSession(TestimonialCarousel_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(TestimonialCarousel_StepDefinition.class.getName());
 		new TestimonialCarousel_page();
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(TestimonialCarousel_StepDefinition.class.getName());
 		setTagForTestClass("Testimonial Carousel", author, TestimonialCarousel_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(TestimonialCarousel_StepDefinition.class);

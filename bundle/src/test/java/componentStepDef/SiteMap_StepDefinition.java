@@ -29,7 +29,7 @@ public class SiteMap_StepDefinition extends SiteMap_page {
 		mydriver = LATEST_DRIVER_POOL.get(SiteMap_StepDefinition.class.getName());
 		new SiteMap_page();
 
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(SiteMap_StepDefinition.class.getName());
 		setTagForTestClass("SiteMap", author, SiteMap_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(SiteMap_StepDefinition.class);

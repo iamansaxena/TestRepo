@@ -37,6 +37,7 @@ public class MCL_StepDefinition extends MCL_page {
 		
 		fetchSession(MCL_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MCL_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new MCL_page();
 		ExtentTestManager.startTest(MCL_StepDefinition.class.getName());
 		setTagForTestClass("MCL", author, MCL_StepDefinition.class.getName());

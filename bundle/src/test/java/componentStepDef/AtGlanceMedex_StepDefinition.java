@@ -27,7 +27,7 @@ public class AtGlanceMedex_StepDefinition extends AtGlanceMedex_page {
 
 		fetchSession(AtGlanceMedex_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(AtGlanceMedex_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new AtGlanceMedex_page();
 		ExtentTestManager.startTest(AtGlanceMedex_StepDefinition.class.getName());
 		setTagForTestClass("At A Glance", author, AtGlanceMedex_StepDefinition.class.getName());

@@ -27,7 +27,7 @@ public class LocalAlertHubMedex_StepDefinition extends LocalAlertHubMedex_page {
 		mydriver = LATEST_DRIVER_POOL.get(LocalAlertHubMedex_StepDefinition.class.getName());
 		new LocalAlertHubMedex_page();
 
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(LocalAlertHubMedex_StepDefinition.class.getName());
 		setTagForTestClass("Local Alert Hub", author, LocalAlertHubMedex_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(LocalAlertHubMedex_StepDefinition.class);

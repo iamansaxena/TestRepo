@@ -30,9 +30,10 @@ public class NearbyLocationMedex_StepDefinition extends NearbyLocationMedex_page
 
 		fetchSession(NearbyLocationMedex_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(NearbyLocationMedex_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new NearbyLocationMedex_page();
 
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(NearbyLocationMedex_StepDefinition.class.getName());
 		for (String url : urls) {
 			currentDomain = currentDomain + "[" + url + "]";
@@ -64,8 +65,8 @@ public class NearbyLocationMedex_StepDefinition extends NearbyLocationMedex_page
 
 		
 		mydriver.get(url);
-		getWebDriverWait(mydriver, 120).until(ExpectedConditions.visibilityOfAllElements(nearSection));
-		scrolltillvisibilityMedex(mydriver, nearSection.get(0), logger);
+		getWebDriverWait(mydriver, 120).until(ExpectedConditions.visibilityOf(nearSection));
+		scrolltillvisibilityMedex(mydriver, nearSection, logger);
 		if (isElementExists(sectionHeader, "Section Header is not authored", logger, true)) {
 			customTestLogs.get().add("Is Title Field visible: " + sectionHeader.isDisplayed());
 			hardAssert.assertTrue(verifyElementExists(logger, sectionHeader, "Main Title Field"));
@@ -80,8 +81,8 @@ public class NearbyLocationMedex_StepDefinition extends NearbyLocationMedex_page
 
 		
 		mydriver.get(url);
-		getWebDriverWait(mydriver, 120).until(ExpectedConditions.visibilityOfAllElements(nearSection));
-		scrolltillvisibilityMedex(mydriver, nearSection.get(0), logger);
+		getWebDriverWait(mydriver, 120).until(ExpectedConditions.visibilityOf(nearSection));
+		scrolltillvisibilityMedex(mydriver, nearSection, logger);
 		customTestLogs.get().add("is background image field visible: " + sectionImageField.isDisplayed());
 		hardAssert.assertTrue(verifyElementExists(logger, sectionImageField, "Background Image"));
 		customTestLogs.get().add("Image path: " + sectionImageField.getAttribute("style"));
@@ -94,8 +95,8 @@ public class NearbyLocationMedex_StepDefinition extends NearbyLocationMedex_page
 
 		
 		mydriver.get(url);
-		getWebDriverWait(mydriver, 120).until(ExpectedConditions.visibilityOfAllElements(nearSection));
-		scrolltillvisibilityMedex(mydriver, nearSection.get(0), logger);
+		getWebDriverWait(mydriver, 120).until(ExpectedConditions.visibilityOf(nearSection));
+		scrolltillvisibilityMedex(mydriver, nearSection, logger);
 		if (isElementExists(centerCardSection, "Center Card section is not available", logger, false) == true) {
 			customTestLogs.get().add("Is center data visible: " + centerCardSection.isDisplayed());
 			hardAssert.assertTrue(verifyElementExists(logger, centerCardSection, "Center data"));

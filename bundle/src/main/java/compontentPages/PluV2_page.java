@@ -7,6 +7,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -14,15 +15,20 @@ import core.Base;
 
 public class PluV2_page extends Base {
 	protected static String ComponentUrl;
-	protected static WebDriver mydriver;
+	protected static RemoteWebDriver mydriver;
 	@FindBy(xpath = "//*[@class=\"pluv2-results__info pluv2__col\"]//span")
 	protected static WebElement totalResultsText;
 	protected static String errorValidationMsgText = "Enter a valid ZIP code or City and State.";
 
 	@FindBy(xpath = "//*[@class=\"pluv2-search__heading pluv2-search__content \"]")
 	protected static WebElement searchCardHeader;
+	
+	@FindBy(xpath = "//*[@class=\"pluv2-intake-form section\"]//*[@id=\"intake-suggestion-list\"]//li[@class=\"pluv2-intake-suggestions__item\"]")
+	protected static WebElement searchSuggestion;
 
-	@FindBy(xpath = "//*[@id=\"search-field\"]")
+	@FindBy(xpath = "//*[@class=\"pluv2-region pluv2__flex pluv2-results-container\"]")
+	protected static WebElement serpPage;
+	@FindBy(xpath = "//*[@class=\"pluv2-intake-form section\"]//*[@id=\"providerSearch-field\"]")
 	protected static WebElement searchField;
 
 	@FindBy(xpath = "//*[@id=\"search-radius\"]")
@@ -97,7 +103,7 @@ public class PluV2_page extends Base {
 
 	@FindBy(xpath = "//button[@id=\"providers-labelledby\"]")
 	protected static WebElement providerTab;
-	@FindBy(xpath = "//button[@id=\"locations-labelledby\"]")
+	@FindBy(xpath = "//*[@id=\"locations-results\"]")
 	protected static WebElement locationTab;
 
 	@FindBy(xpath = "//*[@class=\"pluv2-serp__heading\"]")
@@ -147,7 +153,8 @@ public class PluV2_page extends Base {
 	/*
 	 * Provider cards
 	 */
-	protected static String resultProviderCardNames = "(//*[@class=\"pluv2-team__member\"]//h3)";
+	@FindBy(xpath="(//*[@class=\"pluv2-team__member\"]//h3)")
+	protected static List<WebElement>resultProviderCardNames ;
 
 	protected static String resultProviderCardSpecialities = "//*[@class=\"pluv2-team__specialties\"]";
 
@@ -163,9 +170,10 @@ public class PluV2_page extends Base {
 	// DYNAMIC XPATH TO VERIFY IMAGE FOR EACH CARD AT RUNTIME :::
 	// (//*[@class="pluv2-team__photo pluv2__col pluv2__flex
 	// justify-content-end"])[2]//img;
-
-	protected static String resultLocationCardNames = "//*[@class=\"pluv2-locations__card-heading\"]";
-
+	@FindBy(xpath="//*[@class=\"pluv2-results__list\"]/div")
+	protected static List<WebElement>resultLocationCardNames ;
+	@FindBy(xpath = "//*[@class=\"pluv2-results__list\"]")
+	protected static WebElement locationSerpResultSection;
 	/*
 	 * location results
 	 */
@@ -209,6 +217,10 @@ public class PluV2_page extends Base {
 	 * 
 	 */
 
+	@FindBy(xpath = "//*[@class=\"pluv2-location-details section\"]")
+	protected static WebElement locationDetailPage;
+	@FindBy(xpath = "//*[@class=\"pluv2-provider-details section\"]")
+	protected static WebElement providerDetailPage;
 	@FindBy(xpath = "//*[@class=\"pluv2-main__heading\"]")
 	protected static WebElement providerNameDetail;
 	@FindBy(xpath = "//*[@class=\"pluv2-details__specialties-heading\"]")
@@ -299,7 +311,7 @@ public class PluV2_page extends Base {
 		locationTab.click();
 		pleaseWait(1, logger);
 
-		List<WebElement> locationCards = mydriver.findElements(By.xpath(resultLocationCardNames));
+		List<WebElement> locationCards =resultLocationCardNames;
 		int maxCard = locationCards.size() - 1;
 		locationCards.get(getRandomInteger(maxCard, 0)).click();
 		scrollToElement(mydriver, locationHeader, logger);
@@ -311,7 +323,7 @@ public class PluV2_page extends Base {
 		providerTab.click();
 		pleaseWait(1, logger);
 
-		List<WebElement> providerCards = mydriver.findElements(By.xpath(resultProviderCardNames));
+		List<WebElement> providerCards = resultProviderCardNames;
 		int maxCard = providerCards.size() - 1;
 		providerCards.get(getRandomInteger(maxCard, 0)).click();
 		scrollToElement(mydriver, providerNameDetail, logger);

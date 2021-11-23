@@ -27,6 +27,7 @@ public class NewsroomMedex_StepDefinition extends NewsroomMedex_page {
 
 		fetchSession(NewsroomMedex_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(NewsroomMedex_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new NewsroomMedex_page();
 		ExtentTestManager.startTest(NewsroomMedex_StepDefinition.class.getName());
 		setTagForTestClass("Newroom [Medex]", author, NewsroomMedex_StepDefinition.class.getName());

@@ -26,7 +26,7 @@ public class ForumHeroBanner_StepDefinition extends ForumHeroBanner_page {
 
 		fetchSession(ForumHeroBanner_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ForumHeroBanner_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new ForumHeroBanner_page();
 		ExtentTestManager.startTest(ForumHeroBanner_StepDefinition.class.getName());
 		setTagForTestClass("Forum Hero Banner", author, ForumHeroBanner_StepDefinition.class.getName());

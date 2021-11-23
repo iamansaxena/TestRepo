@@ -25,7 +25,7 @@ public class IconVerticalLabel_StepDefinition extends IconVerticalLabel_page {
 	public void setup() {
 		fetchSession(IconVerticalLabel_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(IconVerticalLabel_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new IconVerticalLabel_page();
 		ExtentTestManager.startTest(IconVerticalLabel_StepDefinition.class.getName());
 		setTagForTestClass("IconVerticalLabel", author, IconVerticalLabel_StepDefinition.class.getName());

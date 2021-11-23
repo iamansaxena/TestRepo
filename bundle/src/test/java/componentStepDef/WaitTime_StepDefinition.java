@@ -2,6 +2,7 @@ package componentStepDef;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -29,6 +30,7 @@ public class WaitTime_StepDefinition extends WaitTime_page {
 
 		fetchSession(WaitTime_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(WaitTime_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new WaitTime_page();
 		ExtentTestManager.startTest(WaitTime_StepDefinition.class.getName());
 		setTagForTestClass("Wait Time", author, WaitTime_StepDefinition.class.getName());

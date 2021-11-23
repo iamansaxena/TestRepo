@@ -30,6 +30,7 @@ public class SliderCarousel_StepDefinition extends SliderCarousel_page{
 
 		fetchSession(SliderCarousel_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(SliderCarousel_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new SliderCarousel_page();
 		ExtentTestManager.startTest(SliderCarousel_StepDefinition.class.getName());
 		setTagForTestClass("SliderCarousel", author, SliderCarousel_StepDefinition.class.getName());

@@ -131,8 +131,11 @@ public class ExtentTestManager extends Base {
 		try {
 			FileUtils.copyFile(source, new File(destination));
 		} catch (IOException e) {
-			logger.info("Unable to find screenshot file");
-			e.printStackTrace();
+			logger.info("Unable to find screenshot file 'IO EXCEPTION'");
+//			e.printStackTrace();
+		}
+		catch (NullPointerException e) {
+			logger.info("Unable to find screenshot file 'NullPointer'");
 		}
 
 		if (upload == true) {

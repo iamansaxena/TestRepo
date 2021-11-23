@@ -25,6 +25,7 @@ public class Sharebar_StepDefinition extends Sharebar_page {
 
 		fetchSession(Sharebar_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Sharebar_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new Sharebar_page();
 		ExtentTestManager.startTest(Sharebar_StepDefinition.class.getName());
 		setTagForTestClass("Sharebar", author, Sharebar_StepDefinition.class.getName());

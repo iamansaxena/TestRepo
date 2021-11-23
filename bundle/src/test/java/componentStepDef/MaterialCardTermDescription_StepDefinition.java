@@ -34,7 +34,7 @@ public class MaterialCardTermDescription_StepDefinition extends MaterialCardTerm
 		mydriver = LATEST_DRIVER_POOL.get(MaterialCardTermDescription_StepDefinition.class.getName());
 		new MaterialCardTermDescription_Page();
 
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(MaterialCardTermDescription_StepDefinition.class.getName());
 		setTagForTestClass("MaterialCardTermDesc", author, MaterialCardTermDescription_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(MaterialCardTermDescription_StepDefinition.class);

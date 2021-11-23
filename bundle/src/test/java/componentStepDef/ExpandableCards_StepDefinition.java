@@ -30,7 +30,7 @@ public class ExpandableCards_StepDefinition extends ExpandableCard_page {
 
 		fetchSession(ExpandableCards_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ExpandableCards_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new ExpandableCard_page();
 		ExtentTestManager.startTest(ExpandableCards_StepDefinition.class.getName());
 		setTagForTestClass("ExpandableCard", author, ExpandableCards_StepDefinition.class.getName());

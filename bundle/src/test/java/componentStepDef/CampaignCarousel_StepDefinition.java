@@ -37,7 +37,7 @@ public class CampaignCarousel_StepDefinition extends CampaignCarousel_page {
 
 		fetchSession(CampaignCarousel_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(CampaignCarousel_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new CampaignCarousel_page();
 		ExtentTestManager.startTest(CampaignCarousel_StepDefinition.class.getName());
 		setTagForTestClass("CampaignCarousel", author, CampaignCarousel_StepDefinition.class.getName());
@@ -191,7 +191,8 @@ public class CampaignCarousel_StepDefinition extends CampaignCarousel_page {
 
 	}
 
-	@Test(priority = 5)
+	@Test(priority = 5,enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
+	"dpl-carousalcontainer" })
 	public void slideBulletHighlightCheck(String url) {
 		skipNonExistingComponent(url);
 		int i = 1;
@@ -269,7 +270,8 @@ public class CampaignCarousel_StepDefinition extends CampaignCarousel_page {
 	// }
 	// }
 
-	@Test(priority = 7)
+	@Test(priority = 7,enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
+	"dpl-carousalcontainer" })
 	public void previousandNextButtonCheck(String url) {
 		skipNonExistingComponent(url);
 		int i = 1;
@@ -355,7 +357,8 @@ public class CampaignCarousel_StepDefinition extends CampaignCarousel_page {
 
 	}
 
-	@Test(priority = 8)
+	@Test(priority = 8,enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
+	"dpl-carousalcontainer" })
 	public void endlessCarouselLoopCheck(String url) {
 		skipNonExistingComponent(url);
 		int i = 1;
@@ -412,7 +415,8 @@ public class CampaignCarousel_StepDefinition extends CampaignCarousel_page {
 		}
 	}
 
-	@Test(priority = 9)
+	@Test(priority = 9,enabled = true, dataProvider = "data-provider", dataProviderClass = CustomDataProvider.class, parameters = {
+	"dpl-carousalcontainer" })
 	public void singleSlideCheck(String url) {
 		skipNonExistingComponent(url);
 

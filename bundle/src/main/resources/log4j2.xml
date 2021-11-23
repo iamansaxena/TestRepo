@@ -5,10 +5,10 @@
 			<PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} - %msg%n" />
 		</Console>
 		<Routing name="RoutingAppender">
-			<Routes pattern="selenium_test">
+			<Routes pattern="$${ctx:logFilename}">
 				<Route>
-					<RollingFile name="Rolling-selenium_test"
-						fileName="logs/selenium_test.log" filePattern="logs/${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz"
+					<RollingFile name="Rolling-${ctx:logFilename}"
+						fileName="logs/${ctx:logFilename}.log" filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz"
 						append="true">
 						<PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} - %msg%n" />
 						<SizeBasedTriggeringPolicy size="10 MB" />

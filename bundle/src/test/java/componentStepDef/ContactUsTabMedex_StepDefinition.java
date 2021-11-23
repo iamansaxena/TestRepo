@@ -25,7 +25,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 	public void setup() {
 		fetchSession(ContactUsTabMedex_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ContactUsTabMedex_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new ContactUsTabMedex_page();
 		ExtentTestManager.startTest(ContactUsTabMedex_StepDefinition.class.getName());
 		setTagForTestClass("Contact Us Tab [Medex]", author, ContactUsTabMedex_StepDefinition.class.getName());
@@ -55,7 +55,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		try {
 			formsIntroCopies.get(0).isDisplayed();
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		try {
 			formsDirectionalCopies.get(0).isDisplayed();
 		} catch (Exception e) {
@@ -95,7 +95,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		inputInvalidData(formsSwitchingTabs, 0, logger);
 		int i = 1;
 		assertForm1ErrorMessage();
@@ -119,7 +119,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 		} catch (Exception e) {
 			throw new SkipException("Form 2 Intro Copy field is not available");
 		}
-		scrolltillvisibility(formsSwitchingTabs.get(1));
+		scrolltillvisibilityMedex(mydriver,formsSwitchingTabs.get(1),logger);
 		formsSwitchingTabs.get(1).click();
 		customTestLogs.get().add("Is Intro Copy field authored: " + formsIntroCopies.get(1).isDisplayed());
 		softAssert.assertTrue(verifyElementExists(logger, formsIntroCopies.get(1), "Form-2 Intro Copy"));
@@ -141,7 +141,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 		} catch (Exception e) {
 			throw new SkipException("Form 2 Directional Copy field is not available");
 		}
-		scrolltillvisibility(formsSwitchingTabs.get(1));
+		scrolltillvisibilityMedex(mydriver,formsSwitchingTabs.get(1),logger);
 		formsSwitchingTabs.get(1).click();
 		customTestLogs.get().add("Is Directional Copy field authored: " + formsDirectionalCopies.get(1).isDisplayed());
 		softAssert.assertTrue(verifyElementExists(logger, formsDirectionalCopies.get(1), "Form-2 Directional Copy"));
@@ -157,7 +157,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		inputInvalidData(formsSwitchingTabs, 1, logger);
 		int i = 1;
 
@@ -179,13 +179,13 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		try {
 			formsIntroCopies.get(2).isDisplayed();
 		} catch (Exception e) {
 			throw new SkipException("Form 2 Intro Copy field is not available");
 		}
-		scrolltillvisibility(formsSwitchingTabs.get(2));
+		scrolltillvisibilityMedex(mydriver,formsSwitchingTabs.get(2),logger);
 		formsSwitchingTabs.get(2).click();
 		customTestLogs.get().add("Is Intro Copy field authored: " + formsIntroCopies.get(2).isDisplayed());
 		softAssert.assertTrue(verifyElementExists(logger, formsIntroCopies.get(2), "Form-3 Intro Copy"));
@@ -201,13 +201,13 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		try {
 			formsDirectionalCopies.get(2).isDisplayed();
 		} catch (Exception e) {
 			throw new SkipException("Form 3 Directional Copy field is not available");
 		}
-		scrolltillvisibility(formsSwitchingTabs.get(2));
+		scrolltillvisibilityMedex(mydriver,formsSwitchingTabs.get(2),logger);
 		scrollToElement(mydriver, formsSwitchingTabs.get(2), logger).click();
 		customTestLogs.get().add("Is Directional Copy field authored: " + formsDirectionalCopies.get(2).isDisplayed());
 		softAssert.assertTrue(verifyElementExists(logger, formsDirectionalCopies.get(2), "Form-3 Directional Copy"));
@@ -223,7 +223,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		inputInvalidData(formsSwitchingTabs, 2, logger);
 		int i = 1;
 		assertForm2ErrorMessage();
@@ -244,7 +244,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		try {
 			formsIntroCopies.get(3).isDisplayed();
 		} catch (Exception e) {
@@ -265,13 +265,13 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		try {
 			formsDirectionalCopies.get(3).isDisplayed();
 		} catch (Exception e) {
 			throw new SkipException("Form 3 Directional Copy field is not available");
 		}
-		scrolltillvisibility(formsSwitchingTabs.get(2));
+		scrolltillvisibilityMedex(mydriver,formsSwitchingTabs.get(2),logger);
 		scrollToElement(mydriver, formsSwitchingTabs.get(3), logger).click();
 		customTestLogs.get().add("Is Directional Copy field authored: " + formsDirectionalCopies.get(3).isDisplayed());
 		softAssert.assertTrue(verifyElementExists(logger, formsDirectionalCopies.get(3), "Form-4 Directional Copy"));
@@ -287,7 +287,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		inputInvalidData(formsSwitchingTabs, 3, logger);
 		int i = 1;
 		assertForm4ErrorMessage();
@@ -306,7 +306,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		inputInvalidData(formsSwitchingTabs, 4, logger);
 		int i = 1;
 		assertForm5ErrorMessage();
@@ -325,7 +325,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		try {
 			sectionHeading.isDisplayed();
 		} catch (Exception e) {
@@ -345,7 +345,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		customTestLogs.get().add("Distribution list: " + form2DistributionList.getAttribute("value"));
 		hardAssert.assertFalse(form2DistributionList.getAttribute("value").isEmpty());
 	}
@@ -357,7 +357,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		customTestLogs.get().add("Distribution list: " + form4DistributionList.getAttribute("value"));
 		hardAssert.assertFalse(form4DistributionList.getAttribute("value").isEmpty());
 	}
@@ -369,7 +369,7 @@ public class ContactUsTabMedex_StepDefinition extends ContactUsTabMedex_page {
 
 		
 		mydriver.get(url);
-		scrolltillvisibility(contactUsSection);
+		scrolltillvisibilityMedex(mydriver,contactUsSection,logger);
 		inputValidDataForm1(formsSwitchingTabs, logger);
 		customTestLogs.get().add("Successfully Submitted Form 1");
 		inputValidDataForm2(formsSwitchingTabs, logger);

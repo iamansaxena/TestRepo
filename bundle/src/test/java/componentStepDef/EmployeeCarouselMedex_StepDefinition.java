@@ -27,7 +27,7 @@ public class EmployeeCarouselMedex_StepDefinition extends EmployeeCarouselMedex_
 		mydriver = LATEST_DRIVER_POOL.get(EmployeeCarouselMedex_StepDefinition.class.getName());
 		new EmployeeCarouselMedex_page();
 
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(EmployeeCarouselMedex_StepDefinition.class.getName());
 		setTagForTestClass("Employee Carousel [Medex]", author, EmployeeCarouselMedex_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(EmployeeCarouselMedex_StepDefinition.class);

@@ -7,18 +7,17 @@ import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import static com.optum.dpm.utils.DPMConfigurationsUtil.*;
+import org.apache.log4j.Logger;
 
+import core.Base;
 import jcifs.smb.SmbException;
 
 /**
  * @author amohan31
  *
  */
-public class FileUploader  {
-	private static Logger logger = LogManager.getLogger(FileUploader.class);
+public class FileUploader extends Base {
+	static Logger logger = LoggerLog4j.startTestCase(FileUploader.class);
 	static FileReader file;
 
 	/**
@@ -55,6 +54,7 @@ public class FileUploader  {
 	 * the server
 	 */
 	public static void uploadUrlList() {
+		logger = LoggerLog4j.startTestCase(FileUploader.class);
 		String path = "COMPONENT-URL-LIST-" + Environment.trim() + ".json";
 
 		if (System.getProperty("os.name").substring(0, 3).equalsIgnoreCase("Win")) {
@@ -73,7 +73,9 @@ public class FileUploader  {
 	 * @throws IOException
 	 */
 	public static void uploadArtifacts() throws IOException {
+		logger = LoggerLog4j.startTestCase(FileUploader.class);
 		String dateName = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+		clientName = "OPTUM";
 		String path = "Report_" + clientName + "_" + dateName + "_" + browserName + ".html";
 		logger.info("Current OS => " + System.getProperty("os.name"));
 		if (System.getProperty("os.name").substring(0, 3).equalsIgnoreCase("Win")) {

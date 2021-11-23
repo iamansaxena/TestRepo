@@ -31,7 +31,7 @@ public class BrokerHub_StepDefinition extends BrokerHub_page {
 
 		fetchSession(BrokerHub_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(BrokerHub_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new BrokerHub_page();
 		ExtentTestManager.startTest(BrokerHub_StepDefinition.class.getName());
 		setTagForTestClass("BrokerHub", author, BrokerHub_StepDefinition.class.getName());

@@ -28,7 +28,7 @@ public class MainNavMedex_StepDefinition extends MainNavMedex_page {
 		mydriver = LATEST_DRIVER_POOL.get(MainNavMedex_StepDefinition.class.getName());
 		new MainNavMedex_page();
 
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(MainNavMedex_StepDefinition.class.getName());
 		setTagForTestClass("Main Nav [Medex]", author, MainNavMedex_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(MainNavMedex_StepDefinition.class);

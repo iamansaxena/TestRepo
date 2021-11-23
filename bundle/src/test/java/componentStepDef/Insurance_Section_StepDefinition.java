@@ -27,7 +27,7 @@ public class Insurance_Section_StepDefinition extends Insurance_Section_page {
 	public void setup() {
 		fetchSession(Insurance_Section_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Insurance_Section_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new Insurance_Section_page();
 		ExtentTestManager.startTest(Insurance_Section_StepDefinition.class.getName());
 		setTagForTestClass("Insurancet", author, Insurance_Section_StepDefinition.class.getName());

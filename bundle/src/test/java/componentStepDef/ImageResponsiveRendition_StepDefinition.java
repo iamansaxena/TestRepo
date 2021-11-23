@@ -25,7 +25,7 @@ public class ImageResponsiveRendition_StepDefinition extends ImageResponsiveRend
 
 		fetchSession(ImageResponsiveRendition_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(ImageResponsiveRendition_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new ImageResponsiveRendition_page();
 		ExtentTestManager.startTest(ImageResponsiveRendition_StepDefinition.class.getName());
 		setTagForTestClass("Image Responsive Rendition", author, ImageResponsiveRendition_StepDefinition.class.getName());

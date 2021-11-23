@@ -1,5 +1,7 @@
 package componentStepDef;
 
+import java.util.concurrent.TimeUnit;
+
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -27,6 +29,7 @@ public class Logo_StepDefinition extends Logo_page {
 
 		fetchSession(Logo_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Logo_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new Logo_page();
 		ExtentTestManager.startTest(Logo_StepDefinition.class.getName());
 		setTagForTestClass("Logo", author, Logo_StepDefinition.class.getName());

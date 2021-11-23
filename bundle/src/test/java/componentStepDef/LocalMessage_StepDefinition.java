@@ -26,7 +26,7 @@ public class LocalMessage_StepDefinition extends LocalMessage_page {
 
 		fetchSession(LocalMessage_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(LocalMessage_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new LocalMessage_page();
 		ExtentTestManager.startTest(LocalMessage_StepDefinition.class.getName());
 		setTagForTestClass("Local Message Medex", author, LocalMessage_StepDefinition.class.getName());

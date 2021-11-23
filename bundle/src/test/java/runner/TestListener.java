@@ -94,6 +94,7 @@ public class TestListener extends Base implements ITestListener {
 	public void onTestFailure(ITestResult result) {
 		synchronized (result) {
 			failResultPool.set(result);
+			System.out.println(result.getMethod().getTestClass().getName());
 		}
 		loggerInstance.get(failResultPool.get().getMethod().getTestClass().getName())
 				.error("*** Test execution " + failResultPool.get().getMethod().getMethodName() + " failed...");
@@ -135,6 +136,7 @@ public class TestListener extends Base implements ITestListener {
 	public void onTestSkipped(ITestResult result) {
 		synchronized (result) {
 			skipResultPool.set(result);
+			System.out.println(result.getMethod().getTestClass().getName());
 		}
 		// try {
 

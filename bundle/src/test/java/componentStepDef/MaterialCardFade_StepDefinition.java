@@ -27,6 +27,7 @@ public class MaterialCardFade_StepDefinition extends MaterialCardFade_page {
 	public void setup() {
 		fetchSession(MaterialCardFade_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MaterialCardFade_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new MaterialCardFade_page();
 		ExtentTestManager.startTest(MaterialCardFade_StepDefinition.class.getName());
 		setTagForTestClass("MaterialCardFade", author, MaterialCardFade_StepDefinition.class.getName());

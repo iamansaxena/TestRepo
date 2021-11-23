@@ -30,7 +30,7 @@ public class MedexSiteSearchAndResult_StepDefinition extends MedexSiteSearchAndR
 		mydriver = LATEST_DRIVER_POOL.get(MedexSiteSearchAndResult_StepDefinition.class.getName());
 		new MedexSiteSearchAndResult_page();
 
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(MedexSiteSearchAndResult_StepDefinition.class.getName());
 		setTagForTestClass("Medex-Site-Search-And-Result", author, MedexSiteSearchAndResult_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(MedexSiteSearchAndResult_StepDefinition.class);

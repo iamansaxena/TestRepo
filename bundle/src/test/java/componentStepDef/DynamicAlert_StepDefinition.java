@@ -27,7 +27,7 @@ public class DynamicAlert_StepDefinition extends DynamicAlert_page {
 	public void setup() {
 		fetchSession(DynamicAlert_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(DynamicAlert_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new DynamicAlert_page();
 		ExtentTestManager.startTest(DynamicAlert_StepDefinition.class.getName());
 		setTagForTestClass("DynamicAlert", author, DynamicAlert_StepDefinition.class.getName());

@@ -31,7 +31,7 @@ public class WhyUs_StepDefinition extends WhyUs_page {
 		fetchSession(WhyUs_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(WhyUs_StepDefinition.class.getName());
 		new WhyUs_page();
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);		
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);		
 		ExtentTestManager.startTest(WhyUs_StepDefinition.class.getName());
 		setTagForTestClass("Why Us [Medex]", author, WhyUs_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(WhyUs_StepDefinition.class);

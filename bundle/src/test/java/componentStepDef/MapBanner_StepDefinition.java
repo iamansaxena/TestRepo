@@ -1,15 +1,8 @@
 package componentStepDef;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
@@ -18,7 +11,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import compontentPages.Campaign_page;
 import compontentPages.MapBanner_page;
 import core.CustomDataProvider;
 import utils.ExtentTestManager;
@@ -35,6 +27,7 @@ public class MapBanner_StepDefinition extends MapBanner_page {
 	public void setup() {
 		fetchSession(MapBanner_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(MapBanner_StepDefinition.class.getName());
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new MapBanner_page();
 
 		

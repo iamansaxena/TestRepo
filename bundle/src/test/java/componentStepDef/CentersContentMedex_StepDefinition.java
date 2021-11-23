@@ -26,7 +26,7 @@ public class CentersContentMedex_StepDefinition extends CentersContentMedex_page
 
 		fetchSession(CentersContentMedex_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(CentersContentMedex_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new CentersContentMedex_page();
 		ExtentTestManager.startTest(CentersContentMedex_StepDefinition.class.getName());
 		setTagForTestClass("Centers Content [Medex]", author, CentersContentMedex_StepDefinition.class.getName());

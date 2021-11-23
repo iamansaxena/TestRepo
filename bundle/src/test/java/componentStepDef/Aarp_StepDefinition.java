@@ -32,7 +32,7 @@ public class Aarp_StepDefinition extends Aarp_page {
 
 		fetchSession(Aarp_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(Aarp_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new Aarp_page();
 		ExtentTestManager.startTest(Aarp_StepDefinition.class.getName());
 		setTagForTestClass("AARP-HSA", author, Aarp_StepDefinition.class.getName());

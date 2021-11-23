@@ -42,7 +42,7 @@ public class DriverSessionHandler extends Base implements Runnable {
 
 	
 	@Override
-	public void run() {
+	public synchronized void run() {
 		
 		LATEST_DRIVER_POOL.put(Thread.currentThread().getName(), getWebdriverInstance(Thread.currentThread().getName()));
 
@@ -219,7 +219,7 @@ public class DriverSessionHandler extends Base implements Runnable {
 	public static void setDriverWaits(WebDriver mydriver) {
 		mydriver.manage().window().maximize();
 		mydriver.manage().deleteAllCookies();
-		mydriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 		mydriver.manage().timeouts().setScriptTimeout(50, TimeUnit.SECONDS);
 	}
 

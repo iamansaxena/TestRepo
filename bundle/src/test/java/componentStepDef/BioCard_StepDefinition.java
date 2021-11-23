@@ -32,7 +32,7 @@ public class BioCard_StepDefinition extends BioCard_page {
 	public void setup() {
 		fetchSession(BioCard_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(BioCard_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new BioCard_page();
 		ExtentTestManager.startTest(BioCard_StepDefinition.class.getName());
 		setTagForTestClass("BioCard", author, BioCard_StepDefinition.class.getName());

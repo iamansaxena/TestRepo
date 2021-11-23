@@ -31,7 +31,7 @@ public class SocialModule_StepDefinition extends SocialModule_page {
 		fetchSession(SocialModule_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(SocialModule_StepDefinition.class.getName());
 		new SocialModule_page();
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		ExtentTestManager.startTest(SocialModule_StepDefinition.class.getName());
 		setTagForTestClass("Social Module [MEDEX]", author, SocialModule_StepDefinition.class.getName());
 		logger = LoggerLog4j.startTestCase(SocialModule_StepDefinition.class);

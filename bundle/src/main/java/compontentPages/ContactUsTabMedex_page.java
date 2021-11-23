@@ -5,9 +5,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -25,7 +23,7 @@ public class ContactUsTabMedex_page extends Base{
 	@FindBy(xpath="//*[@class='contactus-tab section']//h2[@class='heading h2']")
 	protected static WebElement sectionHeading;
 	
-	@FindBy(xpath="//*[@class='contactus-tab section']//ul[@class=\"tabs__list\"]/li")
+	@FindBy(xpath="//*[@class='contactus-tab section']//ul[@class=\"tabs__list\"]/li/button")
 	protected static List<WebElement> formsSwitchingTabs;
 	
 	@FindBy(xpath="//*[@class='contactus-tab section']//*[@class=\"tab-intro\"]/p[2]")
@@ -373,7 +371,7 @@ public class ContactUsTabMedex_page extends Base{
 
 	
 	protected void inputInvalidData(List<WebElement> formTab,int index ,Logger logger) {
-		new ContactUsTabMedex_page().scrolltillvisibility(formTab.get(index));
+		new ContactUsTabMedex_page().scrolltillvisibilityMedex(mydriver,formTab.get(index),logger);
 		scrollToElement(mydriver, formTab.get(index), logger).click();
 		scrollToElement(mydriver, formSubmitButton.get(index), logger).click();
 	}
@@ -384,7 +382,7 @@ public class ContactUsTabMedex_page extends Base{
 	}
 	protected void inputValidDataForm1(List<WebElement> formTab,Logger logger) {
 		
-		new ContactUsTabMedex_page().scrolltillvisibility(formTab.get(0));
+		new ContactUsTabMedex_page().scrolltillvisibilityMedex(mydriver,formTab.get(0),logger);
 		scrollToElement(mydriver, formTab.get(0), logger).click();
 		selectByOptionIndex(form1SelectState,getRandomOptionIndexFromList(form1SelectState) , logger);
 		selectByOptionIndex(form1SelectCenter,getRandomOptionIndexFromList(form1SelectCenter) , logger);
@@ -397,7 +395,7 @@ public class ContactUsTabMedex_page extends Base{
 	
 	protected void inputValidDataForm2(List<WebElement> formTab,Logger logger) {
 		
-		new ContactUsTabMedex_page().scrolltillvisibility(formTab.get(1));
+		new ContactUsTabMedex_page().scrolltillvisibilityMedex(mydriver,formTab.get(1),logger);
 		scrollToElement(mydriver, formTab.get(1), logger).click();
 		selectByOptionIndex(form2SelectState,getRandomOptionIndexFromList(form2SelectState) , logger);
 		selectByOptionIndex(form2SelectJobCategory,getRandomOptionIndexFromList(form2SelectJobCategory) , logger);
@@ -411,7 +409,7 @@ public class ContactUsTabMedex_page extends Base{
 	
 	protected void inputValidDataForm3(List<WebElement> formTab,Logger logger) {
 		
-		new ContactUsTabMedex_page().scrolltillvisibility(formTab.get(2));
+		new ContactUsTabMedex_page().scrolltillvisibilityMedex(mydriver,formTab.get(2),logger);
 		scrollToElement(mydriver, formTab.get(2), logger).click();
 		selectByOptionIndex(form3SelectIndustry,getRandomOptionIndexFromList(form3SelectIndustry) , logger);
 		selectByOptionIndex(form3SelectNoOfEmployees,getRandomOptionIndexFromList(form3SelectNoOfEmployees) , logger);
@@ -427,7 +425,7 @@ public class ContactUsTabMedex_page extends Base{
 	
 	protected void inputValidDataForm4(List<WebElement> formTab,Logger logger) {
 		
-		new ContactUsTabMedex_page().scrolltillvisibility(formTab.get(3));
+		new ContactUsTabMedex_page().scrolltillvisibilityMedex(mydriver,formTab.get(3),logger);
 		scrollToElement(mydriver, formTab.get(3), logger).click();
 		selectByOptionIndex(form4SelectState,getRandomOptionIndexFromList(form4SelectState) , logger);
 		selectByOptionIndex(form4SelectCenter,getRandomOptionIndexFromList(form4SelectCenter) , logger);
@@ -440,7 +438,7 @@ public class ContactUsTabMedex_page extends Base{
 	
 	protected void inputValidDataForm5(List<WebElement> formTab,Logger logger) {
 		
-		new ContactUsTabMedex_page().scrolltillvisibility(formTab.get(4));
+		new ContactUsTabMedex_page().scrolltillvisibilityMedex(mydriver,formTab.get(4),logger);
 		scrollToElement(mydriver, formTab.get(4), logger).click();
 		selectByOptionIndex(form5SelectReason,getRandomOptionIndexFromList(form5SelectReason) , logger);
 		form5FullNameInput.sendKeys("Test User");
@@ -456,12 +454,12 @@ public class ContactUsTabMedex_page extends Base{
  * This is to remove main header overlapping other elements
  * 
  * */	
-	protected  void scrolltillvisibility(WebElement ele){
-		scrollToElement(mydriver, ele, logger);
-		try { ((JavascriptExecutor) mydriver).executeScript("return document.getElementsByClassName('header med-header sticky')[0].remove();");}
-		catch (WebDriverException e) {
-		}
-			scrollToElement(mydriver, ele, logger);
-				pleaseWait(1, logger);
-	}	
+//	protected  void scrolltillvisibilityMedex(mydriver,WebElement ele){
+//		scrollToElement(mydriver, ele, logger);
+//		try { ((JavascriptExecutor) mydriver).executeScript("return document.getElementsByClassName('header med-header sticky')[0].remove();");}
+//		catch (WebDriverException e) {
+//		}
+//			scrollToElement(mydriver, ele, logger);
+//				pleaseWait(1, logger);
+//	}	
 }

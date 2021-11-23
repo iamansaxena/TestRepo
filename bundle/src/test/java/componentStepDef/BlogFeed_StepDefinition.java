@@ -33,7 +33,7 @@ public class BlogFeed_StepDefinition extends BlogFeed_page {
 
 		fetchSession(BlogFeed_StepDefinition.class);
 		mydriver = LATEST_DRIVER_POOL.get(BlogFeed_StepDefinition.class.getName());
-		mydriver.manage().timeouts().pageLoadTimeout(120, TimeUnit.SECONDS);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		new BlogFeed_page();
 		ExtentTestManager.startTest(BlogFeed_StepDefinition.class.getName());
 		setTagForTestClass("BlogFeed", author, BlogFeed_StepDefinition.class.getName());

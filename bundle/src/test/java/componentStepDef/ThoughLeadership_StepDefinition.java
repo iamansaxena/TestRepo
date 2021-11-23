@@ -2,6 +2,7 @@ package componentStepDef;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -27,6 +28,7 @@ public class ThoughLeadership_StepDefinition extends ThoughLeadership_page {
 	public void setup() {
 		System.out.println("Sript's thread  ==> "+ Thread.currentThread().getId());
 		fetchSession(ThoughLeadership_StepDefinition.class);
+		mydriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		mydriver = LATEST_DRIVER_POOL.get(ThoughLeadership_StepDefinition.class.getName());
 		new ThoughLeadership_page();
 
