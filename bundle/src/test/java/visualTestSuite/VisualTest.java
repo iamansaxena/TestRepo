@@ -57,7 +57,7 @@ public class VisualTest extends PluV2_page {
 
 		eyes = new Eyes(runner);
 		eyes.setConfiguration(ddd);
-		eyes.setApiKey("xosAtx103vZBnzJO9FMWQk7Q1eTcoc3iOJZQS7pZLvmEM110");
+		eyes.setApiKey("90Y5yJnd105KXbLb4C2DEwqi104uDvNe3S78GjFFBI105dGFA110");
 		batch = new BatchInfo("PLUV2");
 		// set batch name
 		eyes.setBatch(batch);

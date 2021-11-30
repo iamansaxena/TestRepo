@@ -57,8 +57,8 @@ import utils.Logo;
 public class Base extends LoggerLog4j {
 	protected static HashMap<String, String> xpathList = new HashMap<>();
 	protected static ConcurrentHashMap<String, WebDriver> LATEST_DRIVER_POOL = new ConcurrentHashMap<>();
-	static String parentTunnel = "optumtest"; // "sso-optum-aman.mohan";
-	static String tunnelIdentifier = "Optum-Prd"; // "mytunnel";
+	protected static String parentTunnel = "optumtest"; // "sso-optum-aman.mohan";
+	protected static String tunnelIdentifier = "Optum-Prd"; // "mytunnel";
 	protected static String dateName = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 	protected static String serverIP = "http://127.7.7.7:5353/";
 	protected static int MAX_DURATION = 10800;
