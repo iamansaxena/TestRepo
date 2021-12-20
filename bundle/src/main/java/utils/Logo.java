@@ -1,12 +1,15 @@
 package utils;
 
-import core.Base;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author amohan31
  *
  */
-public class Logo extends Base {
+public class Logo {
+	private static Logger logger = LogManager.getLogger(Logo.class);
+	
 	static int logoCount = 0;
 public Logo() {
 	System.out.println();

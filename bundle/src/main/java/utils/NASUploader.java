@@ -1,5 +1,10 @@
 package utils;
 
+import static com.optum.dpm.utils.DPMConfigurationsUtil.Environment;
+import static com.optum.dpm.utils.DPMConfigurationsUtil.isRegression;
+import static com.optum.dpm.utils.DPMConfigurationsUtil.nasPath;
+import static com.optum.dpm.utils.DPMConfigurationsUtil.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -8,18 +13,21 @@ import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import com.aventstack.extentreports.utils.ExceptionUtil;
+import com.aventstack.extentreports.model.service.util.ExceptionUtil;
 
-import core.Base;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
 
-public class NASUploader extends Base {
+public class NASUploader {
 
+	private static Logger logger = LogManager.getLogger(NASUploader.class);
+	
 	public static String getNASPath(String fileType, String date) {
 		if (fileType.equals("report")) {
 			if (isRegression == true) {
@@ -74,9 +82,9 @@ public class NASUploader extends Base {
 		}
 
 	}
-
+	
 	private static NtlmPasswordAuthentication getNASAuth() {
-		return new NtlmPasswordAuthentication("", System.getenv("msUsername"), System.getenv("msPassword"));
+		return new NtlmPasswordAuthentication("", nasUsername, nasPassword);
 	}
 
 	public static void uploadFile(File sourceFile, String nasPath) {

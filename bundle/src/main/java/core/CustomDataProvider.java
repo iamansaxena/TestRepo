@@ -4,20 +4,23 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import static com.optum.dpm.utils.DPMConfigurationsUtil.*;
+import static com.optum.dpm.utils.DPMTestUtils.*;
 
-import utils.LoggerLog4j;
 
-public class CustomDataProvider extends Base {
-	static Logger logger = LoggerLog4j.startTestCase(CustomDataProvider.class);
 
+public class CustomDataProvider {
+	private static final Logger logger = LogManager.getLogger(CustomDataProvider.class);
+
+	public static int depth = 5;
 	/**
 	 * This method used to fetch url and pass the same to Test
 	 * 
@@ -32,7 +35,7 @@ public class CustomDataProvider extends Base {
 
 		String url = jsonHandler(component);
 		String[] urls = url.substring(1, (url.length()) - 1).split(",");
-		if (fetchUrl(component) == null) {
+		if (fetchUrl(component,depth) == null) {
 			switch (Environment.toLowerCase()) {
 			case "stage":
 				return new Object[][] { { urls[0].substring(1, (urls[0].length()) - 1) } };
@@ -40,7 +43,7 @@ public class CustomDataProvider extends Base {
 				return new Object[][] { { urls[1].substring(1, (urls[1].length()) - 1) } };
 			}
 		} else {
-			String[] scannedUrls = fetchUrl(component).split(",");
+			String[] scannedUrls = fetchUrl(component,depth).split(",");
 			for (String link : scannedUrls) {
 				cardUrls.add(link);
 			}

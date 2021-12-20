@@ -5,6 +5,8 @@
 /Deps/
 /Test Execution Logs/
 /Reports/
+/grabs/
+/logs/
 .classpath
 bin
 .settings

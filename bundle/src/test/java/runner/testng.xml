@@ -3,130 +3,97 @@
 <suite name="OCAC Automation Suite" verbose="2">
 	<listeners>
 		<!-- <listener class-name="runner.AnnotationTransformer" /> -->
-		<listener class-name="runner.TestListener" />
+		<listener class-name="com.optum.dpm.reports.TestListener" />
 	</listeners>
-	<test name="Automation Project" parallel="classes"
-	thread-count="100">	
-
+	<test name="Automation Project" parallel="classes" thread-count="100">
 		<classes>
-
-
-       <class name="componentStepDef.MapBanner_StepDefinition" />
-
-		<class name="componentStepDef.AskForAReferral_StepDefinition" />
-		<class name="componentStepDef.RequestAnAppointmentProhealth_StepDefinition" />
-		<class name="componentStepDef.NearbyLocationMedex_StepDefinition" />
-		<class name="componentStepDef.ArticleCrossLinkMedex_StepDefinition" />
-		<class name="componentStepDef.CentersContentMedex_StepDefinition" />
-		<class name="componentStepDef.NewsroomMedex_StepDefinition" />
-		<class name="componentStepDef.PromoMessageHubMedex_StepDefinition" />
-		<class name="componentStepDef.EmployeeCarouselMedex_StepDefinition" />
-		<class name="componentStepDef.MainNavMedex_StepDefinition" />
-
-		<class name="componentStepDef.RealtimeMedex_StepDefinition" />
-   	<class name="componentStepDef.MedexSiteSearchAndResult_StepDefinition" />
-		<class name="componentStepDef.ServicesSectionMedex_StepDefinition" />
-		<class name="componentStepDef.MiddleImagePlusMedex_StepDefinition" />
-		<class name="componentStepDef.ContactUsTabMedex_StepDefinition" />
-		<class name="componentStepDef.AtGlanceMedex_StepDefinition" />
-		<class name="componentStepDef.LocalAlertHubMedex_StepDefinition" />
-
-		<class name="componentStepDef.Insurance_Section_StepDefinition" /> 
-    <class name="componentStepDef.ForumHeroBanner_StepDefinition" />
-      <class name="componentStepDef.CtaModuleMedex_StepDefinition" />
-
-      <class name="componentStepDef.MedExpressCenters_StepDefinition" />
-	  	<class name="componentStepDef.ErServicesMedex_StepDefinition" /> 
-      <class name="componentStepDef.IntroTextHorizontal_StepDefinition" />			
-      <class name="componentStepDef.Campaign_StepDefinition" /> 
-		  <class name = "componentStepDef.CentersCards_StepDefinition"/>
-		  <class name = "componentStepDef.MiddleImageMedex_StepDefinition"/>
-		  <class name = "componentStepDef.SocialModule_StepDefinition"/>
-		  <class name = "componentStepDef.ThoughLeadership_StepDefinition"/>
-      <class name="componentStepDef.QuickContact_StepDefinition" />  
-      <class name = "componentStepDef.AccordionV2_StepDefinition"/>
-      <class name = "componentStepDef.TestimonialCarousel_StepDefinition"/>
-      <class name="componentStepDef.CenterAccordion_StepDefinition" />
-      <class name = "componentStepDef.WhyUs_StepDefinition"/>
-<class name="componentStepDef.HorizontalRuleWithArrowDivider_StepDefinition" />
-<class name="componentStepDef.HorizontalRuleWithNoArrowDivider_StepDefinition" />
-		  <class name="componentStepDef.WaitTime_StepDefinition" />
-
-			<class name="componentStepDef.ImageResponsiveRendition_StepDefinition" />
-			<class name="componentStepDef.SiteMap_StepDefinition" />
-			<class name="componentStepDef.FooterLegalBar_StepDefinition" />
-			<class name="componentStepDef.IconPickerNew_StepDefinition" />
-			<class name="componentStepDef.AdaptiveImage_StepDefinition" />
-			<class name="componentStepDef.InfographicHtml5_StepDefinition" />
-
-			<class name="componentStepDef.BrokerHub_StepDefinition" />
-			<class name="componentStepDef.Text_StepDefinition" />
-			<class name="componentStepDef.CampaignCarousel_StepDefinition" />
-			<class name="componentStepDef.ConsumableFaqHub_StepDefinition" />
-
-			<class name="componentStepDef.IconVerticalLabel_StepDefinition" />
-			<class name="componentStepDef.Aarp_StepDefinition" />
-			<class name="componentStepDef.ArticleInPage_StepDefinition" />
-
-			<class name="componentStepDef.MutualFundsTable_StepDefinition" />
-			<class
-				name="componentStepDef.MaterialCardImageDetail_stepDefinition" />
-
-			<class name="componentStepDef.Video_StepDefinition" />
-			<class name="componentStepDef.Logo_StepDefinition" />
-
-			<class name="componentStepDef.AboutUs_StepDefinition" />
-			<class name="componentStepDef.Sharebar_StepDefinition" />
-
-			<class name="componentStepDef.SliderCarousel_StepDefinition" />
-
-			<class name="componentStepDef.LeadersHub_StepDefinition" />
-			<class name="componentStepDef.CrossPromoAread_StepDefinition" />
-
-			<class name="componentStepDef.LoopingVideo_StepDefinition" />
-			<class
-				name="componentStepDef.ResourceLibrarySidebar_StepDefinition" />
-
-
-			<class name="componentStepDef.BlogFeed_StepDefinition" />
-			<class name="componentStepDef.Hscc_StepDefinition" />
-
-
-			<class name="componentStepDef.InteractiveMap_StepDefinition" />
-
-			<class name="componentStepDef.ColorBlock_StepDefinition" />
-			<class name="componentStepDef.QmeHub_StepDefinition" />
-			<class name="componentStepDef.ExpandableCards_StepDefinition" />
-
-			<class name="componentStepDef.BioCard_StepDefinition" />
-			<class name="componentStepDef.MaterialCardFade_StepDefinition" />
-
-			<class name="componentStepDef.MaterialCard_StepDefinition" />
-
-
-			<class name="componentStepDef.MainHeroBanner_StepDefinition" />
-			<class name="componentStepDef.SubHeroBanner_StepDefinition" />
-
-			<class name="componentStepDef.MaterialCardInfographic_StepDefinition" />
-			<class name="componentStepDef.FeaturedArticle_StepDefinition" />
-
-
-			<class name="componentStepDef.IconStrip_StepDefinition" />
-			<class
-				name="componentStepDef.MaterialCardTermDescription_StepDefinition" />
-
-
-			<class name="componentStepDef.DynamicAlert_StepDefinition" />
-			<class name="componentStepDef.PullQuote_StepDefinition" />
-			<class name="componentStepDef.Card300Image_StepDefinition" />
-			<class name="componentStepDef.LocalMessage_StepDefinition" />  
-
-			<!--
-			<class name="componentStepDef.Aarp_StepDefinition" />
-			<class name = "componentStepDef.CareerSearch_StepDefinition"/> 
-			<class name="componentStepDef.MCL_StepDefinition" /> <class name 
-				= "componentStepDef.PluV2_StepDefinition"/> -->
-
+			<class name="com.optum.dpm.refactored.PhotoBlock_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ErStats_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ArticleBannerMedExpress_StepDefinition" />
+			<class name="com.optum.dpm.refactored.AskForRefill_StepDefinition" />
+			<class name="com.optum.dpm.refactored.MapBanner_StepDefinition" />
+			<class name="com.optum.dpm.refactored.AskForAReferral_StepDefinition" />
+			<class name="com.optum.dpm.refactored.Search_map_StepDefinition" />
+			<class name="com.optum.dpm.refactored.RequestAnAppointmentProhealth_StepDefinition" />
+			<class name="com.optum.dpm.refactored.NearbyLocationMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ArticleCrossLinkMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.CentersContentMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.NewsroomMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.PromoMessageHubMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.EmployeeCarouselMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.MainNavMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.RealtimeMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.MedexSiteSearchAndResult_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ServicesSectionMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.MiddleImagePlusMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ContactUsTabMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.AtGlanceMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.LocalAlertHubMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.Insurance_Section_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ForumHeroBanner_StepDefinition" />
+			<class name="com.optum.dpm.refactored.CtaModuleMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.MedExpressCenters_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ForumHeroBanner_StepDefinition" />
+			<class name="com.optum.dpm.refactored.CtaModuleMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.MedExpressCenters_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ErServicesMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.IntroTextHorizontal_StepDefinition" />
+			<class name="com.optum.dpm.refactored.Campaign_StepDefinition" />
+			<class name = "com.optum.dpm.refactored.CentersCards_StepDefinition"/>
+			<class name="com.optum.dpm.refactored.MiddleImageMedex_StepDefinition" />
+			<class name="com.optum.dpm.refactored.SocialModule_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ThoughLeadership_StepDefinition" />
+			<class name="com.optum.dpm.refactored.QuickContact_StepDefinition" />
+			<class name="com.optum.dpm.refactored.AccordionV2_StepDefinition" />
+			<class name="com.optum.dpm.refactored.TestimonialCarousel_StepDefinition" />
+			<class name="com.optum.dpm.refactored.CenterAccordion_StepDefinition" />
+			<class name="com.optum.dpm.refactored.WhyUs_StepDefinition" />
+			<class name="com.optum.dpm.refactored.HorizontalRuleWithArrowDivider_StepDefinition" />
+			<class name="com.optum.dpm.refactored.HorizontalRuleWithNoArrowDivider_StepDefinition" />
+			<class name="com.optum.dpm.refactored.WaitTime_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ImageResponsiveRendition_StepDefinition" />
+			<class name="com.optum.dpm.refactored.SiteMap_StepDefinition" />
+			<class name="com.optum.dpm.refactored.FooterLegalBar_StepDefinition" />
+			<class name="com.optum.dpm.refactored.IconPickerNew_StepDefinition" />
+			<class name="com.optum.dpm.refactored.AdaptiveImage_StepDefinition" />
+			<class name="com.optum.dpm.refactored.InfographicHtml5_StepDefinition" />
+			<class name="com.optum.dpm.refactored.BrokerHub_StepDefinition" />
+			<class name="com.optum.dpm.refactored.Text_StepDefinition" />
+			<class name="com.optum.dpm.refactored.CampaignCarousel_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ConsumableFaqHub_StepDefinition" />
+			<class name="com.optum.dpm.refactored.IconVerticalLabel_StepDefinition" />
+			<class name="com.optum.dpm.refactored.Aarp_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ArticleInPage_StepDefinition" />
+			<class name="com.optum.dpm.refactored.MutualFundsTable_StepDefinition" />
+			<class name="com.optum.dpm.refactored.MaterialCardImageDetail_stepDefinition" />
+			<class name="com.optum.dpm.refactored.Video_StepDefinition" />
+			<class name="com.optum.dpm.refactored.Logo_StepDefinition" />
+			<class name="com.optum.dpm.refactored.AboutUs_StepDefinition" />
+			<class name="com.optum.dpm.refactored.Sharebar_StepDefinition" />
+			<class name="com.optum.dpm.refactored.SliderCarousel_StepDefinition" />
+			<class name="com.optum.dpm.refactored.LeadersHub_StepDefinition" />
+			<class name="com.optum.dpm.refactored.CrossPromoAread_StepDefinition" />
+			<class name="com.optum.dpm.refactored.LoopingVideo_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ResourceLibrarySidebar_StepDefinition" />
+			<class name="com.optum.dpm.refactored.BlogFeed_StepDefinition" />
+			<class name="com.optum.dpm.refactored.Hscc_StepDefinition" />
+			<class name="com.optum.dpm.refactored.InteractiveMap_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ColorBlock_StepDefinition" />
+			<class name="com.optum.dpm.refactored.QmeHub_StepDefinition" />
+			<class name="com.optum.dpm.refactored.ExpandableCards_StepDefinition" />
+			<class name="com.optum.dpm.refactored.BioCard_StepDefinition" />
+			<class name="com.optum.dpm.refactored.MaterialCardFade_StepDefinition" />
+			<class name="com.optum.dpm.refactored.MaterialCard_StepDefinition" />
+			<class name="com.optum.dpm.refactored.MainHeroBanner_StepDefinition" />
+			<class name="com.optum.dpm.refactored.SubHeroBanner_StepDefinition" />
+			<class name="com.optum.dpm.refactored.MaterialCardInfographic_StepDefinition" />
+			<class name="com.optum.dpm.refactored.FeaturedArticle_StepDefinition" />
+			<class name="com.optum.dpm.refactored.IconStrip_StepDefinition" />
+			<class name="com.optum.dpm.refactored.MaterialCardTermDescription_StepDefinition" />
+			<class name="com.optum.dpm.refactored.DynamicAlert_StepDefinition" />
+			<class name="com.optum.dpm.refactored.PullQuote_StepDefinition" />
+			<class name="com.optum.dpm.refactored.Card300Image_StepDefinition" />
+			<class name="com.optum.dpm.refactored.LocalMessage_StepDefinition" />
 		</classes>
 	</test>
 </suite>
