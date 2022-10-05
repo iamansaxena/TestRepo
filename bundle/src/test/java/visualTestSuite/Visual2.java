@@ -8,6 +8,9 @@ import com.applitools.eyes.selenium.ClassicRunner;
 import com.applitools.eyes.selenium.Eyes;
 import com.applitools.eyes.selenium.SeleniumEyes;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+import io.github.bonigarcia.wdm.managers.ChromeDriverManager;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -21,22 +24,22 @@ import org.openqa.selenium.chrome.ChromeDriver;
 /**
  * Runs Applitools test for the demo app https://demo.applitools.com
  */
-@RunWith(JUnit4.class)
+//@RunWith(JUnit4.class)
 public class Visual2 {
 
-  private EyesRunner runner;
-  private Eyes eyes;
+  private static EyesRunner runner;
+  private static Eyes eyes;
   private static BatchInfo batch;
-  private WebDriver driver;
+  private static WebDriver driver;
 
-  @BeforeClass
+//  @BeforeClass
   public static void setBatch() {
     // Must be before ALL tests (at Class-level)
     batch = new BatchInfo("Demo batch");
   }
-
-  @Before
-  public void beforeEach() {
+//
+//  @Before
+  public static void beforeEach() {
     // Initialize the Runner for your test.
     runner = new ClassicRunner();
 
@@ -44,20 +47,20 @@ public class Visual2 {
     eyes = new Eyes(runner);
 
     // Set your personal Applitols API Key from your environment variables.
-    eyes.setApiKey("xosAtx103vZBnzJO9FMWQk7Q1eTcoc3iOJZQS7pZLvmEM110");
+    eyes.setApiKey("uH8Q9Qv104lLdRWfSL4Z6gKFYcf7cpGHhnRJDiWCfewXA110");
 
     // set batch name
     eyes.setBatch(batch);
 
     // Use Chrome browser
-    System.setProperty("webdriver.chrome.driver", "./Drivers/chrome64_56.0.2924.87/chromedriver.exe");
+//    System.setProperty("webdriver.chrome.driver", "/Users/amanmohan/Documents/visualTest/TestRepo/bundle/Drivers/chromedriver");
     driver = new ChromeDriver();
     driver.manage().window().maximize();
 
   }
 
-  @Test
-  public void basicTest() {
+//  @Test
+  public static void basicTest() {
     // Set AUT's name, test name and viewport size (width X height)
     // We have set it to 800 x 600 to accommodate various screens. Feel free to
     // change it.
@@ -83,8 +86,8 @@ System.out.println(eyes.isSendDom());
     eyes.closeAsync();
   }
 
-  @After
-  public void afterEach() {
+//  @After
+  public static void afterEach() {
     // Close the browser.
     driver.quit();
 
@@ -98,4 +101,17 @@ System.out.println(eyes.isSendDom());
     // Print results
     System.out.println(allTestResults);
   }
+//  public static void main(String[] args) {
+//	setBatch();
+//	beforeEach();
+//	basicTest();
+//	afterEach();
+//}
+  public static void main(String[] args) {
+	  WebDriver w = ChromeDriverManager.chromedriver().create();
+	  w.get("https://google.com");
+	  System.out.println("Visiting google");
+	  w.quit();
+	  System.out.println("Browser closed");
+}
 }

@@ -57,12 +57,12 @@ public class VisualTest extends PluV2_page {
 
 		eyes = new Eyes(runner);
 		eyes.setConfiguration(ddd);
-		eyes.setApiKey("90Y5yJnd105KXbLb4C2DEwqi104uDvNe3S78GjFFBI105dGFA110");
+		eyes.setApiKey("uH8Q9Qv104lLdRWfSL4Z6gKFYcf7cpGHhnRJDiWCfewXA110");
 		batch = new BatchInfo("PLUV2");
 		// set batch name
 		eyes.setBatch(batch);
 
-		System.setProperty("webdriver.chrome.driver", "./Drivers/chrome64_56.0.2924.87/chromedriver.exe");
+//		System.setProperty("webdriver.chrome.driver", "./Drivers/chrome64_56.0.2924.87/chromedriver.exe");
 		// Use Chrome browser
 		mydriver = new ChromeDriver();
 		mydriver.manage().window().maximize();
@@ -79,10 +79,10 @@ public class VisualTest extends PluV2_page {
 
 		eyes.open(mydriver, "Intake", "Intake Page");
 		eyes.setSendDom(true);
-		mydriver.get("http://apvrt31468:4503/content/automation-directory/plu-v2-feature/intake-form-everett.html"); // for
-		getWebDriverWait(mydriver, 40).until(ExpectedConditions
-				.visibilityOf(mydriver.findElement(By.xpath("//*[@class=\"pluv2-intake-form section\"]"))));
-		eyes.checkElement(By.xpath("//*[@class=\"pluv2-intake-form section\"]"), "Intake form (CLT)"); // CLT =
+		mydriver.get("https://eshop-oneshop-nginx.stagev2.eshop.yo-digital.com/category/plan-test-deep/list/product_listing"); // for
+//		getWebDriverWait(mydriver, 40).until(ExpectedConditions
+//				.visibilityOf(mydriver.findElement(By.xpath("//*[@class=\"pluv2-intake-form section\"]"))));
+//		eyes.checkElement(By.xpath("//*[@class=\"pluv2-intake-form section\"]"), "Intake form (CLT)"); // CLT =
 		eyes.checkWindow("Intake form (PLT)", true); // CLT = Page Level Test
 		eyes.closeAsync();
 		// TestResultsSummary allTestResults = runner.getAllTestResults();

@@ -170,7 +170,7 @@ public class Base extends LoggerLog4j {
 		// System.setProperty("scan", "true");
 		// System.setProperty("scanWith", "xpath");
 		// System.setProperty("upload", "true");
-		// System.setProperty("defaultExecution", "false");
+		 System.setProperty("defaultExecution", "true");
 		// System.setProperty("regression","true");
 		startTime = ExecutionTImeCalculator.getCurrentTime();
 		authors = new ConcurrentHashMap<>();
