@@ -69,7 +69,7 @@ public class TestListener implements ITestListener {
 		try {
 			return (String) FieldUtils.readField(result.getInstance(), fieldName, true);
 		} catch (Exception ex) {
-			logger.error("Test {} field is missing in {}");
+			logger.error("Test {} field is missing in {}");   
 		}
 		return fieldName; // return default
 	}
