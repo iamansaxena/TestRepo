@@ -25,7 +25,7 @@ public abstract class Base extends DPMTestUtils{
 	
 	@BeforeClass
 	public void setup() {
-		logger.info("Initilization Base setup for {} ",getTestName());
+		logger.info("Initilization Base setup for {} ");
 		mydriver = DriverSessionHandlerUtil.getWebdriverInstance(); //create WebDriver/Session
 		PageFactory.initElements(mydriver,this); //initialize PageElements 
 		startTest(getTestName()); // Reporting 

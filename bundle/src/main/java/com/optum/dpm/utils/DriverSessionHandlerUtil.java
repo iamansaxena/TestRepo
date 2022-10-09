@@ -81,7 +81,7 @@ public class DriverSessionHandlerUtil {
 			}
 		}
 		setDriverWaits(webDriver);
-		logger.info("Browser session for  Thread  {} => {} ", Thread.currentThread().getName() , webDriver.toString());
+		logger.info("Browser session for  Thread  {} => {} ");
 		return webDriver;
 	}
 }

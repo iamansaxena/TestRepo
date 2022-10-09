@@ -40,9 +40,9 @@ public class ExtentTestManager{
 	}
 
 	public static synchronized void startTest(String testName) {
-		logger.info("ExtentTestManager thread from start ==> {} " , Thread.currentThread().getId());
+		logger.info("ExtentTestManager thread from start ==> {} ");
 		extentTestMap.put(Thread.currentThread().getId(), extent.createTest(testName));
-		logger.info("Initialized Extent Reports for  test {} with report id {} " , testName , Thread.currentThread().getId());
+		logger.info("Initialized Extent Reports for  test {} with report id {} ");
 	}
 	
 	public static ExtentTest getTest() {
@@ -53,7 +53,7 @@ public class ExtentTestManager{
 	 * This method is used to flush the report
 	 */
 	public static void endTest() {
-		logger.info("Flushing Reports {}" , Thread.currentThread().getId());
+		logger.info("Flushing Reports {}");
 		extent.flush();
 		extentTestMap.remove( Thread.currentThread().getId());
 	}

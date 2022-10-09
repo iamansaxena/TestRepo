@@ -56,12 +56,12 @@ public class TestListener implements ITestListener {
 
 	public void onTestStart(ITestResult result) {
 		ExtentTest extentTest = getTest().createNode(getTestMethodName(result));
-		logger.info("*** Test Case being executed:  {} [ {} ]", getTestClassName(result), getTestMethodName(result));
+		logger.info("*** Test Case being executed:  {} [ {} ]");
 		try {
 			extentTest.assignCategory(getTestFieldValue(result, "tag"));
 			extentTest.assignAuthor(getTestFieldValue(result, "author"));
 		} catch (Exception ex) {
-			logger.warn("Test Tag / Author field is missing in {} ", getTestClassName(result));
+			logger.warn("Test Tag / Author field is missing in {} ");
 		}
 	}
 
@@ -69,20 +69,19 @@ public class TestListener implements ITestListener {
 		try {
 			return (String) FieldUtils.readField(result.getInstance(), fieldName, true);
 		} catch (Exception ex) {
-			logger.error("Test {} field is missing in {}", fieldName, getTestClassName(result));
+			logger.error("Test {} field is missing in {}");
 		}
 		return fieldName; // return default
 	}
 
 	public void onTestSuccess(ITestResult result) {
-		logger.info("*** Executed :  {} [ {} ]. Test is passed.] ", getTestClassName(result),
-				getTestMethodName(result));
+		logger.info("*** Executed :  {} [ {} ]. Test is passed.] ");
 		getTest().log(Status.PASS, "Test passed");
 	}
 
 	public void onTestFailure(ITestResult result) {
 		String methodName = getTestMethodName(result);
-		logger.error("*** Executed :  {} [ {} ]. Test is failed.] ", getTestClassName(result),methodName);
+		logger.error("*** Executed :  {} [ {} ]. Test is failed.] ");
 		try {
 			WebDriver webDriver = (WebDriver) FieldUtils.readField(result.getInstance(), "webDriver", true);
 			File screentShotFile = ((TakesScreenshot) Objects.requireNonNull(webDriver)).getScreenshotAs(OutputType.FILE);
@@ -90,7 +89,7 @@ public class TestListener implements ITestListener {
 			FileUtils.copyFile(screentShotFile, new File(System.getProperty("user.dir") + screenShotFileName));
 			getTest().log(Status.FAIL, "<a href='.." + screenShotFileName + "'>" + methodName + "</a>");
 		} catch (Exception ex) {
-			logger.error("Failed to capture  screenshot {}", methodName);
+			logger.error("Failed to capture  screenshot {}");
 			getTest().log(Status.FAIL, "Test Failed");
 		} finally {
 			getTest().createNode("Exception under method: ").fail(result.getThrowable());
@@ -99,7 +98,7 @@ public class TestListener implements ITestListener {
 	}
 
 	public void onTestSkipped(ITestResult result) {
-		logger.info("*** {} [ {} ]. Test is skipped.] ", getTestClassName(result), getTestMethodName(result));
+		logger.info("*** {} [ {} ]. Test is skipped.] ");
 		getTest().log(Status.SKIP, "Test Skipped");
 	}
 
