@@ -4,18 +4,18 @@ import static com.optum.dpm.utils.DPMConfigurationsUtil.AUT;
 import static com.optum.dpm.utils.DPMConfigurationsUtil.Environment;
 import static com.optum.dpm.utils.DPMConfigurationsUtil.Executor;
 import static com.optum.dpm.utils.DPMConfigurationsUtil.browser;
+import static com.optum.dpm.utils.DPMConfigurationsUtil.browserMap;
+import static com.optum.dpm.utils.DPMConfigurationsUtil.browserName;
 import static com.optum.dpm.utils.DPMConfigurationsUtil.clientName;
 import static com.optum.dpm.utils.DPMConfigurationsUtil.dateName;
 import static com.optum.dpm.utils.DPMConfigurationsUtil.isRegression;
-import static com.optum.dpm.utils.DPMConfigurationsUtil.*;
-
+import static com.optum.dpm.utils.DPMConfigurationsUtil.remoteExecution;
 
 import org.apache.log4j.LogManager;
-
 import org.apache.log4j.Logger;
 
 import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.Protocol;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 
@@ -35,7 +35,7 @@ public class ExtentManager {
 
 	private  static ExtentReports createInstance() {
 		//TODO: move to config
-		ExtentSparkReporter reporter = new ExtentSparkReporter((System.getProperty("user.dir") + "//Reports//" + dateName
+		ExtentHtmlReporter reporter = new ExtentHtmlReporter((System.getProperty("user.dir") + "//Reports//" + dateName
 				+ "//Report_" + clientName + "_" + dateName + "_" +  browserMap.get(browserName) + ".html"));
 		
 		reporter.config().setProtocol(Protocol.HTTPS);
@@ -45,8 +45,8 @@ public class ExtentManager {
 		reporter.config().setTheme(Theme.DARK);
 		reporter.config().setEncoding("utf-8");
 		reporter.config().setTimeStampFormat("EEEE, MMMM dd, yyyy, hh:mm a '('zzz')'");
-		reporter.config().setTimelineEnabled(true);
-		reporter.config().enableOfflineMode(true);
+//		reporter.config().setTimelineEnabled(true);
+		reporter.config().enableTimeline(true);
 		
 		// Environment Setup
 		extentReports.setSystemInfo("OS Name", System.getProperty("os.name"));
