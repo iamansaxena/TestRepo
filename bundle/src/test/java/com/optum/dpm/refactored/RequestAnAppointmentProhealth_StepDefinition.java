@@ -5,8 +5,9 @@ import static com.optum.dpm.utils.DPMTestUtils.jsWaitForPageToLoad;
 import static com.optum.dpm.utils.DPMTestUtils.scrollToElement;
 import static com.optum.dpm.utils.DPMTestUtils.skipNonExistingComponent;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+
+import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
 import com.optum.dpm.page.model.RequestAnAppointmentProhealth_page;

@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -33,7 +33,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.SkipException;
 
-import com.aventstack.extentreports.model.service.util.ExceptionUtil;
+import com.aventstack.extentreports.utils.ExceptionUtil;
 
 import static com.optum.dpm.utils.DPMConfigurationsUtil.*;
 

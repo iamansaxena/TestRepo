@@ -5,8 +5,9 @@ import static com.optum.dpm.utils.DPMConfigurationsUtil.startTime;
 import java.text.ParseException;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+
+import org.apache.log4j.Logger;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;

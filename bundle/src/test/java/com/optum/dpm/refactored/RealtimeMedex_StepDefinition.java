@@ -4,8 +4,9 @@ import static com.optum.dpm.reports.ExtentTestManager.getTest;
 import static com.optum.dpm.utils.DPMTestUtils.scrollToElement;
 import static com.optum.dpm.utils.DPMTestUtils.verifyElementExists;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+
+import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
 import com.optum.dpm.page.model.RealtimeMedex_page;

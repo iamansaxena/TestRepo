@@ -2,8 +2,9 @@ package com.optum.dpm.refactored;
 
 import static com.optum.dpm.utils.DPMTestUtils.getWebDriverWait;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;

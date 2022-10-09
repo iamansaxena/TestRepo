@@ -4,8 +4,9 @@ import static com.optum.dpm.utils.DPMTestUtils.getVisibility;
 import static com.optum.dpm.utils.DPMTestUtils.skipNonExistingComponent;
 import static com.optum.dpm.utils.DPMTestUtils.verifyElementExists;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+
+import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.testng.SkipException;

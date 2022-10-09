@@ -2,8 +2,9 @@ package com.optum.dpm.page.model;
 
 import static com.optum.dpm.reports.ExtentTestManager.getTest;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.WebElement;

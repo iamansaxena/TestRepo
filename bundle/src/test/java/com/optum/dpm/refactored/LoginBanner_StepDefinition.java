@@ -1,7 +1,8 @@
 package com.optum.dpm.refactored;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+
+import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
 import org.testng.SkipException;
 import org.testng.annotations.Test;

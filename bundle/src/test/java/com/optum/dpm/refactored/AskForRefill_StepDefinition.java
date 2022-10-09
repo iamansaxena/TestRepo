@@ -1,7 +1,8 @@
 package com.optum.dpm.refactored;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+
+import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
 import com.optum.dpm.page.model.AskForRefill_page;

@@ -17,8 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -94,11 +94,11 @@ public class DPMConfigurationsUtil {
 		testConfigs = new Properties();
 		String config_location =  StringUtils.isNotBlank(System.getProperty("config-file")) ? System.getProperty("config-file") : DEFAULT_CONFIG_LOCATION;
 		try{
-			logger.info("Loading configurations  {} " , config_location);
+			logger.info("Loading configurations  {} " );
 			testConfigs.load(new FileInputStream(config_location));
-			logger.info("Loaded configurations  {} sucessfully" , config_location);
+			logger.info("Loaded configurations  {} sucessfully" );
 		}catch(Exception ex) {
-			logger.fatal("Unable to load test cofigurations {} ", ExceptionUtils.getStackTrace(ex));
+			logger.fatal("Unable to load test cofigurations {} ");
 			System.exit(-1); 
 		}
 		
@@ -169,7 +169,7 @@ public class DPMConfigurationsUtil {
 	
 	private static void validateBrowserType() {
 		if( StringUtils.isNotBlank(browser) && !VALID_BROWSRS.contains(browser)) {
-			logger.fatal("Invalid browsers {} !!. Supported browsers are {} ", browser,VALID_BROWSRS);
+			logger.fatal("Invalid browsers {} !!. Supported browsers are {} ");
 			System.exit(-1);
 		}
 	}
